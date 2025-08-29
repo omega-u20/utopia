@@ -19,7 +19,7 @@ async function login(username, password) {
     }
 }
 
-async function getInfo (username, password){
+async function getGovInfo(username){
 
 }
 
