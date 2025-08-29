@@ -17,12 +17,20 @@
             <input type="text" id="govUsername" name="username" required>
             <label for="govPassword">Password:</label>
             <input type="password" id="govPassword" name="password" required>
+            <label for="govRole">Role:</label>
+            <select id="govRole" name="govRole" required>
+                <option value="fire">Fire & Rescue</option>
+                <option value="police">Police</option>
+                <option value="health">Ambulance</option>
+            </select>
+            <input type="text" id="role" name="role" hidden value="gov">
         </div>
         <div id="citizenFields" style="display:none;">
             <label for="citizenEmail">Email:</label>
             <input type="email" id="citizenEmail" name="email" required>
             <label for="citizenPassword">Password:</label>
             <input type="password" id="citizenPassword" name="password" required>
+            <input type="text" id="role" name="role" hidden value="citz">
         </div>
         <button type="submit">Login</button>
     </form>
