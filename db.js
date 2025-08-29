@@ -1,33 +1,26 @@
-const mongoose = require('mongoose');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const MongoStore = require('connect-mongo');
-require('dotenv');
-const key = process.env.KEY;
-const db_password = process.env.DB_PASS;
+const { MongoClient } = require('mongodb');
+const db_pass = process.env.DB_PASS; 
 
-// MongoDB connection
-mongoose.connect(`mongodb+srv://prodev:${db_password}@clusterdev.owm1unr.mongodb.net/?retryWrites=true&w=majority&appName=ClusterDev`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+async function login(username, password) {
+    const uri = `mongodb+srv://prodev:${db_pass}@clusterdev.owm1unr.mongodb.net/?retryWrites=true&w=majority&appName=ClusterDev`;
+    const client = new MongoClient(uri);
 
-// User schema
-const userSchema = new mongoose.Schema({
-    username: String,
-    password: String,
-    role: String, // 'gov' or 'citz'
-});
-const User = mongoose.model('User', userSchema);
+    try {
+        await client.connect();
+        const db = client.db('TCC');
+        const users = db.collection('Utopia');
+        const user = await users.findOne({ username, password});
+        return user !== null;
+    } catch (error) {
+        console.error('Error during login:', error);
+        return user !== null;
+    }finally {
+        await client.close();
+    }
+}
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(session({
-    secret: key,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: mongoose.connection._connectionString }),
-}));
+async function getInfo (username, password){
 
-exports.User = User;   
+}
+
+module.exports = { login };
