@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government | Login</title>
+</head>
+<body>
+    <div>
+        <button type="button" id="govTab" onclick="showTab('government')">Government Users</button>
+        <button type="button" id="citizenTab" onclick="showTab('citizen')">Citizens</button>
+    </div>
+    <form id="loginForm" action="/auth" method="POST">
+        <input type="hidden" name="userType" id="userType" value="government">
+        <div id="governmentFields">
+            <label for="govUsername">Username:</label>
+            <input type="text" id="govUsername" name="username" required>
+            <label for="govPassword">Password:</label>
+            <input type="password" id="govPassword" name="password" required>
+        </div>
+        <div id="citizenFields" style="display:none;">
+            <label for="citizenEmail">Email:</label>
+            <input type="email" id="citizenEmail" name="email" required>
+            <label for="citizenPassword">Password:</label>
+            <input type="password" id="citizenPassword" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+    <script>
+    function showTab(tab) {
+        document.getElementById('userType').value = tab;
+        if (tab === 'government') {
+            document.getElementById('governmentFields').style.display = '';
+            document.getElementById('citizenFields').style.display = 'none';
+        } else {
+            document.getElementById('governmentFields').style.display = 'none';
+            document.getElementById('citizenFields').style.display = '';
+        }
+    }
+    </script>
+</body>
+</html>
