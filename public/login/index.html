@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government | Login</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
 </head>
 <body>
-    <div>
-        <button type="button" id="govTab" onclick="showTab('government')">Government Users</button>
-        <button type="button" id="citizenTab" onclick="showTab('citizen')">Citizens</button>
+    <img src="..\res\logo\logo.png" alt="logo" id="logo">
+    <div id="logincontainer">
+    <div id="conthead" class="rows">
+        <button type="button" id="govTab" onclick="showTab('government',this)">Government Users</button>
+        <button type="button" class="btn-disabled" id="citizenTab" onclick="showTab('citizen',this)">Citizens</button>
     </div>
-    <form id="loginForm" action="/auth" method="POST">
-        <input type="hidden" name="userType" id="userType" value="government">
-        <div id="governmentFields">
+        <div id="contbot" class="rows">
+            <form id="loginForm" action="/auth" method="POST">
+        <div id="governmentFields" class="fields">
             <label for="govUsername">Username:</label>
             <input type="text" id="govUsername" name="username" required>
             <label for="govPassword">Password:</label>
@@ -23,26 +26,33 @@
                 <option value="police">Police</option>
                 <option value="health">Ambulance</option>
             </select>
-            <input type="text" id="role" name="role" hidden value="gov">
         </div>
-        <div id="citizenFields" style="display:none;">
+        <div id="citizenFields" style="display:none;"  class="fields">
             <label for="citizenEmail">Email:</label>
             <input type="email" id="citizenEmail" name="email" required>
             <label for="citizenPassword">Password:</label>
             <input type="password" id="citizenPassword" name="password" required>
-            <input type="text" id="role" name="role" hidden value="citz">
         </div>
-        <button type="submit">Login</button>
+            <input type="text" id="role" name="role" value="gov" hidden>
+        <input type="submit" value="Login">
     </form>
-    <script>
-    function showTab(tab) {
-        document.getElementById('userType').value = tab;
+        </div>
+    
+    </div>
+    
+    <script type="text/javascript">
+    function showTab(tab,elem) {
+        elem.classList.remove('btn-disabled');
         if (tab === 'government') {
+            document.getElementById('citizenTab').classList.add('btn-disabled');
             document.getElementById('governmentFields').style.display = '';
             document.getElementById('citizenFields').style.display = 'none';
+            document.getElementById('role').setAttribute('value','gov');
         } else {
+            document.getElementById('govTab').classList.add('btn-disabled');
             document.getElementById('governmentFields').style.display = 'none';
             document.getElementById('citizenFields').style.display = '';
+            document.getElementById('role').setAttribute('value','citz');
         }
     }
     </script>
