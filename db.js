@@ -23,4 +23,25 @@ async function getGovInfo(username){
 
 }
 
-module.exports = { login };
+async function getCitzInfo(nic){
+    const uri = `mongodb+srv://prodev:${db_pass}@clusterdev.owm1unr.mongodb.net/?retryWrites=true&w=majority&appName=ClusterDev`;
+    const client = new MongoClient(uri);
+
+    try {
+        await client.connect();
+        const db = client.db('TCC');
+        const citizens = db.collection('Citizens');
+        const result = await citizens.findOne(
+            { nic },
+            { projection: { name: 1, mobilenumber: 1, address: 1, _id: 0 } }
+        );
+        return result || {};
+    } catch (error) {
+        console.error('Error fetching citizen info:', error);
+        return {};
+    } finally {
+        await client.close();
+    }
+}
+
+module.exports = { login, getGovInfo, getCitzInfo };

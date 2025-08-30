@@ -25,7 +25,7 @@ app.post('/auth', async (req, res) => {
         var {email, password} = req.body;
         const isValid = await db.login(email, password);
         if (isValid) {
-            res.json({email});
+            res.json({email,NIC}).redirect('/citz/dashboard')
         }
     } else {
         res.status(400).send('Invalid role');
@@ -38,15 +38,27 @@ app.get('/gov/dashboard', async (req, res) => {
 });
 
 app.get('/citz/dashboard', (req, res) => {
-   
+
+});
+
+app.get('/citz/tax', (req, res) => {
+   var {tin, value} = req.body;
+   res.send('Payment Successfull')
+   setTimeout(() => {
+    res.redirect('/citz/dashboard')
+   }, 5000);
 }); 
+
+app.get('/citz/billPayment', (req,res) => {
+    var {}
+})
 
 app.get('/', (req, res) => {
     res.send('Welcome to Utopia API');
 });
 
 app.post('/login', (req, res) => {
-    
+    res.status(200);
 });
 
 // Start server
