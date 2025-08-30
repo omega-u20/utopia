@@ -1,0 +1,80 @@
+body{
+    width:100vw;
+    height: 100vh;
+    top: 0;
+    margin: 0;
+    left: 0;
+    position: fixed;
+    display: grid;
+    grid-template-areas:
+        "topbar "
+        "content ";
+    grid-template-rows: 30vh 70vh;
+    background-image: url(../../res/bg/login.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+#content {
+    display: grid;
+    grid-template-areas:
+        "buttons cont";
+    grid-template-columns: 30vw 70vw;
+}
+
+#topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 50px;
+    background-color: var(--accent-color);
+}
+
+
+.active {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    font-weight: 600;
+}
+#buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 10px;
+    padding-left: 0;
+}
+
+button {
+    height: 20%;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    border: none;
+    font-size: 20pt;
+    text-align: left;
+    padding-left: 50px;
+    background-color: #404040;
+    color: var(--bg-color);
+}
+
+#buttons button:hover {
+    cursor: pointer;
+}
+
+#cont {
+    padding: 20px;
+    backdrop-filter: blur(6px);
+    background-color: #ffffff52;
+}
+
+#cont div {
+    height: 100%;
+    width: 100%;
+}
+
+.forms {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../styles/mainStyle.css">
     <title>Citizen | Dashboard</title>
 </head>
 <body>
@@ -16,13 +18,15 @@
         </div>
     <div id="content"  class="sections">
         <div id="buttons">
-        <button id="EmergencyReq">Emergency Requests</button>
+        <button id="EmergencyReq" class="active">Emergency Requests</button>
         <button id="cityComp">City Complaints</button>
         <button id="billPayment">Bill Payment</button>
         <button id="taxPayment">Tax Payment</button>
         </div>
+
         <div id="cont">
-            <div id="EmergencyReqSection" style="">
+
+            <div id="EmergencyReqSection"  class="forms">
         <h2>Emergency Requests</h2>
         <form id="EmergencyReqForm" method="get" action="/citz/emergencyReq">
             <label for="emergencyType">Emergency Type:</label>
@@ -33,23 +37,23 @@
                 </select><br><br>
             <label for="location">Location:</label>
             <input type="text" id="location" name="location" required><br><br>
-            <button type="submit">Request</button>
+            <input type="submit" value="Request">
             </form>
         </div>
 
     
-    <div id="cityCompSection" style="display:none;">
+    <div id="cityCompSection" class="forms" style="display:none;">
         <h2>City Complaints</h2>
         <form id="cityCompForm" method="get" action="/citz/cityComp">
             <label for="address">Address:</label>
             <input type="text" id="address" name="address" required><br><br>
             <label for="complaint">Complaint:</label>
             <textarea id="complaint" name="complaint" required></textarea><br><br>
-            <button type="submit">File Complaint</button>
+            <input type="submit" value="File Complaint">
             </form>
         </div>
 
-    <div id="billPaymentSection" style="display:none;">
+    <div id="billPaymentSection" class="forms" style="display:none;">
         <h2>Bill Payment</h2>
         <form id="billPaymentForm" method="get" action="/citz/billPayment">
             <label for="billType">Bill Type:</label>
@@ -61,19 +65,19 @@
             <input type="text" id="accounNo" name="accounNo" required><br><br>
             <label for="amount">Amount:</label>
             <input type="number" id="amount" name="amount" required><br><br>
-            <button type="submit">Pay Bill</button>
+            <input type="submit" value="Pay Bill">
             </form>
         </div>
 
 
-    <div id="taxPaymentSection" style="display:none;">
+    <div id="taxPaymentSection" class="forms" style="display:none;">
         <h2>Tax Payment</h2>
         <form id="taxPaymentForm" method="get" action="/citz/taxPayment">
             <label for="tin">TIN:</label>
             <input type="text" id="tin" name="tin" required><br><br>
             <label for="amount">Amount:</label>
             <input type="number" id="amount" name="amount" required><br><br>
-            <button type="submit">Pay</button>
+            <input type="submit" value="Pay">
             </form>
         </div>
         </div>
@@ -81,29 +85,51 @@
     </div>
 </body>
 <script type="text/javascript">
-document.getElementById('EmergencyReq').onclick = function() {
+    var btn1 = document.getElementById('EmergencyReq');
+    var btn2 = document.getElementById('cityComp');
+    var btn3 = document.getElementById('billPayment');
+    var btn4 = document.getElementById('taxPayment');
+
+
+btn1.onclick = function() {
+    btn1.classList.add('active');
     document.getElementById('EmergencyReqSection').style.display = '';
     document.getElementById('cityCompSection').style.display = 'none';
     document.getElementById('billPaymentSection').style.display = 'none';
     document.getElementById('taxPaymentSection').style.display = 'none';
+    [btn2,btn3,btn4].forEach(element => {
+        element.classList.remove('active');
+    });
 };
-document.getElementById('cityComp').onclick = function() {
+btn2.onclick = function() {
+    btn2.classList.add('active');
     document.getElementById('EmergencyReqSection').style.display = 'none';
     document.getElementById('cityCompSection').style.display = '';
     document.getElementById('billPaymentSection').style.display = 'none';
     document.getElementById('taxPaymentSection').style.display = 'none';
+    [btn1,btn3,btn4].forEach(element => {
+        element.classList.remove('active');
+    });
 };
-document.getElementById('billPayment').onclick = function() {
+btn3.onclick = function() {
+    btn3.classList.add('active');
     document.getElementById('EmergencyReqSection').style.display = 'none';
     document.getElementById('cityCompSection').style.display = 'none';
     document.getElementById('billPaymentSection').style.display = '';
     document.getElementById('taxPaymentSection').style.display = 'none';
+    [btn1,btn2,btn4].forEach(element => {
+        element.classList.remove('active');
+    });
 };
-document.getElementById('taxPayment').onclick = function() {
+btn4.onclick = function() {
+    btn4.classList.add('active');
     document.getElementById('EmergencyReqSection').style.display = 'none';
     document.getElementById('cityCompSection').style.display = 'none';
     document.getElementById('billPaymentSection').style.display = 'none';
     document.getElementById('taxPaymentSection').style.display = '';
+    [btn1,btn2,btn3].forEach(element => {
+        element.classList.remove('active');
+    });
 };
 </script>
 </html>
