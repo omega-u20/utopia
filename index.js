@@ -41,17 +41,57 @@ app.get('/citz/dashboard', (req, res) => {
 
 });
 
-app.get('/citz/tax', (req, res) => {
-   var {tin, value} = req.body;
-   res.send('Payment Successfull')
-   setTimeout(() => {
-    res.redirect('/citz/dashboard')
-   }, 5000);
+app.get('/citz/taxPayment', (req, res) => {
+   var {tin, amount} = req.params;
+   console.log(tin, amount);
+   res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta http-equiv="refresh" content="5;url=/citz/dashboard" />
+        <title>Redirecting...</title>
+      </head>
+      <body>
+      <h1>Payment Successfull...</h1>
+        <h3>You will be redirected in 5 seconds...</h3>
+      </body>
+    </html>
+  `);
 }); 
 
 app.get('/citz/billPayment', (req,res) => {
-    var {}
-})
+    var {BillType, accounNo, amount} = req.params;
+   res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta http-equiv="refresh" content="5;url=/citz/dashboard" />
+        <title>Redirecting...</title>
+      </head>
+      <body>
+      <h1>Payment Successfull...</h1>
+        <h3>You will be redirected in 5 seconds...</h3>
+      </body>
+    </html>
+  `);
+});
+
+app.get('/citz/cityComp', (req, res) => {
+   var {address,complaint} = req.params;
+   res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta http-equiv="refresh" content="5;url=/citz/dashboard" />
+        <title>Redirecting...</title>
+      </head>
+      <body>
+      <h1>Successfully recorded...</h1>
+        <h3>You will be redirected in 5 seconds...</h3>
+      </body>
+    </html>
+  `);
+}); 
 
 app.get('/', (req, res) => {
     res.send('Welcome to Utopia API');
