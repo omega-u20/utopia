@@ -44,7 +44,9 @@ app.get('/', (req, res) => {
     res.send('Welcome to Utopia API');
 });
 
-app.post('/login', (req, res) => {});
+app.post('/login', (req, res) => {
+    
+});
 
 // Start server
 app.listen(PORT, () => {
