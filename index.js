@@ -16,7 +16,8 @@ app.post('/auth', async (req, res) => {
         var {username, password, govRole} = req.body;
         const isValid = await db.login(username, password);
         if (isValid) {
-            res.json({ username, govRole });
+            res.json({ username, govRole} ).redirect('/gov/dashboard')
+      
         } else {
             res.status(401).send('Invalid credentials');
         }
