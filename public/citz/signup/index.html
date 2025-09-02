@@ -10,697 +10,79 @@
     <title>Government | Utopia Smart Town Dashboard</title>
 </head>
 <body>
-    <!-- Header/Top Navigation Bar -->
-    <header id="topbar" class="sections">
-        <div id="brandSection">
-            <i class="fas fa-city brand-icon"></i>
-            <div>
-                <h1>Utopia Government Portal</h1>
-                <p class="brand-subtitle">Smart Town Management System</p>
-            </div>
-        </div>
+    <form action="/citz/signup" method="POST">
+        <h1>Citizen Signup</h1>
+        <label for="nic">NIC:</label>
+        <input type="text" id="nic" name="nic" required><br><br>
         
-        <!-- User Information Display -->
-        <div id="userInfo">
-            <div class="user-profile">
-                <i class="fas fa-user-shield user-icon"></i>
-                <div class="user-details">
-                    <span id="usernameDisplay">Admin User</span>
-                    <span id="roleDisplay">Government Official</span>
-                </div>
-            </div>
-            <button id="logoutBtn" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
-                Logout
-            </button>
-        </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main id="content" class="sections">
-        <!-- Navigation Sidebar -->
-        <nav id="sidebar" class="navigation-panel">
-            <div id="buttons">
-                <!-- Emergency Management Section -->
-                <button id="EmergencyManagement" class="nav-btn active">
-                    <i class="fas fa-exclamation-triangle btn-icon"></i>
-                    <span>Emergency Management</span>
-                </button>
-                
-                <!-- Citizen Services Oversight -->
-                <button id="CitizenServices" class="nav-btn">
-                    <i class="fas fa-users btn-icon"></i>
-                    <span>Citizen Services</span>
-                </button>
-                
-                <!-- Municipal Finance -->
-                <button id="MunicipalFinance" class="nav-btn">
-                    <i class="fas fa-chart-line btn-icon"></i>
-                    <span>Municipal Finance</span>
-                </button>
-                
-                <!-- Infrastructure Management -->
-                <button id="Infrastructure" class="nav-btn">
-                    <i class="fas fa-road btn-icon"></i>
-                    <span>Infrastructure</span>
-                </button>
-                
-                <!-- Public Safety -->
-                <button id="PublicSafety" class="nav-btn">
-                    <i class="fas fa-shield-alt btn-icon"></i>
-                    <span>Public Safety</span>
-                </button>
-            </div>
-        </nav>
-
-        <!-- Content Display Area -->
-        <section id="contentArea" class="content-panel">
-            
-            <!-- Emergency Management Section -->
-            <div id="EmergencyManagementSection" class="dashboard-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-exclamation-triangle"></i> Emergency Management Dashboard</h2>
-                    <p class="section-description">Monitor and respond to emergency situations across the municipality</p>
-                </div>
-                
-                <!-- Emergency Response Form - Preserving original backend functionality -->
-                <div class="form-container">
-                    <h3>Emergency Response Coordination</h3>
-                    <form id="EmergencyResponseForm" method="get" action="/gov/emergencyResponse" class="modern-form">
-                        <div class="form-group">
-                            <label for="emergencyId">
-                                <i class="fas fa-hashtag"></i>
-                                Emergency ID:
-                            </label>
-                            <input type="text" id="emergencyId" name="emergencyId" placeholder="Enter emergency request ID" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="responseTeam">
-                                <i class="fas fa-ambulance"></i>
-                                Dispatch Team:
-                            </label>
-                            <select id="responseTeam" name="responseTeam" required>
-                                <option value="">Select Response Team</option>
-                                <option value="medical">Medical Emergency Team</option>
-                                <option value="fire">Fire Department</option>
-                                <option value="police">Police Department</option>
-                                <option value="disaster">Disaster Management</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="priority">
-                                <i class="fas fa-flag"></i>
-                                Priority Level:
-                            </label>
-                            <select id="priority" name="priority" required>
-                                <option value="critical">Critical</option>
-                                <option value="high">High</option>
-                                <option value="medium">Medium</option>
-                                <option value="low">Low</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="responseNotes">
-                                <i class="fas fa-sticky-note"></i>
-                                Response Notes:
-                            </label>
-                            <textarea id="responseNotes" name="responseNotes" placeholder="Enter response details and instructions" rows="4"></textarea>
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-paper-plane"></i>
-                            Dispatch Response
-                        </button>
-                    </form>
-                </div>
-                
-                <!-- Emergency Statistics Dashboard -->
-                <div class="stats-container">
-                    <div class="stat-card critical">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <div class="stat-info">
-                            <h4>Active Emergencies</h4>
-                            <span class="stat-number">3</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card warning">
-                        <i class="fas fa-clock"></i>
-                        <div class="stat-info">
-                            <h4>Avg Response Time</h4>
-                            <span class="stat-number">8 min</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card success">
-                        <i class="fas fa-check-circle"></i>
-                        <div class="stat-info">
-                            <h4>Resolved Today</h4>
-                            <span class="stat-number">12</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Citizen Services Section -->
-            <div id="CitizenServicesSection" class="dashboard-section" style="display:none;">
-                <div class="section-header">
-                    <h2><i class="fas fa-users"></i> Citizen Services Management</h2>
-                    <p class="section-description">Oversee and manage citizen complaints and service requests</p>
-                </div>
-                
-                <!-- Complaint Management Form - Preserving original backend functionality -->
-                <div class="form-container">
-                    <h3>Complaint Resolution</h3>
-                    <form id="ComplaintManagementForm" method="get" action="/gov/complaintManagement" class="modern-form">
-                        <div class="form-group">
-                            <label for="complaintId">
-                                <i class="fas fa-ticket-alt"></i>
-                                Complaint ID:
-                            </label>
-                            <input type="text" id="complaintId" name="complaintId" placeholder="Enter complaint ID" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="assignedDept">
-                                <i class="fas fa-building"></i>
-                                Assign to Department:
-                            </label>
-                            <select id="assignedDept" name="assignedDept" required>
-                                <option value="">Select Department</option>
-                                <option value="public_works">Public Works</option>
-                                <option value="sanitation">Sanitation</option>
-                                <option value="utilities">Utilities</option>
-                                <option value="transportation">Transportation</option>
-                                <option value="parks_rec">Parks & Recreation</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="status">
-                                <i class="fas fa-tasks"></i>
-                                Status Update:
-                            </label>
-                            <select id="status" name="status" required>
-                                <option value="pending">Pending Review</option>
-                                <option value="in_progress">In Progress</option>
-                                <option value="resolved">Resolved</option>
-                                <option value="closed">Closed</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="resolutionNotes">
-                                <i class="fas fa-clipboard-check"></i>
-                                Resolution Notes:
-                            </label>
-                            <textarea id="resolutionNotes" name="resolutionNotes" placeholder="Enter resolution details" rows="4"></textarea>
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-save"></i>
-                            Update Complaint
-                        </button>
-                    </form>
-                </div>
-                
-                <!-- Service Request Statistics -->
-                <div class="stats-container">
-                    <div class="stat-card pending">
-                        <i class="fas fa-hourglass-half"></i>
-                        <div class="stat-info">
-                            <h4>Pending Requests</h4>
-                            <span class="stat-number">24</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card progress">
-                        <i class="fas fa-cogs"></i>
-                        <div class="stat-info">
-                            <h4>In Progress</h4>
-                            <span class="stat-number">18</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card success">
-                        <i class="fas fa-thumbs-up"></i>
-                        <div class="stat-info">
-                            <h4>Satisfaction Rate</h4>
-                            <span class="stat-number">94%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Municipal Finance Section -->
-            <div id="MunicipalFinanceSection" class="dashboard-section" style="display:none;">
-                <div class="section-header">
-                    <h2><i class="fas fa-chart-line"></i> Municipal Finance Dashboard</h2>
-                    <p class="section-description">Monitor tax collection, bill payments, and municipal budgets</p>
-                </div>
-                
-                <!-- Tax and Bill Management - Preserving original backend functionality -->
-                <div class="form-container">
-                    <h3>Revenue Management</h3>
-                    <form id="RevenueManagementForm" method="get" action="/gov/revenueManagement" class="modern-form">
-                        <div class="form-group">
-                            <label for="revenueType">
-                                <i class="fas fa-money-bill-wave"></i>
-                                Revenue Type:
-                            </label>
-                            <select id="revenueType" name="revenueType" required>
-                                <option value="property_tax">Property Tax</option>
-                                <option value="business_tax">Business Tax</option>
-                                <option value="utility_bills">Utility Bills</option>
-                                <option value="permits">Permits & Licenses</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="accountNumber">
-                                <i class="fas fa-hashtag"></i>
-                                Account/TIN Number:
-                            </label>
-                            <input type="text" id="accountNumber" name="accountNumber" placeholder="Enter account or TIN number" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="amountCollected">
-                                <i class="fas fa-dollar-sign"></i>
-                                Amount Collected:
-                            </label>
-                            <input type="number" id="amountCollected" name="amountCollected" step="0.01" placeholder="0.00" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="collectionDate">
-                                <i class="fas fa-calendar-alt"></i>
-                                Collection Date:
-                            </label>
-                            <input type="date" id="collectionDate" name="collectionDate" required>
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-receipt"></i>
-                            Process Payment
-                        </button>
-                    </form>
-                </div>
-                
-                <!-- Financial Statistics -->
-                <div class="stats-container">
-                    <div class="stat-card revenue">
-                        <i class="fas fa-coins"></i>
-                        <div class="stat-info">
-                            <h4>Monthly Revenue</h4>
-                            <span class="stat-number">$2.4M</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card target">
-                        <i class="fas fa-bullseye"></i>
-                        <div class="stat-info">
-                            <h4>Collection Rate</h4>
-                            <span class="stat-number">87%</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card budget">
-                        <i class="fas fa-balance-scale"></i>
-                        <div class="stat-info">
-                            <h4>Budget Utilization</h4>
-                            <span class="stat-number">72%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Infrastructure Management Section -->
-            <div id="InfrastructureSection" class="dashboard-section" style="display:none;">
-                <div class="section-header">
-                    <h2><i class="fas fa-road"></i> Infrastructure Management</h2>
-                    <p class="section-description">Monitor and manage public infrastructure projects and maintenance</p>
-                </div>
-                
-                <!-- Infrastructure Project Management -->
-                <div class="form-container">
-                    <h3>Project Management</h3>
-                    <form id="InfrastructureForm" method="get" action="/gov/infrastructure" class="modern-form">
-                        <div class="form-group">
-                            <label for="projectType">
-                                <i class="fas fa-hammer"></i>
-                                Project Type:
-                            </label>
-                            <select id="projectType" name="projectType" required>
-                                <option value="road_maintenance">Road Maintenance</option>
-                                <option value="bridge_construction">Bridge Construction</option>
-                                <option value="water_systems">Water Systems</option>
-                                <option value="electrical_grid">Electrical Grid</option>
-                                <option value="public_buildings">Public Buildings</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="projectLocation">
-                                <i class="fas fa-map-marker-alt"></i>
-                                Project Location:
-                            </label>
-                            <input type="text" id="projectLocation" name="projectLocation" placeholder="Enter project location" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="projectBudget">
-                                <i class="fas fa-dollar-sign"></i>
-                                Allocated Budget:
-                            </label>
-                            <input type="number" id="projectBudget" name="projectBudget" placeholder="Enter budget amount" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="contractor">
-                                <i class="fas fa-hard-hat"></i>
-                                Assigned Contractor:
-                            </label>
-                            <input type="text" id="contractor" name="contractor" placeholder="Enter contractor name">
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-play-circle"></i>
-                            Initialize Project
-                        </button>
-                    </form>
-                </div>
-                
-                <!-- Infrastructure Statistics -->
-                <div class="stats-container">
-                    <div class="stat-card active-projects">
-                        <i class="fas fa-construction"></i>
-                        <div class="stat-info">
-                            <h4>Active Projects</h4>
-                            <span class="stat-number">15</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card completion">
-                        <i class="fas fa-chart-pie"></i>
-                        <div class="stat-info">
-                            <h4>Avg Completion</h4>
-                            <span class="stat-number">68%</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card maintenance">
-                        <i class="fas fa-tools"></i>
-                        <div class="stat-info">
-                            <h4>Maintenance Requests</h4>
-                            <span class="stat-number">32</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Public Safety Section -->
-            <div id="PublicSafetySection" class="dashboard-section" style="display:none;">
-                <div class="section-header">
-                    <h2><i class="fas fa-shield-alt"></i> Public Safety Management</h2>
-                    <p class="section-description">Coordinate public safety initiatives and law enforcement activities</p>
-                </div>
-                
-                <!-- Public Safety Operations -->
-                <div class="form-container">
-                    <h3>Safety Operations</h3>
-                    <form id="PublicSafetyForm" method="get" action="/gov/publicSafety" class="modern-form">
-                        <div class="form-group">
-                            <label for="incidentType">
-                                <i class="fas fa-clipboard-list"></i>
-                                Incident Type:
-                            </label>
-                            <select id="incidentType" name="incidentType" required>
-                                <option value="patrol_deployment">Patrol Deployment</option>
-                                <option value="traffic_control">Traffic Control</option>
-                                <option value="public_event">Public Event Security</option>
-                                <option value="investigation">Investigation</option>
-                                <option value="community_outreach">Community Outreach</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="safetyLocation">
-                                <i class="fas fa-map-pin"></i>
-                                Location/Area:
-                            </label>
-                            <input type="text" id="safetyLocation" name="safetyLocation" placeholder="Enter location" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="officersAssigned">
-                                <i class="fas fa-users"></i>
-                                Officers Assigned:
-                            </label>
-                            <input type="number" id="officersAssigned" name="officersAssigned" placeholder="Number of officers" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="safetyNotes">
-                                <i class="fas fa-clipboard"></i>
-                                Operation Notes:
-                            </label>
-                            <textarea id="safetyNotes" name="safetyNotes" placeholder="Enter operation details" rows="4"></textarea>
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-shield-alt"></i>
-                            Deploy Operation
-                        </button>
-                    </form>
-                </div>
-                
-                <!-- Public Safety Statistics -->
-                <div class="stats-container">
-                    <div class="stat-card patrol">
-                        <i class="fas fa-car"></i>
-                        <div class="stat-info">
-                            <h4>Active Patrols</h4>
-                            <span class="stat-number">8</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card incidents">
-                        <i class="fas fa-exclamation"></i>
-                        <div class="stat-info">
-                            <h4>Daily Incidents</h4>
-                            <span class="stat-number">4</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card response">
-                        <i class="fas fa-stopwatch"></i>
-                        <div class="stat-info">
-                            <h4>Response Time</h4>
-                            <span class="stat-number">6 min</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer id="footer">
-        <p>&copy; 2024 Utopia Smart Town Management System | Government Portal</p>
-    </footer>
-</body>
-
-<!-- JavaScript for Dashboard Functionality - Preserving Original Backend Functions -->
-<script type="text/javascript">
-    /**
-     * Government Dashboard JavaScript
-     * Preserves original backend functionality while providing modern UI interactions
-     * Based on original citizen dashboard structure
-     */
-
-    // Get navigation buttons - matching original structure
-    var btnEmergency = document.getElementById('EmergencyManagement');
-    var btnCitizen = document.getElementById('CitizenServices');
-    var btnFinance = document.getElementById('MunicipalFinance');
-    var btnInfrastructure = document.getElementById('Infrastructure');
-    var btnSafety = document.getElementById('PublicSafety');
-
-    // Button array for easy manipulation - preserving original logic
-    var allButtons = [btnEmergency, btnCitizen, btnFinance, btnInfrastructure, btnSafety];
-
-    /**
-     * Emergency Management Section - Preserving original onclick structure
-     * Handles emergency response coordination
-     */
-    btnEmergency.onclick = function() {
-        // Add active class to current button
-        btnEmergency.classList.add('active');
-        
-        // Show Emergency Management section
-        document.getElementById('EmergencyManagementSection').style.display = '';
-        
-        // Hide all other sections
-        document.getElementById('CitizenServicesSection').style.display = 'none';
-        document.getElementById('MunicipalFinanceSection').style.display = 'none';
-        document.getElementById('InfrastructureSection').style.display = 'none';
-        document.getElementById('PublicSafetySection').style.display = 'none';
-        
-        // Remove active class from other buttons - preserving original logic
-        [btnCitizen, btnFinance, btnInfrastructure, btnSafety].forEach(element => {
-            element.classList.remove('active');
-        });
-    };
-
-    /**
-     * Citizen Services Section - Preserving original onclick structure
-     * Handles citizen complaint management and service oversight
-     */
-    btnCitizen.onclick = function() {
-        // Add active class to current button
-        btnCitizen.classList.add('active');
-        
-        // Show Citizen Services section
-        document.getElementById('EmergencyManagementSection').style.display = 'none';
-        document.getElementById('CitizenServicesSection').style.display = '';
-        document.getElementById('MunicipalFinanceSection').style.display = 'none';
-        document.getElementById('InfrastructureSection').style.display = 'none';
-        document.getElementById('PublicSafetySection').style.display = 'none';
-        
-        // Remove active class from other buttons - preserving original logic
-        [btnEmergency, btnFinance, btnInfrastructure, btnSafety].forEach(element => {
-            element.classList.remove('active');
-        });
-    };
-
-    /**
-     * Municipal Finance Section - Preserving original onclick structure  
-     * Handles tax collection, bill payments, and revenue management
-     */
-    btnFinance.onclick = function() {
-        // Add active class to current button
-        btnFinance.classList.add('active');
-        
-        // Show Municipal Finance section
-        document.getElementById('EmergencyManagementSection').style.display = 'none';
-        document.getElementById('CitizenServicesSection').style.display = 'none';
-        document.getElementById('MunicipalFinanceSection').style.display = '';
-        document.getElementById('InfrastructureSection').style.display = 'none';
-        document.getElementById('PublicSafetySection').style.display = 'none';
-        
-        // Remove active class from other buttons - preserving original logic
-        [btnEmergency, btnCitizen, btnInfrastructure, btnSafety].forEach(element => {
-            element.classList.remove('active');
-        });
-    };
-
-    /**
-     * Infrastructure Management Section - Preserving original onclick structure
-     * Handles public infrastructure projects and maintenance
-     */
-    btnInfrastructure.onclick = function() {
-        // Add active class to current button
-        btnInfrastructure.classList.add('active');
-        
-        // Show Infrastructure section
-        document.getElementById('EmergencyManagementSection').style.display = 'none';
-        document.getElementById('CitizenServicesSection').style.display = 'none';
-        document.getElementById('MunicipalFinanceSection').style.display = 'none';
-        document.getElementById('InfrastructureSection').style.display = '';
-        document.getElementById('PublicSafetySection').style.display = 'none';
-        
-        // Remove active class from other buttons - preserving original logic
-        [btnEmergency, btnCitizen, btnFinance, btnSafety].forEach(element => {
-            element.classList.remove('active');
-        });
-    };
-
-    /**
-     * Public Safety Section - Preserving original onclick structure
-     * Handles law enforcement and public safety operations
-     */
-    btnSafety.onclick = function() {
-        // Add active class to current button
-        btnSafety.classList.add('active');
-        
-        // Show Public Safety section
-        document.getElementById('EmergencyManagementSection').style.display = 'none';
-        document.getElementById('CitizenServicesSection').style.display = 'none';
-        document.getElementById('MunicipalFinanceSection').style.display = 'none';
-        document.getElementById('InfrastructureSection').style.display = 'none';
-        document.getElementById('PublicSafetySection').style.display = '';
-        
-        // Remove active class from other buttons - preserving original logic
-        [btnEmergency, btnCitizen, btnFinance, btnInfrastructure].forEach(element => {
-            element.classList.remove('active');
-        });
-    };
-
-    /**
-     * Initialize Dashboard
-     * Set default values and load user information
-     */
-    document.addEventListener('DOMContentLoaded', function() {
-        // Load user information (can be connected to backend)
-        // This maintains compatibility with existing backend user system
-        
-        // Set default active section to Emergency Management
-        btnEmergency.click();
-        
-        // Initialize any additional dashboard features
-        console.log('Government Dashboard initialized successfully');
-        
-        // Add logout functionality - preserving original structure
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            // This should connect to existing logout backend functionality
-            if(confirm('Are you sure you want to logout?')) {
-                // Redirect to login page or call logout API
-                window.location.href = '/login';
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <button type="button" onclick="sendOtp()">Get OTP</button><br><br>
+        <script>
+        async function sendOtp() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+            alert('Please enter your email.');
+            return;
             }
-        });
-    });
-
-    /**
-     * Utility Functions for Dashboard Enhancement
-     * These functions can be extended to connect with backend APIs
-     */
-    
-    // Function to update statistics in real-time (can connect to backend)
-    function updateDashboardStats() {
-        // This can be connected to backend APIs to fetch real-time data
-        // Example: fetch('/api/dashboard-stats').then(data => updateUI(data));
-        console.log('Dashboard statistics updated');
-    }
-
-    // Function to handle form submissions with enhanced UX
-    function enhanceFormSubmissions() {
-        const forms = document.querySelectorAll('.modern-form');
-        forms.forEach(form => {
-            form.addEventListener('submit', function(e) {
-                // Add loading state to submit buttons
-                const submitBtn = form.querySelector('.submit-btn');
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-                
-                // Reset button after 3 seconds (should be replaced with actual response handling)
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = submitBtn.dataset.originalContent || 'Submit';
-                }, 3000);
+            try {
+            const response = await fetch('/GetOtp', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
             });
-        });
-    }
-
-    // Initialize enhanced features when DOM is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        enhanceFormSubmissions();
+            if (response.ok) {
+                alert('OTP sent to ' + email);
+            } else {
+                alert('Failed to send OTP.');
+            }
+            } catch (error) {
+            alert('Error sending OTP.');
+            }
+        }
+        </script>
         
-        // Set up periodic stats update (every 30 seconds)
-        setInterval(updateDashboardStats, 30000);
-    });
-</script>
+        <label for="otp">OTP:</label>
+        <input type="text" id="otp" name="otp" required>
+        <button type="button" onclick="verifyOtp()">Verify OTP</button><br><br>
+        <script>
+        async function verifyOtp() {
+            const email = document.getElementById('email').value;
+            const otp = document.getElementById('otp').value;
+            if (!email || !otp) {
+                alert('Please enter both email and OTP.');
+                return;
+            }
+            try {
+                const response = await fetch('/VerfyOtp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, otp })
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.verified) {
+                        alert('OTP verified successfully.');
+                    } else {
+                        alert('Invalid OTP.');
+                    }
+                } else {
+                    alert('Failed to verify OTP.');
+                }
+            } catch (error) {
+                alert('Error verifying OTP.');
+            }
+        }
+        </script>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <button type="submit">Sign Up</button>
+    </form>
+</body>
 </html>
