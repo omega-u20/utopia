@@ -1,257 +1,179 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Utopia - City Management Platform</title>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Montserrat', Arial, sans-serif;
-            background: #f0f7f4;
-            color: #0c7489;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        header {
-            padding: 2rem 0 1rem 0;
-            text-align: center;
-            background: rgba(255,255,255,0.05);
-        }
-        .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: #0c7489;
-            margin-bottom: 0.5rem;
-        }
-        nav {
-            margin-top: 1rem;
-        }
-        nav a {
-            color: #0c7489;
-            text-decoration: none;
-            margin: 0 1.2rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        nav a:hover {
-            color: #ffd700;
-        }
-        section {
-            max-width: 900px;
-            min-height: 400px;
-            margin: 0 auto 2.5rem auto;
-            padding: 2.5rem 1rem;
-            background: rgba(255,255,255,0.08);
-            border-radius: 18px;
-            box-shadow: 0 2px 12px rgba(78,84,200,0.07);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        section:not(:first-of-type) {
-            margin-top: 1.5rem;
-        }
-        .section-title {
-            font-size: 2rem;
-            color: #0c7489;
-            margin-bottom: 1.2rem;
-            font-weight: 700;
-        }
-        .features-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-        .feature-item {
-            background: rgba(255,255,255,0.13);
-            border-radius: 12px;
-            padding: 1.5rem 1.2rem;
-            min-width: 220px;
-            max-width: 260px;
-            flex: 1 1 220px;
-            color: #0c7489;
-            box-shadow: 0 2px 8px rgba(78,84,200,0.08);
-        }
-        .feature-item h3 {
-            margin-top: 0;
-            color: #0c7489;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-        .feature-item p {
-            margin: 0.5rem 0 0 0;
-            color: #000000;
-            font-size: 1rem;
-        }
-        .about-text {
-            color: #000000;
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .contact-form input,
-        .contact-form textarea {
-            padding: 0.8rem;
-            border-radius: 8px;
-            border: none;
-            font-size: 1rem;
-            background: rgba(255,255,255,0.18);
-            color: #0c7489;
-        }
-        .contact-form textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        .contact-form button {
-            align-self: flex-end;
-            background: #0c7489;
-            color: #fff;
-            border: none;
-            padding: 0.7rem 2rem;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .contact-form button:hover {
-            background: #ffd700;
-            color: #0c7489;
-        }
-        .hero-title {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: #0c7489;
-            margin-bottom: 1rem;
-        }
-        .hero-desc {
-            font-size: 1.3rem;
-            color: #000000;
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .cta-btn {
-            background: #ffd700;
-            color: #0c7489;
-            border: none;
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 4px 16px rgba(78,84,200,0.15);
-            transition: background 0.2s, color 0.2s;
-        }
-        .cta-btn:hover {
-            background: #fff;
-            color: #0c7489;
-        }
-        footer {
-            text-align: center;
-            padding: 1rem 0;
-            color: #0c7489;
-            font-size: 0.95rem;
-            background: rgba(0,0,0,0.05);
-        }
-        @media (max-width: 600px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-            .hero-desc {
-                font-size: 1rem;
-            }
-            .features-list {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            section {
-                padding: 1.2rem 0.5rem;
-                min-height: 300px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="logo">Utopia</div>
-        <nav>
-            <a href="#features">Features</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-            <a href="/login">Login</a>
-        </nav>
-    </header>
-    <section id="hero">
-        <h1 class="hero-title">Welcome to Utopia</h1>
-        <p class="hero-desc">
-            The all-in-one platform for efficient city government and citizen management.<br>
-            Empower your city with seamless services, transparent governance, and active citizen engagement.
-        </p>
-        <a href="#get-started"><button class="cta-btn">Get Started</button></a>
-    </section>
 
-    <!-- Features Section -->
-    <section id="features">
-        <div class="section-title">Features</div>
-        <ul class="features-list">
-            <li class="feature-item"></li>
-                <h3>Smart Service Requests</h3>
-                <p>Citizens can easily report issues and request city services online, with real-time tracking and notifications.</p>
-            </li>
-            <li class="feature-item">
-                <h3>Transparent Governance</h3>
-                <p>Access city budgets, council decisions, and public records for a transparent and accountable administration.</p>
-            </li>
-            <li class="feature-item">
-                <h3>Community Engagement</h3>
-                <p>Participate in polls, forums, and city events to make your voice heard and shape your community.</p>
-            </li>
-            <li class="feature-item">
-                <h3>Data-Driven Insights</h3>
-                <p>City officials get dashboards and analytics to make informed decisions and improve city life.</p>
-            </li>
-        </ul>
-    </section>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Utopia - Smart Town Management Platform</title>
+        <link rel="stylesheet" href="./styles/mainStyle.css">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-content">
+                    <div class="brand">
+                        <image alt="logo" src="./res/logo/logo.png">
+                        <div class="brand-text">
+                            <h1>Utopia</h1>
+                            <p>Smart Town Management Platform</p>
+                        </div>
+                    </div>
+                    <div class="nav-buttons">
+                        <a href="/login" class="btn btn-secondary">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Login
+                        </a>
+                        <a href="#features" class="btn btn-primary">
+                            <i class="fas fa-info-circle"></i>
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </header>
 
-    <!-- About Section -->
+            <!-- Hero Section -->
+            <main class="hero">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">
+                            Welcome to <span class="accent">Utopia</span><br>
+                            Smart Town Management
+                        </h1>
+                        <p class="hero-subtitle">
+                            The comprehensive digital platform empowering cities with real-time operations, 
+                            transparent governance, and active citizen engagement for sustainable urban development.
+                        </p>
+                        <div class="hero-cta">
+                            <a href="/login" class="btn btn-primary btn-large">
+                                <i class="fas fa-rocket"></i>
+                                Get Started
+                            </a>
+                            <a href="#features" class="btn btn-secondary btn-large">
+                                <i class="fas fa-play-circle"></i>
+                                Watch Demo
+                            </a>
+                        </div>
+                        <div class="hero-features">
+                            <div class="feature-tag">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Real-time Emergency Response</span>
+                            </div>
+                            <div class="feature-tag">
+                                <i class="fas fa-users"></i>
+                                <span>Citizen Services</span>
+                            </div>
+                            <div class="feature-tag">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Data-Driven Insights</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </main>
 
-    <section id="about">
-        <div class="section-title">About</div>
-        <div class="about-text">
-            Utopia is dedicated to transforming city management by bridging the gap between citizens and government. Our platform streamlines municipal services, fosters transparency, and encourages active participation, making cities smarter, more responsive, and more inclusive for everyone.
+            <!-- Features Section -->
+            <section class="features" id="features">
+                <div class="features-content">
+                    <div class="features-header">
+                        <h2 class="features-title">Comprehensive City Management</h2>
+                        <p class="features-subtitle">
+                            Streamline operations, enhance transparency, and improve citizen satisfaction
+                        </p>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h3>Emergency Management</h3>
+                            <p>
+                                Real-time emergency response system with instant notifications, 
+                                priority-based routing, and coordinated response management for 
+                                critical situations.
+                            </p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3>Citizen Services</h3>
+                            <p>
+                                Streamlined complaint management system allowing citizens to 
+                                report issues, track progress, and receive updates on municipal 
+                                services and infrastructure.
+                            </p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Data Analytics</h3>
+                            <p>
+                                Comprehensive analytics dashboard providing insights into city 
+                                operations, service efficiency, and citizen satisfaction metrics 
+                                for informed decision-making.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <p>© 2024 Utopia Smart Town Management System | Empowering Sustainable Cities</p>
+                </div>
+            </footer>
         </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="section-title">Contact</div>
-        <form class="contact-form" autocomplete="off">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="message" placeholder="Your Message" required></textarea>
-            <button type="submit">Send</button>
-        </form>
-    </section>
+        <script>
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
 
-    <footer>
-        &copy; 2024 Utopia. All rights reserved.
-    </footer>
-</body>
-</html>
+            // Add loading state for buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    if (this.href && this.href.includes('/select-user')) {
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                    }
+                });
+            });
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe feature cards
+            document.querySelectorAll('.feature-card').forEach(card => {
+                observer.observe(card);
+            });
+        </script>
+    </body>
+    </html>
+  

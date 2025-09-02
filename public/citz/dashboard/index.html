@@ -9,12 +9,20 @@
 </head>
 <body>
     <div id="topbar" class="sections">
+        <img src="..\..\res\logo\logo.png" alt="logo" id="logo">
+        <div id="middle">
         <h1>Citizen Dashboard</h1>
         <div id="userInfo">
-            <span id="usernameDisplay"></span>
-            <span id="roleDisplay"></span>
+            <span id="nameDisplay"></span>
+            <span id="emailDisplay"></span>
+            <span id="phoneDisplay"></span>
+            <span id="dateDisplay"></span>
             </div>
-        <button id="logoutBtn">Logout</button>
+        </div>
+        <div id="right">
+            
+        <button id="logoutBtn" >Logout</button>
+        </div>
         </div>
     <div id="content"  class="sections">
         <div id="buttons">
@@ -34,9 +42,9 @@
                 <option value="medical">Medical</option>
                 <option value="fire">Fire</option>
                 <option value="police">Police</option>
-                </select><br><br>
+                </select><br>
             <label for="location">Location:</label>
-            <input type="text" id="location" name="location" required><br><br>
+            <input type="text" id="location" name="location" required><br>
             <input type="submit" value="Request">
             </form>
         </div>
@@ -46,9 +54,9 @@
         <h2>City Complaints</h2>
         <form id="cityCompForm" method="get" action="/citz/cityComp">
             <label for="address">Address:</label>
-            <input type="text" id="address" name="address" required><br><br>
+            <input type="text" id="address" name="address" required><br>
             <label for="complaint">Complaint:</label>
-            <textarea id="complaint" name="complaint" required></textarea><br><br>
+            <textarea id="complaint" name="complaint" required></textarea><br>
             <input type="submit" value="File Complaint">
             </form>
         </div>
@@ -60,11 +68,11 @@
             <select id="billType" name="billType" required>
                 <option value="electricity">Electricity</option>
                 <option value="water">Water</option>
-            </select><br><br>
+            </select><br>
             <label for="accounNo">Acc No:</label>
-            <input type="text" id="accounNo" name="accounNo" required><br><br>
+            <input type="text" id="accounNo" name="accounNo" required><br>
             <label for="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" required><br><br>
+            <input type="number" id="amount" name="amount" required><br>
             <input type="submit" value="Pay Bill">
             </form>
         </div>
@@ -74,9 +82,9 @@
         <h2>Tax Payment</h2>
         <form id="taxPaymentForm" method="get" action="/citz/taxPayment">
             <label for="tin">TIN:</label>
-            <input type="text" id="tin" name="tin" required><br><br>
+            <input type="text" id="tin" name="tin" required><br>
             <label for="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" required><br><br>
+            <input type="number" id="amount" name="amount" required><br>
             <input type="submit" value="Pay">
             </form>
         </div>
@@ -85,6 +93,28 @@
     </div>
 </body>
 <script type="text/javascript">
+fetch('/citz/getUserInfo')
+.then(response => {
+    response.json().then(data => {
+        document.getElementById('phoneDisplay').textContent = data.phone;
+        document.getElementById('nameDisplay').textContent = data.name;
+        document.getElementById('emailDisplay').textContent = data.email;
+    });
+document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString();
+}).catch(error => {
+    console.error('Error fetching user info:', error);
+});
+
+document.getElementById('logoutBtn').addEventListener('click', function() {
+    fetch('/logout', { method: 'POST' })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = '/login';
+        } else {
+            alert('Logout failed.');
+        }
+    })});
+    
     var btn1 = document.getElementById('EmergencyReq');
     var btn2 = document.getElementById('cityComp');
     var btn3 = document.getElementById('billPayment');

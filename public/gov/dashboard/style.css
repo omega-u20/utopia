@@ -42,6 +42,13 @@
     box-sizing: border-box;
 }
 
+img#logo {
+    width: 100px;
+    top: 0;
+    left: 0;
+    margin: 0px;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     background-color: var(--light-gray);
@@ -242,25 +249,26 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    background-color: transparent;
 }
 
 .priority-critical {
-    background-color: var(--critical-red);
+    /* background-color: var(--critical-red); */
     color: var(--white);
 }
 
 .priority-high {
-    background-color: var(--high-orange);
+    /* background-color: var(--high-orange); */
     color: var(--white);
 }
 
 .priority-medium {
-    background-color: var(--medium-teal);
+    background-color: #ffffff;
     color: var(--white);
 }
 
 .priority-low {
-    background-color: var(--low-green);
+    /* background-color: var(--low-green); */
     color: var(--white);
 }
 

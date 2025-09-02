@@ -3,6 +3,7 @@ dotenv.config();
 import express from 'express';
 import * as db from './db.js';
 import * as mail from './mailing.js';
+import { set } from 'mongoose';
 
 dotenv.config();
 
@@ -18,21 +19,32 @@ app.post('/auth', async (req, res) => {
   const { role } = req.body;
   if (role === 'gov') {
     const { username, password, govRole } = req.body;
-    const isValid = await db.login(username, password);
+    //const isValid = await db.login(username, password);
+    setTimeout(() => {
+      const isValid = true;
+      
     if (isValid) {
       res.redirect('/gov/dashboard');
     } else {
       res.status(401).send('Invalid credentials');
-    }
+    }},2000)
+
   } else if (role === 'citz') {
     const { email, password } = req.body;
-    const isValid = await db.login(email, password);
+    //const isValid = await db.login(email, password);
+    setTimeout(() => {
+      const isValid = true;
     if (isValid) {
       res.redirect('/citz/dashboard');
-    }
-  } else {
+    } else {
     res.status(400).send('Invalid role');
-  }
+  }},2000)
+}
+});
+
+app.post('/logout', (req, res) => {
+  // Implement logout logic (e.g., destroy session or token)
+  res.status(200).send('Logged out successfully');
 });
 
 app.get('/gov/dashboard', async (req, res) => {
@@ -53,6 +65,14 @@ app.post('/getOtp', async (req, res) => {
   } else {
     res.send('OTP sent to ' + email);
   }
+});
+
+app.get('/getUserInfo', async (req, res) => {
+  const { email } = req.body;
+  //const userInfo = await db.getCitzInfo(email);
+  setTimeout(() => {
+     res.status(200).json(userInfo);
+  }, 2000);
 });
 
 app.post('/VerfyOtp', (req, res) => {
@@ -114,7 +134,8 @@ app.get('/citz/cityComp', (req, res) => {
 
 app.post('/citz/signup', async (req, res) => {
   const { nic, fullName, email, password, address, phone } = req.body;
-  const isSuccess = await db.citzSignup(nic, fullName, email, password, address, phone);
+  //const isSuccess = await db.citzSignup(nic, fullName, email, password, address, phone);
+  const isSuccess = true;
   if (isSuccess) {
     res.redirect('/citz/login');
   } else {

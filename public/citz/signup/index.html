@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="government_style.css">
     <link rel="stylesheet" href="../../styles/mainStyle.css">
+    <link rel="stylesheet" href="./style.css">
     <!-- Font Awesome for modern icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Government | Utopia Smart Town Dashboard</title>
+    <title>Citizen | Signup</title>
 </head>
 <body>
+    <img src="..\..\res\logo\logo.png" alt="logo" id="logo">
     <form action="/citz/signup" method="POST">
         <h1>Citizen Signup</h1>
         <label for="nic">NIC:</label>
-        <input type="text" id="nic" name="nic" required><br><br>
+        <input type="text" id="nic" name="nic" required><br>
         
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <button type="button" onclick="sendOtp()">Get OTP</button><br><br>
+        <input type="email" id="email" name="email" required><br>
+        <button type="button" onclick="sendOtp()">Get OTP</button><br>
         <script>
         async function sendOtp() {
             const email = document.getElementById('email').value;
@@ -45,8 +46,8 @@
         </script>
         
         <label for="otp">OTP:</label>
-        <input type="text" id="otp" name="otp" required>
-        <button type="button" onclick="verifyOtp()">Verify OTP</button><br><br>
+        <input type="text" id="otp" name="otp" required><br>
+        <button type="button" onclick="verifyOtp()">Verify OTP</button><br>
         <script>
         async function verifyOtp() {
             const email = document.getElementById('email').value;
@@ -82,7 +83,7 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br><br>
         
-        <button type="submit">Sign Up</button>
+        <input type="submit" value="Sign Up">
     </form>
 </body>
 </html>
