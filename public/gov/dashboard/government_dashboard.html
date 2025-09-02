@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utopia Government Dashboard</title>
+    <link rel="stylesheet" href="government_dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="brand">
+                <img src="LOGO.png" alt="Utopia Government Logo" style="width: 150px; height: auto;">
+                <div class="brand-text">
+                    <h1>Utopia Government Dashboard</h1>
+                    <p>Smart Town Management System</p>
+                </div>
+            </div>
+            <div class="user-info">
+                <i class="fas fa-user"></i>
+                <span>Government Official</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="emergency-section">
+            <div class="section-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> Active Emergency Requests</h2>
+                <p>Real-time emergency notifications requiring immediate attention</p>
+            </div>
+            <div class="requests-list">
+                <div class="list-container" id="emergencyContainer">
+                    <div class="request-item critical">
+                        <div class="item-header">
+                            <div class="item-title">Medical Emergency</div>
+                            <div class="item-badges">
+                                <span class="item-priority priority-critical">CRITICAL</span>
+                                <span class="status-badge status-active">ACTIVE</span>
+                            </div>
+                        </div>
+                        <div class="item-description">Person collapsed, needs immediate medical attention</div>
+                        <div class="item-meta">
+                            <div class="item-location"><i class="fas fa-map-marker-alt"></i><span>Downtown Plaza</span></div>
+                            <div class="item-time">Just now</div>
+                        </div>
+                    </div>
+                    <div class="request-item high">
+                        <div class="item-header">
+                            <div class="item-title">Fire Emergency</div>
+                            <div class="item-badges">
+                                <span class="item-priority priority-high">HIGH</span>
+                                <span class="status-badge status-dispatched">DISPATCHED</span>
+                            </div>
+                        </div>
+                        <div class="item-description">House fire reported, smoke visible</div>
+                        <div class="item-meta">
+                            <div class="item-location"><i class="fas fa-map-marker-alt"></i><span>Maple Street 123</span></div>
+                            <div class="item-time">Just now</div>
+                        </div>
+                    </div>
+                    <div class="request-item medium">
+                        <div class="item-header">
+                            <div class="item-title">Traffic Accident</div>
+                            <div class="item-badges">
+                                <span class="item-priority priority-medium">MEDIUM</span>
+                                <span class="status-badge status-pending">PENDING</span>
+                            </div>
+                        </div>
+                        <div class="item-description">Multi-vehicle accident blocking traffic</div>
+                        <div class="item-meta">
+                            <div class="item-location"><i class="fas fa-map-marker-alt"></i><span>Highway 101 Intersection</span></div>
+                            <div class="item-time">5 min ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="complaints-section">
+            <div class="section-header">
+                <h2><i class="fas fa-comments"></i> Recent Complaints</h2>
+                <p>Citizen complaints and service requests requiring attention</p>
+            </div>
+            <div class="requests-list">
+                <div class="list-container" id="complaintsContainer">
+                    <div class="complaint-item medium">
+                        <div class="item-header">
+                            <div class="item-title">Streetlight not working</div>
+                            <div class="item-badges">
+                                <span class="item-priority priority-medium">MEDIUM</span>
+                                <span class="status-badge status-open">OPEN</span>
+                            </div>
+                        </div>
+                        <div class="item-description">The streetlight on Oak Avenue has been out for 3 days</div>
+                        <div class="item-meta">
+                            <div class="item-category"><i class="fas fa-tools"></i><span>Public Services</span></div>
+                            <div class="item-location"><i class="fas fa-map-marker-alt"></i><span>Oak Avenue near Park</span></div>
+                            <div class="item-time">Just now</div>
+                        </div>
+                    </div>
+                    <div class="complaint-item high">
+                        <div class="item-header">
+                            <div class="item-title">Pothole on Main Street</div>
+                            <div class="item-badges">
+                                <span class="item-priority priority-high">HIGH</span>
+                                <span class="status-badge status-in_progress">IN_PROGRESS</span>
+                            </div>
+                        </div>
+                        <div class="item-description">Large pothole causing damage to vehicles</div>
+                        <div class="item-meta">
+                            <div class="item-category"><i class="fas fa-tools"></i><span>Infrastructure</span></div>
+                            <div class="item-location"><i class="fas fa-map-marker-alt"></i><span>Main Street intersection</span></div>
+                            <div class="item-time">Just now</div>
+                        </div>
+                    </div>
+                    <div class="complaint-item low">
+                        <div class="item-header">
+                            <div class="item-title">Park Maintenance Request</div>
+                            <div class="item-badges">
+                                <span class="item-priority priority-low">LOW</span>
+                                <span class="status-badge status-pending">PENDING</span>
+                            </div>
+                        </div>
+                        <div class="item-description">Playground equipment needs cleaning and maintenance</div>
+                        <div class="item-meta">
+                            <div class="item-category"><i class="fas fa-tools"></i><span>Parks & Recreation</span></div>
+                            <div class="item-location"><i class="fas fa-map-marker-alt"></i><span>Central Park</span></div>
+                            <div class="item-time">15 min ago</div>
+                        </div>
+                    </div>
+                    <div class="complaint-item medium">
+                        <div class="item-header">
+                            <div class="item-title">Noise Complaint</div>
+                            <div class="item-badges">
+                                <span class="item-priority priority-medium">MEDIUM</span>
+                                <span class="status-badge status-open">OPEN</span>
+                            </div>
+                        </div>
+                        <div class="item-description">Construction noise starting too early in residential area</div>
+                        <div class="item-meta">
+                            <div class="item-category"><i class="fas fa-tools"></i><span>Public Safety</span></div>
+                            <div class="item-location"><i class="fas fa-map-marker-alt"></i><span>Residential District 5</span></div>
+                            <div class="item-time">30 min ago</div>
+                        </div>
+                    </div>
+                    <div class="complaint-item low">
+                        <div class="item-header">
+                            <div class="item-title">Garbage Collection Delay</div>
+                            <div class="item-badges">
+                                <span class="item-priority priority-low">LOW</span>
+                                <span class="status-badge status-resolved">RESOLVED</span>
+                            </div>
+                        </div>
+                        <div class="item-description">Garbage not collected on scheduled day</div>
+                        <div class="item-meta">
+                            <div class="item-category"><i class="fas fa-tools"></i><span>Sanitation</span></div>
+                            <div class="item-location"><i class="fas fa-map-marker-alt"></i><span>Elm Street Block</span></div>
+                            <div class="item-time">1 hour ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2024 Utopia Smart Town Management System | Government Dashboard</p>
+    </footer>
+
+    <script src="government_dashboard.js"></script>
+</body>
+</html>
