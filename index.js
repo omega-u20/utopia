@@ -57,6 +57,16 @@ app.get('/citz/dashboard', (req, res) => {
   res.send('Citizen dashboard');
 });
 
+app.post('/citz/signup', async (req, res) => {
+  const { nic, email, password } = req.body;
+  //const isSuccess = await db.citzSignup(nic, email, password);
+  const isSuccess = true;
+  if (isSuccess) {
+    res.redirect('/login');
+  } else {
+    res.status(500).send('Signup failed');
+  }})
+
 app.post('/getOtp', async (req, res) => {
   const { email } = req.body;
   const status = await mail.sendOTP(email);

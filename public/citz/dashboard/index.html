@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../styles/mainStyle.css">
+    <link rel="shortcut icon" href="../../res/logo/logo.png" type="image/x-icon">
     <title>Citizen | Dashboard</title>
 </head>
 <body>
@@ -13,10 +14,10 @@
         <div id="middle">
         <h1>Citizen Dashboard</h1>
         <div id="userInfo">
-            <span id="nameDisplay"></span>
-            <span id="emailDisplay"></span>
-            <span id="phoneDisplay"></span>
-            <span id="dateDisplay"></span>
+            <span id="nameDisplay">Name :</span>
+            <span id="emailDisplay">Email :</span>
+            <span id="phoneDisplay">Phone :</span>
+            <span id="dateDisplay">Date :</span>
             </div>
         </div>
         <div id="right">
@@ -93,16 +94,21 @@
     </div>
 </body>
 <script type="text/javascript">
-fetch('/citz/getUserInfo')
-.then(response => {
+fetch('/citz/getUserInfo').then(response => {
     response.json().then(data => {
-        document.getElementById('phoneDisplay').textContent = data.phone;
-        document.getElementById('nameDisplay').textContent = data.name;
-        document.getElementById('emailDisplay').textContent = data.email;
+        document.getElementById('phoneDisplay').innerText = data.phone;
+        document.getElementById('nameDisplay').innerText = data.name;
+        document.getElementById('emailDisplay').innerText = data.email;
     });
-document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString();
 }).catch(error => {
+        document.getElementById('phoneDisplay').innerText = document.getElementById('phoneDisplay').innerText+' +94 00 00 000000';
+        document.getElementById('nameDisplay').innerText = document.getElementById('nameDisplay').innerText+' John Doe';
+        document.getElementById('emailDisplay').innerText = document.getElementById('emailDisplay').innerText+' johndoe@example.com'
     console.error('Error fetching user info:', error);
+}).finally(() => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const today  = new Date();
+    document.getElementById('dateDisplay').innerText = today.toLocaleDateString("en-US", options);
 });
 
 document.getElementById('logoutBtn').addEventListener('click', function() {
