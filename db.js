@@ -1,73 +1,75 @@
-import { MongoClient } from 'mongodb';
-import dotenv from 'dotenv';
-import e from 'express';
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 dotenv.config();
 
-const db_pass = process.env.DB_PASS;
+const mongoURI = process.env.MONGO_URI;
 
-export async function login(username, password) {
-    const uri = `mongodb+srv://prodev:${db_pass}@clusterdev.owm1unr.mongodb.net/?retryWrites=true&w=majority&appName=ClusterDev`;
-    const client = new MongoClient(uri);
+const govSchema = new mongoose.Schema({
+    empID: { type: String, required: true, unique: true },
+    govRole: { type: String, required: true },
+    govArea: { type: String, required: true },
+    authLevel: { type: Number, required: true },
+    password: { type: String, required: true }
+});
+const Gov = mongoose.model('Gov', govSchema);
 
+const citizenSchema = new mongoose.Schema({
+    nic: { type: String, required: true, unique: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true }
+});
+const Citizen = mongoose.model('Citizen', citizenSchema);
+
+
+
+async function connect(){
+    mongoose.connect(mongoURI,
+     { 
+        useNewUrlParser: true, 
+        useUnifiedTopology: true 
+    })
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
+}
+
+function GetCitizen(){
+
+}
+
+function GetGov(){
+
+}
+
+async function NewCitizen(citizen, password){
+    await connect();
     try {
-        await client.connect();
-        const db = client.db('TCC');
-        const users = db.collection('Utopia');
-        const user = await users.findOne({ username, password });
-        return true/* user !== null; */;
-    } catch (error) {
-        console.error('Error during login:', error);
-        return true/* user !== null; */;
-    } finally {
-        await client.close();
+        const newCitizen = new Citizen(citizen);
+        await newCitizen.save();
+        return true;
+    }catch (error) {
+        console.error("Error saving citizen:", error);
+        return false;
     }
 }
 
-export async function getGovInfo(username) {
-
-}
-
-export async function getCitzInfo(nic) {
-    const uri = `mongodb+srv://prodev:${db_pass}@clusterdev.owm1unr.mongodb.net/?retryWrites=true&w=majority&appName=ClusterDev`;
-    const client = new MongoClient(uri);
-
+async function NewGov(gov, pswd){
+    await connect();
     try {
-        await client.connect();
-        const db = client.db('TCC');
-        const citizens = db.collection('Citizens');
-        const result = await citizens.findOne(
-            { nic },
-            { projection: { name: 1, mobilenumber: 1, address: 1, _id: 0 } }
-        );
-        return result || {};
-    } catch (error) {
-        console.error('Error fetching citizen info:', error);
-        return {};
-    } finally {
-        await client.close();
+        const newGov = new GovModel({
+                empID: gov.empID,
+                govRole: gov.govRole,
+                govArea: gov.govArea,
+                authLevel: gov.authLevel,
+                password: pswd
+            });
+        await newGov.save();
+        return true;
+    }catch (error) {
+        console.error("Error saving gov:", error);
+        return false;
     }
 }
 
-export async function citzSignup(nic, fullName, email, password, address, phone) {
-    const uri = `mongodb+srv://prodev:${db_pass}@clusterdev.owm1unr.mongodb.net/?retryWrites=true&w=majority&appName=ClusterDev`;
-    const client = new MongoClient(uri);
-
-    try {
-        await client.connect();
-        const db = client.db('TCC');
-        const citizens = db.collection('Citizens');
-        const existingUser = await citizens.findOne({ nic });
-        if (existingUser) {
-            return { success: false, message: 'User already exists' };
-        }else {
-            await citizens.insertOne({ nic, name: fullName, email, password, address, mobilenumber: phone });
-            return { success: true, message: 'User registered successfully' };
-        }
-    } catch (error) {
-        console.error('Error during signup:', error);
-        return { success: false, message: 'Error during signup' };
-    } finally {
-        await client.close();
-    }
-
-}
+export {GetCitizen,GetGov,NewCitizen,NewGov};
