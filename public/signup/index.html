@@ -3,11 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="../componets.css">
+    <link rel="stylesheet" href="./style.css">
+    <!-- Font Awesome for modern icons -->
+     <link rel="shortcut icon" href="../res/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Citizen | Signup</title>
 </head>
 <body>
-    
+    <img src="..\res\logo\logo.png" alt="logo" id="logo">
+    <div class="signup-form">
+    <form action="/citz/signup" method="POST">
+        <h1>Citizen Signup</h1>
+    <div class="input-group">
+        <label for="nic">NIC:</label>
+        <input class="input-field" type="text" id="nic" name="nic" required>
+    </div>
+    <div class="input-group">
+        <label for="email">Email:</label>
+        <input class="input-field" type="email" id="email" name="email" required>
+        <button class="btn btn-sub" type="button" onclick="sendOtp()">Get OTP</button>
+        <script>
+        async function sendOtp() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+            alert('Please enter your email.');
+            return;
+            }
+            try {
+            const response = await fetch('/GetOtp', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            });
+            if (response.ok) {
+                alert('OTP sent to ' + email);
+            } else {
+                alert('Failed to send OTP.');
+            }
+            } catch (error) {
+            alert('Error sending OTP.');
+            }
+        }
+        </script>
+    </div>
+    <div class="input-group">
+        <label for="otp">OTP:</label>
+        <input class="input-field" type="text" id="otp" name="otp" required>
+        <button class="btn btn-sub" type="button" onclick="verifyOtp()">Verify OTP</button>
+        <script>
+        async function verifyOtp() {
+            const email = document.getElementById('email').value;
+            const otp = document.getElementById('otp').value;
+            if (!email || !otp) {
+                alert('Please enter both email and OTP.');
+                return;
+            }
+            try {
+                const response = await fetch('/VerfyOtp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, otp })
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.verified) {
+                        alert('OTP verified successfully.');
+                    } else {
+                        alert('Invalid OTP.');
+                    }
+                } else {
+                    alert('Failed to verify OTP.');
+                }
+            } catch (error) {
+                alert('Error verifying OTP.');
+            }
+        }
+        </script>
+    </div>
+    <div class="input-group">
+        <label for="password">Password:</label>
+        <input class="input-field" type="password" id="password" name="password" required>
+    </div>
+        <div class="input-group">
+                <label for="citzRole">Role:</label>
+                <select class="input-field" id="citzRole" name="citzRole" required>
+                    <option value="teacher">Teacher</option>
+                    <option value="merchant">Merchant</option>
+                    <option value="doctor">Doctor</option>
+                    <option value="lawyer">Lawyer</option>
+                    <option value="student">Student</option>
+                </select>
+        </div>
+        
+        <input class="btn" type="submit" value="Sign Up">
+    </form>
+    </div>
 </body>
-<script src="script.js"></script>
 </html>

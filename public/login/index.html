@@ -3,11 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../componets.css">
+    <link rel="shortcut icon" href="../res/logo/logo.png" type="image/x-icon">
+    <title>Login</title>
 </head>
 <body>
+    <div id="logincontainer">
+    <img src="..\res\logo\logo.png" alt="logo" id="logo">
+    <div id="conthead" class="rows">
+        <button type="button" id="govTab" onclick="showTab('government',this)">Government Users</button>
+        <button type="button" class="btn-disabled" id="citizenTab" onclick="showTab('citizen',this)">Citizens</button>
+    </div>
+        <div id="contbot" class="rows">
+            <form id="loginForm" action="/auth" method="POST">
+        <div id="governmentFields" class="fields">
+        <div class="input-group">
+                <label for="govUsername">Username:</label>
+                <input class="input-field" type="text" id="govUsername" name="username" required>
+        </div>
+        <div class="input-group">
+                <label for="govPassword">Password:</label>
+                <input class="input-field" type="password" id="govPassword" name="password" required>
+        </div>
+        <div class="input-group">
+                <label for="govRole">Role:</label>
+                <select class="input-field" id="govRole" name="govRole" required>
+                    <option value="fire">Fire & Rescue</option>
+                    <option value="police">Police</option>
+                    <option value="health">Ambulance</option>
+                </select>
+        </div>
+        </div>
+        <div id="citizenFields" style="display:none;"  class="fields">
+        <div class="input-group">
+            <label for="citizenEmail">Email:</label>
+            <input class="input-field" type="email" id="citizenEmail" name="email" required disabled>
+        </div>
+        <div class="input-group">
+            <label for="citizenPassword">Password:</label>
+            <input class="input-field" type="password" id="citizenPassword" name="password" required disabled>
+        </div>
+        <div class="input-group">
+            <a href="/citz/signup" id="signupLink">New user? Sign up here</a>
+        </div>
+        </div>
+            <input type="text" id="role" name="role" value="gov" hidden>
+        <input class="btn" type="submit" value="Login">
+    </form>
+        </div>
     
+    </div>
+    <div id="cityscape">
+    </div>
+    <div id="haze"></div>
+    <div id="cityscape1">
+    </div>
+    <script type="text/javascript">
+        const body=document.getElementsByTagName('body')[0];
+        var rand=Math.floor(Math.random()*100);
+        for (let i = 0; i < rand; i++) {
+            var size =(.1*Math.round(Math.random()))
+            body.innerHTML+='<div class="star" style="left:'+Math.floor(Math.random()*100)+
+            '%;top:'+Math.floor(Math.random()*50)+'%;width:'+ size +'px; height:'+ size +'px;animation-delay: '+Math.floor(Math.random()*1000)+'ms;"></div>';
+        }
+    function showTab(tab,elem) {
+        elem.classList.remove('btn-disabled');
+        if (tab === 'government') {
+            document.getElementById('citizenTab').classList.add('btn-disabled');
+            document.getElementById('governmentFields').style.display = '';
+            document.getElementById('citizenFields').style.display = 'none';
+            document.getElementById('role').setAttribute('value','gov');
+            var inps = document.getElementById('citizenFields').getElementsByTagName('input');
+            for (var i = 0; i < inps.length; i++) {
+                inps[i].setAttribute('disabled','true');
+            }
+            var inps = document.getElementById('governmentFields').getElementsByTagName('input');
+            for (var i = 0; i < inps.length; i++) {
+                inps[i].removeAttribute('disabled');
+            }
+            document.getElementById('govRole').removeAttribute('disabled');
+        } else {
+            document.getElementById('govTab').classList.add('btn-disabled');
+            document.getElementById('governmentFields').style.display = 'none';
+            document.getElementById('citizenFields').style.display = '';
+            document.getElementById('role').setAttribute('value','citz');
+            var inps = document.getElementById('governmentFields').getElementsByTagName('input');
+            for (var i = 0; i < inps.length; i++) {
+                inps[i].setAttribute('disabled','true');
+            }
+            document.getElementById('govRole').setAttribute('disabled','true');
+            var inps = document.getElementById('citizenFields').getElementsByTagName('input');
+            for (var i = 0; i < inps.length; i++) {
+                inps[i].removeAttribute('disabled');
+            }
+        }
+    }
+    </script>
 </body>
-<script src="script.js"></script>
 </html>

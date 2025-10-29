@@ -6,11 +6,11 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('public', express.static('public'));
+app.use(express.static('public'));
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.json({ status: 'Server is running' });
 });
 
 app.get('/login', (req, res) => {

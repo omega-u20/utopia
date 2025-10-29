@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="componets.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a> 
+        <a href="/about">About</a> 
+        <a href="/contact">Contact</a>
+    </nav>
+
+    <div class="input-group">
+        <label for="elmTestInput">Elm Test Input:</label>
+        <input class="input-field" type="text" id="elmTestInput" value="" />
+    </div>
+
+    <input type="button" class="btn" value="Button" onclick="runElmTests()" />
+    <input type="button" class="btn btn-danger" value="Danger" onclick="loadElmApp()" />
+    <input type="button" class="btn btn-sub" value="Button" onclick="runElmTests()" />
+
+
+    <hr>
+
+    <form id="elmTestForm" method="POST" action="/run-elm-tests">
+    <div class="input-group">
+        <label for="elmTestInput">Username:</label>
+        <input class="input-field" type="text" id="elmTestInput" name="user" value="" />
+    </div>
+    <div class="input-group">
+        <label for="elmTestInput">Password:</label>
+        <input class="input-field" type="password" id="elmTestInput" name="pass" value="" />
+    </div>
+    <div class="input-group">
+        <label for="elmTestInput">List:</label>
+        <select class="input-field" id="elmTestInput" name="list">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+        </select>
+    </div>
+    </form>
+</body>
+</html>

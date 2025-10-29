@@ -1,0 +1,143 @@
+img#logo {
+    width: 125px;
+    top: 0;
+    left: 0;
+    margin: 20px;
+}
+
+#logincontainer {
+    display: flex;
+    height: fit-content;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    width: 20vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background-color: #ffffff49;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    /* box-shadow: 0 0 10px 2px #80f0ff; */
+}
+
+#conthead {
+    height: 5vh;
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#contbot {
+    height: 60%;
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    /* padding: 10px; */
+}
+
+form {
+    display: flex;
+    width: 100% !important;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#conthead button {
+    width: 50%;
+    border: none;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    height: 70px;
+    font-size:10pt;
+    padding-bottom: 20px;
+    /* background-color: transparent; */
+}
+
+.btn-disabled {
+    background-color: #404040;
+    color: var(--primary-color);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: var(#404040);
+}
+
+#conthead button:hover {
+    cursor: pointer;
+}
+
+body {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(var(--background-color),var(--accent-color-1));
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#cityscape {
+    position: fixed;
+    bottom: 0;
+    left: -2px;
+    width: 200vw;
+    height: 50vh;
+    background: url('../res/bg/sky.png') repeat-x center bottom;
+    background-size: contain;
+    pointer-events: none;
+    z-index: -1;
+    animation: slide 120s linear infinite;
+}
+#cityscape1 {
+    position: fixed;
+    bottom: 10vh;
+    left: -2px;
+    width: 200vw;
+    height: 50vh;
+    background: url('../res/bg/sky.png') repeat-x center bottom;
+    background-size: contain;
+    pointer-events: none;
+    z-index: -3;
+    opacity: .1;
+    animation: slide 180s linear reverse infinite;
+}
+@keyframes slide {
+    from { 
+    left: -2px; }
+    to { 
+    left: -65vw; }
+}
+#haze {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(0deg,#ffec7e46 .1%,transparent 40%);
+    z-index: -2;
+    opacity: .5;
+}
+.star{
+    position: fixed;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 6px 2px white;
+    animation: twinkle 2s infinite;
+    z-index: -4;
+}
+@keyframes twinkle {
+    0%,100% {opacity: 1;
+    box-shadow: 0 0 6px 2px white;}
+    50% {opacity: 0.3;
+    box-shadow: 0 0 6px 1px white;}
+}

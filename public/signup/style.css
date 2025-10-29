@@ -1,0 +1,50 @@
+
+img#logo {
+    position: fixed;
+    width: 125px;
+    top: 0;
+    left: 0;
+    margin: 20px;
+}
+form {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 30px;
+    border-radius: 10px;
+}
+form h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+body {
+    position: fixed;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../res/bg/MarkusM.webp');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* font-family: "Montserrat"; */
+}
+.signup-form{
+    width: fit-content;
+    height: fit-content;
+    padding: 30px 40px;
+    border-radius: 10px;
+    background-color: #ffffff42;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 0 7px 2px #8989892b;
+}
+label::before {
+    content: "*";
+    vertical-align: super;
+    font-size: smaller;
+    color: red;
+    
+}
