@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import 'gov'
+
 
 dotenv.config();
 const app = express();
@@ -44,6 +46,10 @@ app.get('/dashboard/citz', (req, res) => {
 app.get('/dashboard/gov', (req, res) => {
   res.json({ status: 'Dashboard data' });
 });
+
+app.post('/dashboard/gov/GetEmergency',(req,res)=>{
+  
+})
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

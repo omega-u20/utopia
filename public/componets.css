@@ -5,6 +5,12 @@
     --accent-color-1: #1f283a;
     --accent-color-2: hsl(220, 30%, 30%);
     --accent-color-3: hsl(220, 10%, 50%);
+    --color-danger: #e74c3c;
+    --color-warning: #ffaf1a;
+    --color-go: #008705;
+    --color-fire: #b50000;
+    --color-police: #001fb9;
+    --color-medical: #00a329;
     --background-color: #0d182a;
     --text-color: #99a1ad;
     --font-family: 'Inter', sans-serif;
@@ -38,6 +44,13 @@ html,body{
 }
 .btn-danger:hover{
     background-color: hsl(6, 78%, 40%);
+}
+.btn-warning{
+    color: var(--accent-color-1);
+    background-color: hsl(39, 100%, 55%);
+}
+.btn-warning:hover{
+    background-color: hsl(39, 100%, 70%);
 }
 .btn-sub{
     box-sizing: border-box;
@@ -97,13 +110,14 @@ nav{
     background-color: var(--accent-color-1);
     color: white;
     padding: 0 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 9px hsl(220deg 10% 50% / 39%);
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
     height: 50px;
     width: 100vw;
     position: fixed;
+    z-index: 10;
 }
 nav a{
     display:flex;
@@ -129,4 +143,101 @@ footer.site-footer{
     text-align: center;
     height: 50px;
     width: 100vw;
+}
+
+/* report card */
+.report-card{
+    display: flex;
+    border: 1px solid var(--accent-color-3);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px auto;
+    width: 30vw;
+    height: 250px;
+    background-color: white;
+    box-shadow: inset 0 2px 6px 0px #00000033;
+    transition: box-shadow 0.3s ease;
+    align-items: center;
+    justify-content: center;
+}
+.card-fire{
+    border-left: 4px solid var(--color-fire);
+}
+.report-card:hover{
+    box-shadow: 0 3px 5px 0px #00000026;
+}
+.header{
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.report-container {
+  display: grid;
+  grid-template-columns: 1fr 0.6fr 1.4fr;
+  grid-template-rows: 0.8fr 1.5fr 0.7fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "header header header"
+    "discription discription image"
+    "action action image";
+  align-content: center;
+}
+.discription {
+    grid-area: discription;
+    padding: 5px;
+}
+.image {
+    grid-area: image;
+    height: 100%;
+    width: 100%;
+    transform-origin: right;
+    position: relative;
+    left: 0;
+    background-image: url('https://placeholderimagegenerator.com/wp-content/uploads/2024/12/Light-placeholder-image-circule_png_.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;
+}
+.action { 
+    grid-area: action; 
+}
+.tag{
+    padding: 10px;
+    border-radius: 23px;
+    color: white;
+    font-weight: bold;
+    width: 80px;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.tag-type{
+    width: 100px !important;
+}
+.r-s{
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50%;
+}
+.r-s-o{
+    background-color: var(--color-danger);
+}
+.r-s-p{
+    background-color: var(--color-warning);
+}
+.r-s-c{
+    background-color: var(--color-go);
+}
+.r-fire{
+    background-color: var(--color-fire);
+}
+.r-poli{
+    background-color: var(--color-police);
+}
+.r-medi{
+    background-color: var(--color-medical);
 }

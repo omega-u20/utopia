@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="componets.css">
+    <link rel="stylesheet" href="cards.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <title>Document</title>
 </head>
 <body>
@@ -21,6 +23,7 @@
     <input type="button" class="btn" value="Button" onclick="runElmTests()" />
     <input type="button" class="btn btn-danger" value="Danger" onclick="loadElmApp()" />
     <input type="button" class="btn btn-sub" value="Button" onclick="runElmTests()" />
+    <input type="button" class="btn btn-warning" value="Button" onclick="runElmTests()" />
 
 
     <hr>
@@ -43,5 +46,28 @@
         </select>
     </div>
     </form>
+    <hr>
+    <div class="tag r-fire tag-type bi bi-fire">Fire</div>
+    <div class="tag r-poli tag-type bi bi-shield-exclamation">Police</div>
+    <div class="tag r-medi tag-type bi bi-heart-pulse">Medic</div>
+    <div class="report-card" id="12345">
+        <div class="report-container">
+            <div class="header">
+                    <h2>Report Summary</h2>
+                    <div class="r-date">2024-06-15</div>
+                    <div class="r-id">#12345</div>
+                    <div class="tag r-fire tag-type"><i class="bi bi-fire"></i>Fire</div>
+                    <div class="tag r-s r-s-o"></div>
+            </div>
+            <div class="discription">
+                <p>This is a summary of the report content. It gives a brief overview of the issue.</p>
+            </div>
+            <div class="image">
+            </div>
+            <div class="action">
+                <button class="btn btn-warning" onclick="update()">Mark Dispatched</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
