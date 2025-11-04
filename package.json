@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo test",
+    "test": "node tests.js",
     "start": "node index.js"
   },
   "author": "",

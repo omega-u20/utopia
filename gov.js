@@ -4,9 +4,14 @@ function GetEmergency() {
 function GetComplaints() {
     
 }
-function SetComplaintStatus(id) {
+function RefreshFeed() {
     
 }
-function SetEmergencyStatus(id) {
+function MarkDispatched(mid) {
     
 }
+function MarkCompleted(mid) {
+    
+}
+
+module.exports ={RefreshFeed,MarkCompleted,MarkDispatched}

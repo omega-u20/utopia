@@ -28,7 +28,7 @@ class gov extends User {
     }   
 }
 
-async function AuthCitizen(nic, password){
+export async function AuthCitizen(nic, password){
     if (await GetCitizen(nic, await hashPassword(password))){
         return true;
     }else{
@@ -36,7 +36,7 @@ async function AuthCitizen(nic, password){
     }
 }
 
-async function AuthGov(userID, password, role){
+export async function AuthGov(userID, password, role){
     if (await GetGov(userID, await hashPassword(password), role)){
         return true;
     }else{
@@ -44,7 +44,7 @@ async function AuthGov(userID, password, role){
     }
 }
 
-async function RegisterCitizen(nic, email, phone, address, password){
+export async function RegisterCitizen(nic, email, phone, address, password){
     if (await GetCitizen(nic)){
         throw new RegistrationError("User already exists");
     }
@@ -60,7 +60,7 @@ async function RegisterCitizen(nic, email, phone, address, password){
     }
 }
 
-async function RegisterGov(empID, password, role, area){
+export async function RegisterGov(empID, password, role, area){
 
     if (await GetGov(empID)){
         throw new RegistrationError("User already exists");
