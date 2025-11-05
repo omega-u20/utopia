@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 :root{
     --primary-color: #f5b947;
-    --accent-color: #18bc9c;
+    --accent-color: hsl(220 30% 52% / 1);
     --accent-color-1: #1f283a;
     --accent-color-2: hsl(220, 30%, 30%);
     --accent-color-3: hsl(220, 10%, 50%);

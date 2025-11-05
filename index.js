@@ -63,22 +63,22 @@ app.get('/dashboard/citz', (req, res) => {//display citz dashboard
 app.post('/dashboard/citz/PayTax',(req,res)=>{
   const {uid,tin,amount}= req.body
   const feedback = citz.PayTax(uid,tin,amount)
-  res.status(201).json(JSON.parse(feedback))
+  res.status(201).json(feedback)
 })
 app.post('/dashboard/citz/PayUtil',(req,res)=>{
   const {uid,AccNo,type,amount}=req.body
   const feedback =citz.PayUtility(uid,type,AccNo,amount)
-  res.status(201).json(JSON.parse(feedback))
+  res.status(201).json(feedback)
 })
 app.post('/dashboard/citz/ReqEmergency',(req,res)=>{
   const {uid,loc,type}=req.body
   const feedback =citz.ReqEmergency(uid,type,loc)
-  res.status(201).json(JSON.parse(feedback))
+  res.status(201).json(feedback)
 })
 app.post('/dashboard/citz/SendComplaint',(req,res)=>{
   const {uid,title,discription,loc}=req.body
   const feedback =citz.SendComplaint(uid,title,discription,loc)
-  res.status(201).json(JSON.parse(feedback))
+  res.status(201).json(feedback)
 })
 
 /**Government */
@@ -106,5 +106,5 @@ app.post('/dashboard/gov/Refresh',(req,res)=>{
 
 
 app.listen(port, () => {
-  console.log(`Server running on port ${app._router} ${port}`);
+  console.log(`Server running on port ${port}`);
 });

@@ -14,4 +14,4 @@ function MarkCompleted(mid) {
     
 }
 
-module.exports ={RefreshFeed,MarkCompleted,MarkDispatched}
+export {RefreshFeed,MarkCompleted,MarkDispatched}
