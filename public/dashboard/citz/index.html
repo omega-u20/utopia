@@ -57,18 +57,18 @@
         
             <div id="cityCompSection" class="forms" style="display:none;">
                 <h2>City Complaints</h2>
-                <form id="cityCompForm" method="post" action="/dashboard/citz/SendComplaint">
+                <form id="cityCompForm" method="post" action="/dashboard/citz/SendComplaint" enctype="multipart/form-data">
                     <div class="input-group">
-                        <label for="elmTestInput">Title:</label>
-                        <input class="input-field" type="text" id="elmTestInput" name="title" value="" required/>
+                        <label for="CTitle">Title:</label>
+                        <input class="input-field" type="text" id="CTitle" name="title" value="" required/>
                     </div>
                     <div class="input-group">
-                        <label for="elmTestInput">Discription:</label>
-                        <textarea class="input-field" id="elmTestInput" name="discription" value="" required></textarea>
+                        <label for="CDis">Discription:</label>
+                        <textarea class="input-field" id="CDis" name="discription" placeholder="Discribe your complaint with the location" value="" required></textarea>
                     </div>
                     <div class="input-group">
-                        <label for="elmTestInput">Image:</label>
-                        <input class="input-field" type="file" accept="image/png,image/jpeg,image/jpg,image/heif" id="elmTestInput" name="image" value="" />
+                        <label for="CImage">Image:</label>
+                        <input class="input-field" type="file" accept="image/png,image/jpeg,image/jpg,image/heif" id="CImage" name="image" value="" />
                     </div>
                     <input type="submit" class="btn btn-danger" value="File Complaint">
                 </form>
@@ -114,34 +114,8 @@
     
     </div>
 </body>
+<script type="text/javascript" src="./script.js"></script>
 <script type="text/javascript">
-fetch('/citz/getUserInfo').then(response => {
-    response.json().then(data => {
-        document.getElementById('phoneDisplay').innerText = data.phone;
-        document.getElementById('nameDisplay').innerText = data.name;
-        document.getElementById('emailDisplay').innerText = data.email;
-    });
-}).catch(error => {
-        document.getElementById('phoneDisplay').innerText = document.getElementById('phoneDisplay').innerText+' +94 00 00 000000';
-        document.getElementById('nameDisplay').innerText = document.getElementById('nameDisplay').innerText+' John Doe';
-        document.getElementById('emailDisplay').innerText = document.getElementById('emailDisplay').innerText+' johndoe@example.com'
-    console.error('Error fetching user info:', error);
-}).finally(() => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const today  = new Date();
-    document.getElementById('dateDisplay').innerText = today.toLocaleDateString("en-US", options);
-});
-
-document.getElementById('logoutBtn').addEventListener('click', function() {
-    fetch('/logout', { method: 'POST' })
-    .then(response => {
-        if (response.ok) {
-            window.location.href = '/login';
-        } else {
-            alert('Logout failed.');
-        }
-    })});
-
     const EmergencyReqSection = document.getElementById('EmergencyReqSection')
     const cityCompSection = document.getElementById('cityCompSection')
     const billPaymentSection = document.getElementById('billPaymentSection')

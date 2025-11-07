@@ -8,7 +8,7 @@ function ReqEmergency(uid,ReqType,Location) {
     const rid = 'EM-'+new Date().getTime().toString()
     return {ReqID:rid,status:'Success'}
 }
-function SendComplaint(uid,Title,Discription,Location,Image) {
+function SendComplaint(uid,Title,Discription,Image) {
     const cid = 'CM-'+new Date().getTime().toString()
     return {CompID:cid,status:'Success'}
 }

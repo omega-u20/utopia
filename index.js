@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import * as citz from './citizen.js'
 import * as gov from './gov.js'
 import * as auth from './auth.js'
-
+import { upload } from './FileHandle.js';
 
 dotenv.config();
 const app = express();
@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 const port = process.env.PORT || 3000;
+
 
 app.get('/', (req, res) => {//homepage
   res.json({ status: 'Server is running' });
@@ -71,15 +72,27 @@ app.post('/dashboard/citz/PayUtil',(req,res)=>{
   res.status(201).json(feedback)
 })
 app.post('/dashboard/citz/ReqEmergency',(req,res)=>{
+  console.log(req.body);  
   const {uid,loc,type}=req.body
   const feedback =citz.ReqEmergency(uid,type,loc)
   res.status(201).json(feedback)
 })
-app.post('/dashboard/citz/SendComplaint',(req,res)=>{
-  const {uid,title,discription,loc}=req.body
-  const feedback =citz.SendComplaint(uid,title,discription,loc)
-  res.status(201).json(feedback)
-})
+app.post('/dashboard/citz/SendComplaint', upload.single('cim'), (req, res) => {
+  if(!req.file){
+      return res.status(400).json({error:'No file uploaded'})
+  }
+  const img='./complaints/'+req.file.filename
+  try {  
+    const {uid,ctitle,cdis}=req.body
+    console.log(req.body);
+    
+    const feedback = citz.SendComplaint(uid, ctitle, cdis, img);
+    res.status(201).json(feedback);
+  } catch (error) {
+    console.error('Error handling complaint:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 /**Government */
 app.get('/dashboard/gov', (req, res) => {//display gov dashboard
