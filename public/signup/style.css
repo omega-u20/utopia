@@ -48,3 +48,6 @@ label::before {
     color: red;
     
 }
+.input-error{
+    border: 2px solid red;
+}

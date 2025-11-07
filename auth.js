@@ -1,5 +1,6 @@
 import {GetCitizen,GetGov,NewCitizen,NewGov} from './db.js';
 import {generateUserID,hashPassword} from './crypt.js';
+import { email_otp } from './crypt.js';
 
 class User {
     constructor(uid, role) {
@@ -8,7 +9,7 @@ class User {
     }
 } 
 
-class citizen extends User {
+class Citizen extends User {
     constructor(nic, email, phone, address) {
         super(generateUserID('cit'), 'citizen');
         this.nic = nic;
@@ -18,7 +19,7 @@ class citizen extends User {
     }   
 }
 
-class gov extends User {
+class Gov extends User {
     constructor(empID, role, area, authLevel) {
         super(generateUserID('gov'), 'gov');
         this.empID = empID;
@@ -45,17 +46,24 @@ export async function AuthGov(userID, password, role){
 }
 
 export async function RegisterCitizen(nic, email, phone, address, password){
-    if (await GetCitizen(nic)){
+    /* if (await GetCitizen(nic)){
         throw new RegistrationError("User already exists");
-    }
-    var citizen = new citizen(nic, email, phone, address);
+    } */
+   console.log('auth');
+   
+    const citizen = new Citizen(nic, email, 'Enter your phone number', 'Enter your address')
     try {
-        if(newCitizen(citizen, await hashPassword(password))){
+        
+        if(await NewCitizen(JSON.parse(citizen), await hashPassword(password))){
+            console.log('citizen created');
+            
             return true;
         }else{
             throw new RegistrationError("Registration failed [DB]");
         }
     }catch (error) {
+        console.log(error);
+        
         throw new RegistrationError("Registration failed");
     }
 }
@@ -65,7 +73,7 @@ export async function RegisterGov(empID, password, role, area){
     if (await GetGov(empID)){
         throw new RegistrationError("User already exists");
     }
-    var gov = new gov(empID, role, area, 0);
+    var gov = new Gov(empID, role, area, 0);
     try {
         if(newGov(gov, await hashPassword(password))){
             return true;
@@ -77,6 +85,14 @@ export async function RegisterGov(empID, password, role, area){
     }
 }
 
+export async function ValidateOtp(email, otp){
+    if (email_otp[email] && email_otp[email] == otp) {
+        delete email_otp[email];
+        return true;
+    } else {
+        return false;
+    }
+}
 
 class RegistrationError extends Error {
     constructor(message) {

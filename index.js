@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import * as citz from './citizen.js'
 import * as gov from './gov.js'
 import * as auth from './auth.js'
+import {sendOTP} from './crypt.js'
 import { upload } from './FileHandle.js';
 
 dotenv.config();
@@ -46,9 +47,35 @@ app.get('/signup', (req, res) => {//display signup page
   res.json({ status: 'OK' });
 });
 
+app.post('/send-otp', async(req, res) => {//handle otp requests
+  const { email } = req.body;
+  const feedback = await sendOTP(email)
+  if (feedback.success) {
+    console.log(`OTP sent to ${email}`)
+    res.status(201).json({ feedback })
+  }else{
+    console.error(`Failed to send OTP to ${email}`)
+    res.status(500).json({ feedback })
+  }
+});
+
+app.post('/verify-otp', async(req, res) => {//handle otp verification
+  const { email, otp } = req.body;
+  const isValid = await auth.ValidateOtp(email, otp);
+  if (isValid) {
+    res.status(201).json({ success: true, feedback: { message: 'OTP verified successfully' } });
+  } else {
+    res.status(400).json({ success: false, feedback: { message: 'Invalid OTP' } });
+  }
+});
+
 app.post('/signup', (req, res) => {//handle signup requests
   const { username, password } = req.body;
     res.json({ status: 'User registered', username });
+});
+app.get('/default-signup', async(req, res) => {//display default signup page
+  const feedback = await auth.RegisterCitizen('199012345678','abc@cdv.cdf',null,null,'password123')
+  res.status(201).json({ feedback });
 });
 
 app.post('/dashboard', (req, res) => {//null
@@ -119,5 +146,5 @@ app.post('/dashboard/gov/Refresh',(req,res)=>{
 
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
