@@ -244,3 +244,52 @@ footer.site-footer{
 .r-medi{
     background-color: var(--color-medical);
 }
+
+/* toast */
+#toast{
+    position: fixed;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-color-1);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    z-index: 1000;
+}
+#toast.show{
+    opacity: 1;
+    visibility: visible;
+    bottom: 20px;
+}
+.t-warn{
+    color: var(--color-warning);
+}
+.t-success{
+    color: var(--color-go);
+}
+.t-error{
+    color: var(--color-danger);
+}
+#toast-progress{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background-color: var(--primary-color);
+    width: 100%;
+    border-radius: 8px;/* 
+    animation: progressBar 2.5s linear forwards; */
+}
+@keyframes progressBar {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0;
+    }
+}

@@ -1,4 +1,6 @@
-function sendOtp() {
+import {toast} from '../toast.js'
+
+window.sendOtp =function () {
     const email = document.getElementById('email').value;
     if (!email) {
         alert('Please enter your email.');
@@ -19,7 +21,7 @@ function sendOtp() {
     });
 }
 
-function verifyOtp(){
+window.verifyOtp =function (){
     const email = document.getElementById('email').value;
     const otp = document.getElementById('otp').value;
     
@@ -37,8 +39,10 @@ function verifyOtp(){
     .then(response => response.json()).then(data => {   
         if (data.success) {
             alert(data.feedback.message);
+            document.getElementById('isOtpVerified').value = "true";
         } else {
-            alert('Try Again');
+            toast.error(data.feedback.message);
+            document.getElementById('isOtpVerified').value = "false";
         }
     })
     .catch(error => {
@@ -55,6 +59,7 @@ document.getElementById('repassword').addEventListener('change', function() {
         this.classList.add("input-error");
     } else {
         this.setCustomValidity("");
+        this.reportValidity();
         this.classList.remove("input-error");
 }});
 
@@ -68,3 +73,46 @@ document.getElementById('otp').addEventListener('change', function() {
         this.setCustomValidity("");
         this.classList.remove("input-error");
 }});
+
+document.getElementsByTagName('form')[0].addEventListener('submit',async function(event) {
+    event.preventDefault();
+    const isOtpVerified = document.getElementById('isOtpVerified').value;
+    if (isOtpVerified !== "true") {
+        toast.error('Please verify your email with OTP before signing up.');
+    }else{
+        const password = document.getElementById('password').value;
+        const email = document.getElementById('email').value;
+        const nic = document.getElementById('nic').value;
+        const citzRole = document.getElementById('citzRole').value;
+
+        await fetch('/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nic:nic, email:email, password:password, citzRole:citzRole, isOtpVerified:isOtpVerified })
+        })
+        .then(response => response.json()).then(data => {
+            if (data.success && data.code==='SUCCESS') {
+                document.cookie="uid=" + data.uid + "; path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT";
+                console.log(data);
+                toast.success('Signup successful! Redirecting to login page...');
+                setTimeout(()=>{
+                    window.location.href = '/login';    
+                },3100)
+            } else if (!data.success && data.code==='USER_EXISTS') {
+                redirectUrl = '/login?m=ExistingUser';
+                toast.warn('User already exists. Redirecting to login page...');
+                setTimeout(()=>{
+                    window.location.href = redirectUrl;
+                },3100)
+            }else{
+                alert('Signup failed. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+});

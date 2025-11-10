@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
+import jwt from 'jsonwebtoken'
 
 dotenv.config();
 export var email_otp={
@@ -12,11 +13,40 @@ async function generateUserID(role) {
 }
 
 async function hashPassword(pwd) {
-    return crypto.createHash('md5').update(pwd).digest('hex');
+    console.log(crypto.createHash('md5').update(pwd.toString()).digest('hex'));
+    return crypto.createHash('md5').update(pwd.toString()).digest('hex');
+    
+}
+
+async function signToken(data){
+    // Token valid for 1 hour
+    try{
+        return jwt.sign(data, process.env.JWT_SECRET,{ expiresIn: '1h' });
+    }catch(err){
+        console.error('Error signing token:', err);
+        throw err;
+    }
+}
+
+async function verifyToken(req,res,next){
+    const bearerHeader=req.headers['authorization']
+    if(typeof bearerHeader!=='undefined'){
+        const bearer=bearerHeader.split(' ')
+        const bearerToken=bearer[1]
+        jwt.verify(bearerToken,'secretkey',(err,decoded)=>{
+            if(err){
+                res.status(401).json({success:false,message:'Token is not valid'})
+            }
+            req.user=decoded
+        next()
+        })
+    } else{
+        res.status(403).json({success:false,message:'Forbidden'})
+    }
 }
 
 
-
+//OTP functions
 const transport = nodemailer.createTransport({
     service: 'gmail',
     auth:{
@@ -58,4 +88,4 @@ function clearOTP(email){
         console.log(`email OTP cleared ${email}`);
     },1*60*1000)}//TODO:change this to 10 minutes in production
 
-export {generateUserID, hashPassword, sendOTP};
+export {generateUserID, hashPassword, sendOTP,signToken,verifyToken};

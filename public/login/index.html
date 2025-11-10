@@ -16,10 +16,10 @@
         <button type="button" class="btn-disabled" id="citizenTab" onclick="showTab('citizen',this)">Citizens</button>
     </div>
         <div id="contbot" class="rows">
-            <form id="loginForm" action="/auth" method="POST">
+            <form id="loginForm" action="/login" method="POST">
         <div id="governmentFields" class="fields">
         <div class="input-group">
-                <label for="govUsername">Username:</label>
+                <label for="govUsername">Employee ID:</label>
                 <input class="input-field" type="text" id="govUsername" name="username" required>
         </div>
         <div class="input-group">
@@ -38,7 +38,7 @@
         <div id="citizenFields" style="display:none;"  class="fields">
         <div class="input-group">
             <label for="citizenNIC">NIC:</label>
-            <input class="input-field" type="text" id="citizenNIC" name="text" required disabled>
+            <input class="input-field" type="text" id="citizenNIC" name="nic" required disabled>
         </div>
         <div class="input-group">
             <label for="citizenPassword">Password:</label>
