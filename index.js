@@ -243,7 +243,7 @@ app.post('/dashboard/gov/MarkCompleted',(req,res)=>{
   res.status(201).json(JSON.parse(feedback))
 })
 app.post('/dashboard/gov/Refresh',(req,res)=>{
-  const {mid} =req.body
+  const {section} =req.body
   const feedback =gov.RefreshFeed()
   res.status(201).json(JSON.parse(feedback))
 })

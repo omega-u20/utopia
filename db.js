@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { Long, MongoClient, ServerApiVersion } from "mongodb";
 import dotenv from "dotenv";
+import { type } from "os";
 dotenv.config();
 
 const ProjectURI = process.env.PROJECT_URI;
 
-
+//-----------Schema--------------/
 const govSchema = new mongoose.Schema({
     empID: { type: String, required: true, unique: true },
     uid: {type:String, required: true, unique: true},
@@ -26,7 +27,26 @@ const citizenSchema = new mongoose.Schema({
 });
 const Citizen = mongoose.model('Citizen', citizenSchema);
 
+const EmReqSchema = new mongoose.Schema({
+    uid:{type:String,required:true},
+    ReqID:{type:String,required:true,unique:true},
+    ReqType:{type:String,required:true},//values {F || P || M}
+    ReqStatus:{type:String,required:true},//values {New || Dispatched || Completed}
+    ReqLoc:{type:String,required:true}
+})
 
+const EmReq = mongoose.model('EmReq',EmReqSchema)
+
+const CompSchema = new mongoose.Schema({
+    uid:{type:String,required:true},
+    CmID:{type:String,required:true,unique:true},
+    CmTitle:{type:String,reqired:true},
+    CmDis:{type:String,required:true},
+    CmStatus:{type:String,required:true},//values {New || Dispatched || Completed}
+    CmImg:{type:String}
+})
+
+const Comp = mongoose.model('Comp',CompSchema)
 
 /* async function CitzConnect(){
     mongoose.connect(CitzURI,
@@ -176,5 +196,101 @@ async function NewGov(gov, pswd){
             return true;
     }
 }
+
+async function NewComplaint(uid,ComID,ComTitle,ComDis,ComStatus="N",ComImg){
+    await ProjectClient.connect().then(()=>{
+        console.log('Complaint DB connected');
+    }).catch((er)=>{
+        console.log('Complaint Connection Error')
+    })
+
+    try{
+        const Complaint = new Comp({
+            uid:uid,
+            CmID:ComID,
+            CmTitle:ComTitle,
+            CmDis:ComDis,
+            CmImg:ComImg,
+            CmStatus:ComStatus
+        })
+
+        const ResultCom = await ProjectClient.db("Citizen").collection("Cluster0").insertOne(Complaint)
+        if (ResultCom.acknowledged) {
+            console.log('Complaint Inserted');
+            return true
+        } else {
+            console.log('Error Inserting Complaint');
+            return false
+        }
+    }catch (error){
+        console.log('Error saving complaint',error);
+        return false
+    }finally{
+        await ProjectClient.close(()=>{
+            console.log('Compalint DB closed');
+            return true
+        }).catch((err)=>{
+            console.log('Error closing Complaint DB',err)
+        })
+    }
+}
+
+async function GetEmergencies() {
+    await ProjectClient.connect().then(()=>{
+        console.log('Connected for Emergencies');
+    }).catch((er)=>{
+        console.log('Emergency Connect Error',er);
+    })
+
+    try {
+        const EmergencyDB = await ProjectClient.db("Emergency").collection("Cluster0").find({ReqStatus:N||D})
+        if (EmergencyDB.length!=0) {
+            console.log('Emergency loaded')
+            return EmergencyDB
+        } else  {
+            console.log('Emergency DB Empty')
+            return false
+        }
+    } catch (error) {
+        console.log('Error retrieving EmReq0',error);
+        return false
+    }finally{
+        await ProjectClient.close().then(()=>{
+            console.log('Emergencies Closed');
+        }).catch((err)=>{
+            console.log('Emergency close error');
+        })
+    }
+}
+
+async function GetComplaints(){
+    await ProjectClient.connect().then(()=>{
+        console.log('Connected to Complaints');
+    }).catch((er)=>{
+        console.log('Complaints Connect Error',er);
+    })
+
+    try {
+        const ComplaintsDB = await ProjectClient.db("Complaints").collection("Cluster0").find({CmStatus:N||D})
+        if (ComplaintsDB.length!=0) {
+            console.log('Complaints loaded')
+            return ComplaintsDB
+        } else  {
+            console.log('Complaints DB Empty')
+            return false
+        }
+    } catch (error) {
+        console.log('Error retrieving Complaints',error);
+        return false
+    }finally{
+        await ProjectClient.close().then(()=>{
+            console.log('Complaints Closed');
+        }).catch((err)=>{
+            console.log('Complaints close error');
+        })
+    }
+}
+
+
 
 export {GetCitizen,GetGov,NewGov,NewCitizen};
