@@ -34,7 +34,10 @@
                         <div class="image">
                         </div>
                         <div class="action">
-                            <button class="btn btn-warning" onclick="update()">Mark Dispatched</button>
+                            <!--<button class="btn btn-warning" onclick="update()">Mark Dispatched</button>-->
+                            <!-- I am changing onclick="update()" to call our new function "markDispatched(this)".
+                             "this" sends the button itself to the script, so we can find the ID. -->
+                            <button class="btn btn-warning" onclick="markCompleted(this)">Mark Completed</button>
                         </div>
                     </div>
                 </div>
@@ -61,7 +64,8 @@
                         <div class="image">
                         </div>
                         <div class="action">
-                            <button class="btn btn-warning" onclick="update()">Mark Dispatched</button>
+                           <!-- <button class="btn btn-warning" onclick="update()">Mark Dispatched</button> -->
+                           <button class="btn btn-warning" onclick="markCompleted(this)">Mark Completed</button>
                         </div>
                     </div>
                 </div>
