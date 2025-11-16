@@ -14,8 +14,8 @@ class Citizen extends User {
         super(UID, 'citizen');
         this.nic = nic;
         this.email = email;
-        this.phone = phone||'';
-        this.address = address||'';
+        this.phone = phone||'+94xxxxxxxxx';
+        this.address = address||'not provided';
     }   
 }
 
@@ -54,7 +54,7 @@ export async function RegisterCitizen(nic, email, phone, address, password){
         throw new DuplicateUserError("User already exists")
     }else{
         const uid = await generateUserID('cit');
-        const citizen = new Citizen(uid,nic, email, 'Enter your phone number', 'Enter your address')
+        const citizen = new Citizen(uid,nic, email, phone, address);
         try {
             if(await NewCitizen(JSON.stringify(citizen), await hashPassword(password))){
                 console.log('citizen created');

@@ -32,7 +32,8 @@ const EmReqSchema = new mongoose.Schema({
     ReqID:{type:String,required:true,unique:true},
     ReqType:{type:String,required:true},//values {F || P || M}
     ReqStatus:{type:String,required:true},//values {New || Dispatched || Completed}
-    ReqLoc:{type:String,required:true}
+    ReqLoc:{type:String,required:true},
+    ReqTime:{type:Long,required:true}
 })
 
 const EmReq = mongoose.model('EmReq',EmReqSchema)
@@ -43,7 +44,8 @@ const CompSchema = new mongoose.Schema({
     CmTitle:{type:String,reqired:true},
     CmDis:{type:String,required:true},
     CmStatus:{type:String,required:true},//values {New || Dispatched || Completed}
-    CmImg:{type:String}
+    CmImg:{type:String},
+    CmTime:{type:Long,required:true}
 })
 
 const Comp = mongoose.model('Comp',CompSchema)
@@ -197,7 +199,7 @@ async function NewGov(gov, pswd){
     }
 }
 
-async function NewComplaint(uid,ComID,ComTitle,ComDis,ComStatus="N",ComImg){
+async function NewComplaint(cmp){
     await ProjectClient.connect().then(()=>{
         console.log('Complaint DB connected');
     }).catch((er)=>{
@@ -206,15 +208,16 @@ async function NewComplaint(uid,ComID,ComTitle,ComDis,ComStatus="N",ComImg){
 
     try{
         const Complaint = new Comp({
-            uid:uid,
-            CmID:ComID,
-            CmTitle:ComTitle,
-            CmDis:ComDis,
-            CmImg:ComImg,
-            CmStatus:ComStatus
+            uid:cmp.uid,
+            CmID:cmp.mid,
+            CmTitle:cmp.title,
+            CmDis:cmp.discription,
+            CmImg:cmp.image,
+            CmStatus:cmp.status,
+            CmTime:cmp.timestamp
         })
 
-        const ResultCom = await ProjectClient.db("Citizen").collection("Cluster0").insertOne(Complaint)
+        const ResultCom = await ProjectClient.db("Complaints").collection("Cluster0").insertOne(Complaint)
         if (ResultCom.acknowledged) {
             console.log('Complaint Inserted');
             return true
@@ -235,6 +238,43 @@ async function NewComplaint(uid,ComID,ComTitle,ComDis,ComStatus="N",ComImg){
     }
 }
 
+async function NewEmergency(emr){
+    await ProjectClient.connect().then(()=>{
+        console.log('Emergency DB connected');
+    }).catch((er)=>{
+        console.log('Emergency Connection Error')
+    })
+
+    try{
+        const Emergency = new EmReq({
+            uid:emr.uid,
+            ReqID:emr.mid,
+            ReqType:emr.reqType,
+            ReqStatus:emr.status,
+            ReqLoc:emr.location,
+            ReqTime:emr.timestamp
+        })
+        const ResultEmr = await ProjectClient.db("Emergency").collection("Cluster0").insertOne(Emergency)
+        if (ResultEmr.acknowledged) {
+            console.log('Emergency Inserted');
+            return true
+        } else {
+            console.log('Error Inserting Emergency');
+            return false
+        }
+    }catch (error){
+        console.log('Error saving emergency',error);
+        return false
+    }finally{
+        await ProjectClient.close(()=>{
+            console.log('Emergency DB closed');
+            return true
+        }).catch((err)=>{
+            console.log('Error closing Emergency DB',err)
+        })
+    }
+}
+
 async function GetEmergencies() {
     await ProjectClient.connect().then(()=>{
         console.log('Connected for Emergencies');
@@ -243,7 +283,7 @@ async function GetEmergencies() {
     })
 
     try {
-        const EmergencyDB = await ProjectClient.db("Emergency").collection("Cluster0").find({ReqStatus:N||D})
+        const EmergencyDB = ProjectClient.db("Emergency").collection("Cluster0").find({ReqStatus:'N'||'D'})
         if (EmergencyDB.length!=0) {
             console.log('Emergency loaded')
             return EmergencyDB
@@ -271,7 +311,7 @@ async function GetComplaints(){
     })
 
     try {
-        const ComplaintsDB = await ProjectClient.db("Complaints").collection("Cluster0").find({CmStatus:N||D})
+        const ComplaintsDB = ProjectClient.db("Complaints").collection("Cluster0").find({CmStatus:'N'||'D'})
         if (ComplaintsDB.length!=0) {
             console.log('Complaints loaded')
             return ComplaintsDB
@@ -293,4 +333,4 @@ async function GetComplaints(){
 
 
 
-export {GetCitizen,GetGov,NewGov,NewCitizen};
+export {GetCitizen,GetGov,NewGov,NewCitizen,NewComplaint,Ne,GetEmergencies,GetComplaints};

@@ -45,6 +45,11 @@ async function verifyToken(req,res,next){
     }
 }
 
+async function GenerateMID(prefix){
+    const timestamp = Date.now(); // Current timestamp in milliseconds
+    const randomNum = Math.floor(1000 + Math.random() * 9000); // Random 4-digit number
+    return `${prefix}-${timestamp}-${randomNum}`;
+}
 
 //OTP functions
 const transport = nodemailer.createTransport({
@@ -88,4 +93,4 @@ function clearOTP(email){
         console.log(`email OTP cleared ${email}`);
     },1*60*1000)}//TODO:change this to 10 minutes in production
 
-export {generateUserID, hashPassword, sendOTP,signToken,verifyToken};
+export {generateUserID, hashPassword, sendOTP,signToken,verifyToken,GenerateMID};

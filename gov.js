@@ -1,9 +1,3 @@
-/*
-  This is our TEMPORARY "stub" file.
-  'async' and 'return' values so index.js can use it.
-*/
-
-// skeleton but are not used yet
 function GetEmergency() {
     
 }
