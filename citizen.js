@@ -1,38 +1,16 @@
 import {GenerateMID} from './crypt.js';
 import * as db from './db.js';
-class Message{
-    constructor (mid,uid,status='N'||'P'||'C'){
-        this.mid = mid
-        this.uid = uid
-        this.status = status||'N' //N-new,P-processing,C-completed
-        this.timestamp = new Date().getTime()
-    }
-}
+import {Complaint,EmergencyReq} from './classes/message.js';
 
-class Complaint extends Message{
-    constructor(title,discription,image,...args){
-        super(...args)
-        this.title = title
-        this.discription = discription
-        this.image = image
-    }
-}
-
-class EmergencyReq extends Message{
-    constructor(reqType,location,...args){
-        super(...args)
-        this.reqType = reqType
-        this.location = location
-    }
-}
-
-
+// Payment Functions
 function PayUtility(uid,BillType,AccNumber,Amount) {
     return {status:'Success'}
 }
 function PayTax(uid,Tin,Amount) {
     return {status:'Success'}
 }
+
+// Emergency Request Function
 async function ReqEmergency(uid,ReqType,Location) {
     const mid = await GenerateMID('EMR')
     const Emergency = new EmergencyReq(ReqType,Location,mid,uid)
@@ -48,11 +26,12 @@ async function ReqEmergency(uid,ReqType,Location) {
     }
     
 }
-function SendComplaint(uid,Title,Discription,Image) {
-    const mid = GenerateMID('CMP')
-    const Complaint = new Complaint(Title,Discription,Image,mid,uid)
+// Complaint Function
+async function SendComplaint(uid,Title,Discription,Image) {
+    const mid = await GenerateMID('CMP')
+    const Complain = new Complaint(Title,Discription,Image,mid,uid)
     try {
-        if(db.NewComplaint(JSON.stringify(Complaint))){
+        if(db.NewComplaint(JSON.stringify(Complain))){
             return {CmReqID:mid,status:'Success'}
         }else{
             return {status:'Failed'}

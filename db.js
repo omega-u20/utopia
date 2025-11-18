@@ -33,7 +33,7 @@ const EmReqSchema = new mongoose.Schema({
     ReqType:{type:String,required:true},//values {F || P || M}
     ReqStatus:{type:String,required:true},//values {New || Dispatched || Completed}
     ReqLoc:{type:String,required:true},
-    ReqTime:{type:Long,required:true}
+    ReqTime:{type:Number,required:true}
 })
 
 const EmReq = mongoose.model('EmReq',EmReqSchema)
@@ -45,7 +45,7 @@ const CompSchema = new mongoose.Schema({
     CmDis:{type:String,required:true},
     CmStatus:{type:String,required:true},//values {New || Dispatched || Completed}
     CmImg:{type:String},
-    CmTime:{type:Long,required:true}
+    CmTime:{type:Number,required:true}
 })
 
 const Comp = mongoose.model('Comp',CompSchema)
@@ -68,6 +68,7 @@ const ProjectClient = new MongoClient(ProjectURI, {
   }
 });
 
+//--------------------Citizen & Gov DB Functions------------------//
 async function GetCitizen(nic,password){
     await ProjectClient.connect().then(()=>{
         console.log('Connected to MongoDB');
@@ -199,6 +200,7 @@ async function NewGov(gov, pswd){
     }
 }
 
+//--------------------Complaint & Emergency DB Functions------------------//
 async function NewComplaint(cmp){
     await ProjectClient.connect().then(()=>{
         console.log('Complaint DB connected');
@@ -333,4 +335,4 @@ async function GetComplaints(){
 
 
 
-export {GetCitizen,GetGov,NewGov,NewCitizen,NewComplaint,Ne,GetEmergencies,GetComplaints};
+export {GetCitizen,GetGov,NewGov,NewCitizen,NewComplaint,NewEmergency,GetEmergencies,GetComplaints};
