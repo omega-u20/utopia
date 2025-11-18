@@ -127,3 +127,84 @@ document.getElementById('logoutBtn').addEventListener('click', function() {
             alert('Logout failed.');
         }
     })});
+
+    /* ========================================
+   BILL PAYMENT - form index 2
+   ======================================== */
+document.getElementsByTagName('form').item(2).addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const billType = document.querySelector('#billPaymentForm select[name="billType"]').value;
+    const accNo = document.querySelector('#billPaymentForm input[name="accounNo"]').value.trim();
+    const amount = document.querySelector('#billPaymentForm input[name="amount"]').value.trim();
+    const uid = '00000000';
+
+    if (!accNo || !amount || !billType) {
+        alert('Please fill all fields: Bill Type, Account No, and Amount.');
+        return;
+    }
+
+    const payload = { uid, type: billType, AccNo: accNo, amount };
+
+    await fetch('/dashboard/citz/PayUtil', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Network error');
+        return res.json();
+    })
+    .then(data => {
+        if (data.status === 'Success') {
+            alert('Bill Payment Successful!');
+            document.getElementById('billPaymentForm').reset();
+        } else {
+            throw new Error(data.status);
+        }
+    })
+    .catch(err => {
+        console.error('Bill payment error:', err);
+        alert('Bill payment failed. Please try again.');
+    });
+});
+
+/* ========================================
+   TAX PAYMENT - form index 3
+   ======================================== */
+document.getElementsByTagName('form').item(3).addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const tin = document.querySelector('#taxPaymentForm input[name="tin"]').value.trim();
+    const amount = document.querySelector('#taxPaymentForm input[name="amount"]').value.trim();
+    const uid = '00000000';
+
+    if (!tin || !amount) {
+        alert('Please enter TIN and Amount.');
+        return;
+    }
+
+    const payload = { uid, tin, amount };
+
+    await fetch('/dashboard/citz/PayTax', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Network error');
+        return res.json();
+    })
+    .then(feedback => {
+        if (feedback.status === 'Success') {
+            alert('Tax Payment Successful!');
+            document.getElementById('taxPaymentForm').reset();
+        } else {
+            throw new Error(feedback.status);
+        }
+    })
+    .catch(err => {
+        console.error('Tax payment error:', err);
+        alert('Tax payment failed. Please try again.');
+    });
+});
