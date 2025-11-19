@@ -53,11 +53,13 @@ async function GenerateMID(prefix){
 
 //OTP functions
 const transport = nodemailer.createTransport({
-    service: 'gmail',
+    service:'gmail',
     auth:{
-        user:process.env.EMAIL_USER,
-        pass:process.env.EMAIL_PASS
-    }
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    },
+    connectionTimeout: 12000, // Increased connection timeout to 120 seconds
+    socketTimeout: 12000
 })
 
 async function sendOTP(email){
@@ -75,7 +77,7 @@ async function sendOTP(email){
     }).catch((error) => {
         return error;
     });
-        console.log(mailStatus.messageId);        
+        console.log('MAIL ID: ',mailStatus.messageId);        
 
     if (mailStatus.messageId) {
         console.log('Email sent:', mailStatus.response);

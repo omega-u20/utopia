@@ -192,12 +192,12 @@ app.get('/dashboard/citz', verifyToken, (req, res) => {//display citz dashboard
 });
 
 //handle citz dash functions
-app.post('/dashboard/citz/PayTax',(req,res)=>{
+app.post('/dashboard/citz/PayTax',verifyToken,(req,res)=>{
   const {uid,tin,amount}= req.body
   const feedback = citz.PayTax(uid,tin,amount)
   res.status(201).json(feedback)
 })
-app.post('/dashboard/citz/PayUtil',(req,res)=>{
+app.post('/dashboard/citz/PayUtil',verifyToken,(req,res)=>{
   const {uid,AccNo,type,amount}=req.body
   const feedback =citz.PayUtility(uid,type,AccNo,amount)
   res.status(201).json(feedback)
