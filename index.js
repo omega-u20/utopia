@@ -19,8 +19,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
-//const port = process.env.PORT || 3000;
-const port = process.env.PORT || 8080; //For Test 
+const port = process.env.PORT || 3000; 
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -185,9 +186,7 @@ app.get('/dashboard/citz', verifyToken, (req, res) => {//display citz dashboard
   if (req.user) {
     res.json({ status: 'Dashboard data', uid: req.user });
   } else {
-    // res.status(401).json({ error: 'Unauthorized' }).redirect('/login');
-    // I am fixing the ".json().redirect()" bug. A server can only send one response.
-    // This is the fix. Just redirect.
+    // --- Fixed redirect logic ---
     res.status(401).redirect('/login');
   }
 });
@@ -231,70 +230,45 @@ app.get('/dashboard/gov',verifyToken, (req, res) => {//display gov dashboard
   if (req.user) {
     res.json({ status: 'Dashboard data', uid: req.user });
   } else {
-    //res.status(401).json({ error: 'Unauthorized' }).redirect('/login');
-    //I am fixing the same ".json().redirect()" bug here.
+    // --- Fixed redirect logic ---
     res.status(401).redirect('/login');
   }
 });
 
-//handle gov dash functions
-/*app.post('/dashboard/gov/MarkDispatched',(req,res)=>{
-  const {mid} =req.body
-  const feedback =gov.MarkDispatched(mid)
-  res.status(201).json(JSON.parse(feedback))
-})
-*/
-
-// This is my new, fixed code:
-app.post('/dashboard/gov/MarkDispatched', async (req, res) => { // <-- I added 'async'
+// --- Fixed Gov Routes (async/await/try-catch) ---
+app.post('/dashboard/gov/MarkDispatched', async (req, res) => { 
   try {
     const { mid } = req.body;
-    const feedback = await gov.MarkDispatched(mid); // <-- I added 'await'
+    const feedback = await gov.MarkDispatched(mid); 
     res.status(201).json(JSON.parse(feedback));
   } catch (error) {
-    console.error(error); // <-- I added console.error to see bugs
+    console.error(error); 
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 
-/*app.post('/dashboard/gov/MarkCompleted',(req,res)=>{
-  const {mid} =req.body
-  const feedback =gov.MarkCompleted(mid)
-  res.status(201).json(JSON.parse(feedback))
-})*/
-
-// This is my new, fixed code:
-app.post('/dashboard/gov/MarkCompleted', async (req, res) => { // <-- I added 'async'
+app.post('/dashboard/gov/MarkCompleted', async (req, res) => { 
   try {
     const { mid } = req.body;
-    const feedback = await gov.MarkCompleted(mid); // <-- I added 'await'
+    const feedback = await gov.MarkCompleted(mid); 
     res.status(201).json(JSON.parse(feedback));
   } catch (error) {
-    console.error(error); // <-- I added console.error
+    console.error(error); 
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 
-/*app.post('/dashboard/gov/Refresh',(req,res)=>{
-  const {mid} =req.body
-})
-app.post('/dashboard/gov/Refresh',(req,res)=>{
-  const {section} =req.body
-  const feedback =gov.RefreshFeed()
-  res.status(201).json(JSON.parse(feedback))
-})*/
-
-// This is my new, fixed code:
-app.post('/dashboard/gov/Refresh', async (req, res) => { // <-- I added 'async'
+app.post('/dashboard/gov/Refresh', async (req, res) => { 
   try {
     const { mid } = req.body;
-    const feedback = await gov.RefreshFeed(); // <-- I added 'await'
+    const feedback = await gov.RefreshFeed(); 
     res.status(201).json(JSON.parse(feedback));
   } catch (error) {
-    console.error(error); // <-- I added console.error
+    console.error(error); 
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });

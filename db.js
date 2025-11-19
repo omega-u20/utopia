@@ -33,7 +33,8 @@ const EmReqSchema = new mongoose.Schema({
     ReqType:{type:String,required:true},//values {F || P || M}
     ReqStatus:{type:String,required:true},//values {New || Dispatched || Completed}
     ReqLoc:{type:String,required:true},
-    ReqTime:{type:Long,required:true}
+    //Changed 'Long' to 'Date' to fix crash ---
+    ReqTime:{type:Date,required:true} 
 })
 
 const EmReq = mongoose.model('EmReq',EmReqSchema)
@@ -45,20 +46,11 @@ const CompSchema = new mongoose.Schema({
     CmDis:{type:String,required:true},
     CmStatus:{type:String,required:true},//values {New || Dispatched || Completed}
     CmImg:{type:String},
-    CmTime:{type:Long,required:true}
+    //  Changed 'Long' to 'Date' to fix crash ---
+    CmTime:{type:Date,required:true}
 })
 
 const Comp = mongoose.model('Comp',CompSchema)
-
-/* async function CitzConnect(){
-    mongoose.connect(CitzURI,
-     { 
-        useNewUrlParser: true, 
-        useUnifiedTopology: true 
-    })
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
-} */
 
 const ProjectClient = new MongoClient(ProjectURI, {
   serverApi: {
@@ -67,6 +59,9 @@ const ProjectClient = new MongoClient(ProjectURI, {
     deprecationErrors: true,
   }
 });
+
+//--------------------Citizen & Gov DB Functions------------------//
+
 
 async function GetCitizen(nic,password){
     await ProjectClient.connect().then(()=>{
@@ -199,6 +194,7 @@ async function NewGov(gov, pswd){
     }
 }
 
+//--------------------Complaint & Emergency DB Functions------------------//
 async function NewComplaint(cmp){
     await ProjectClient.connect().then(()=>{
         console.log('Complaint DB connected');
@@ -332,5 +328,67 @@ async function GetComplaints(){
 }
 
 
+// These are the "buttons" my gov.js file needs to work.
 
-export {GetCitizen,GetGov,NewGov,NewCitizen,NewComplaint,Ne,GetEmergencies,GetComplaints};
+async function UpdateEmergencyStatus(id, newStatus) {
+  await ProjectClient.connect().catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+  });
+  
+  try {
+    // This finds the emergency by its 'ReqID' and updates its 'ReqStatus'
+    const result = await ProjectClient.db("Emergency").collection("Cluster0").updateOne(
+      { ReqID: id },
+      { $set: { ReqStatus: newStatus } }
+    );
+    
+    if (result.matchedCount === 0) {
+      console.log('UpdateEmergencyStatus: No emergency found with that ID');
+      return false;
+    }
+    console.log('UpdateEmergencyStatus: Success!');
+    return true;
+
+  } catch (error) {
+    console.error("Error updating emergency:", error);
+    return false;
+  } finally {
+    await ProjectClient.close();
+  }
+}
+
+async function UpdateComplaintStatus(id, newStatus) {
+  await ProjectClient.connect().catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+  });
+  
+  try {
+    // This finds the complaint by its 'CmID' and updates its 'CmStatus'
+    const result = await ProjectClient.db("Complaints").collection("Cluster0").updateOne(
+      { CmID: id },
+      { $set: { CmStatus: newStatus } }
+    );
+
+    if (result.matchedCount === 0) {
+      console.log('UpdateComplaintStatus: No complaint found with that ID');
+      return false;
+    }
+    console.log('UpdateComplaintStatus: Success!');
+    return true;
+    
+  } catch (error) {
+    console.error("Error updating complaint:", error);
+    return false;
+  } finally {
+    await ProjectClient.close();
+  }
+}
+
+
+// I fixed the typo (Ne -> NewEmergency) and added our new Update functions
+export {
+    GetCitizen, GetGov, NewGov, NewCitizen, 
+    NewComplaint, NewEmergency, 
+    GetEmergencies, GetComplaints,
+    UpdateEmergencyStatus, UpdateComplaintStatus 
+};

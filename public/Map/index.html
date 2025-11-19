@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Map</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background-color: #f4f4f4; }
+        
+        /* The map container */
+        #map { 
+            height: 100vh; 
+            width: 100%; 
+            background: #ffffff; /* Color behind the map image */
+        }
+        
+        /* Stylish info box */
+        #info-box {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            width: 250px;
+        }
+        
+        h3 { margin-top: 0; color: #2c3e50; }
+        
+        /* Custom marker styles (optional) */
+        .custom-icon {
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+    
+    <div id="info-box">
+        <h3>Campus Navigator</h3>
+        <p>Click on locations to see details.</p>
+        <hr>
+        <p><strong>Active Unit:</strong> <span id="unit-name">Patrol Alpha</span></p>
+        <p><strong>Location:</strong> <span id="unit-loc" style="color:blue">Locating...</span></p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <script>
+        // --- 1. CONFIGURATION ---
+        // The size of your image in pixels (I estimated from your upload)
+        // You can check the real size by right-clicking the image file -> Properties
+        var imgWidth = 1080;  
+        var imgHeight = 720;
+        var imageUrl = 'campus-map.png'; // Make sure this file exists!
+
+        // --- 2. SETUP THE MAP ---
+        var map = L.map('map', {
+            minZoom: 0,
+            maxZoom: 4,
+            center: [0, 0], // Center of the coordinate system
+            zoom: 1,
+            crs: L.CRS.Simple // "Simple" Coordinate Reference System (for flat images)
+        });
+
+        // Calculate the edges of the image so Leaflet knows where to put it
+        var southWest = map.unproject([0, imgHeight], map.getMaxZoom()-1);
+        var northEast = map.unproject([imgWidth, 0], map.getMaxZoom()-1);
+        var bounds = new L.LatLngBounds(southWest, northEast);
+
+        // Add the image overlay
+        L.imageOverlay(imageUrl, bounds).addTo(map);
+
+        // Restrict the view so the user can't drag far away from the map
+        map.setMaxBounds(bounds);
+        map.fitBounds(bounds);
+
+        // --- 3. ADD LOCATIONS (POIs) ---
+        // I estimated these coordinates based on your image. 
+        // You can find exact ones by clicking the map (see helper tool below).
+        
+        var locations = [
+            { name: "SLTC Research University", coords: [-450, 650] },
+            { name: "Amphitheatre", coords: [-350, 550] },
+            { name: "Faculty of Technology", coords: [-250, 450] },
+            { name: "SLTC Hub", coords: [-320, 200] },
+            { name: "Dept of Agriculture", coords: [-550, 250] }
+        ];
+
+        // Loop through and add markers
+        locations.forEach(loc => {
+            L.marker(map.unproject(loc.coords, map.getMaxZoom()-1))
+             .addTo(map)
+             .bindPopup(`<b>${loc.name}</b>`);
+        });
+
+        // --- 4. HELPER TOOL (Find Coordinates) ---
+        // Click anywhere on the map, and the console (F12) will tell you the [y, x]
+        // Use this to fix the locations above!
+        map.on('click', function(e){
+            var point = map.project(e.latlng, map.getMaxZoom()-1);
+            console.log("Coordinates: [" + Math.round(point.y) + ", " + Math.round(point.x) + "]");
+        });
+
+        // --- 5. SIMULATE MOVING PERSON ---
+        // Let's start near the "SLTC Hub" and move towards the University
+        var patrolMarker = L.circleMarker(map.unproject([320, 200], map.getMaxZoom()-1), {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.8,
+            radius: 8
+        }).addTo(map);
+        
+        patrolMarker.bindPopup("<b>Patrol Alpha</b><br>Status: Moving");
+
+        var currentY = 320;
+        var currentX = 200;
+
+        setInterval(() => {
+            // Move diagonally down-right
+            currentY += 1; 
+            currentX += 2;
+
+            // Convert pixels to map coordinates
+            var newLatLng = map.unproject([currentY, currentX], map.getMaxZoom()-1);
+            
+            patrolMarker.setLatLng(newLatLng);
+            
+            // Update the info box
+            document.getElementById('unit-loc').innerText = `Near Admin Block`; // You can make this dynamic later
+        }, 100);
+
+    </script>
+</body>
+</html>

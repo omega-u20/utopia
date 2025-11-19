@@ -13,6 +13,7 @@
         <h1>Government Dashboard</h1>
     </div>
     <div id="bottom">
+        <!-- SECTION 1: NEW REPORTS -->
         <div id="new-reports" class="reports-section">
             <div class="section-header">
                 <h2>New Reports</h2>
@@ -22,11 +23,11 @@
                 <div class="report-card card-fire" id="12345">
                     <div class="report-container">
                         <div class="header">
-                                <h2>Report Summary</h2>
-                                <div class="r-date">2024-06-15</div>
-                                <div class="r-id">#12345</div>
-                                <div class="tag r-fire tag-type"><i class="bi bi-fire"></i>Fire</div>
-                                <div class="tag r-s r-s-o"></div>
+                            <h2>Report Summary</h2>
+                            <div class="r-date">2024-06-15</div>
+                            <div class="r-id">#12345</div>
+                            <div class="tag r-fire tag-type"><i class="bi bi-fire"></i>Fire</div>
+                            <div class="tag r-s r-s-o"></div>
                         </div>
                         <div class="discription">
                             <p>This is a summary of the report content. It gives a brief overview of the issue.</p>
@@ -34,29 +35,29 @@
                         <div class="image">
                         </div>
                         <div class="action">
-                            <!--<button class="btn btn-warning" onclick="update()">Mark Dispatched</button>-->
-                            <!-- I am changing onclick="update()" to call our new function "markDispatched(this)".
-                             "this" sends the button itself to the script, so we can find the ID. -->
-                            <button class="btn btn-warning" onclick="markCompleted(this)">Mark Completed</button>
+                            <!-- The "New" button calls markDispatched -->
+                            <button class="btn btn-warning" onclick="markDispatched(this)">Mark Dispatched</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- SECTION 2: PENDING REPORTS -->
         <div id="pending-r" class="reports-section">
             <div class="section-header">
                 <h2>Pending Reports</h2>
                 <i class="bi bi-funnel"></i>
             </div>
             <div class="reports-cont">
-                <div class="report-card card-fire" id="12345">
+                <div class="report-card card-fire" id="67890">
                     <div class="report-container">
                         <div class="header">
-                                <h2>Report Summary</h2>
-                                <div class="r-date">2024-06-15</div>
-                                <div class="r-id">#12345</div>
-                                <div class="tag r-fire tag-type"><i class="bi bi-fire"></i>Fire</div>
-                                <div class="tag r-s r-s-o"></div>
+                            <h2>Report Summary</h2>
+                            <div class="r-date">2024-06-15</div>
+                            <div class="r-id">#67890</div>
+                            <div class="tag r-fire tag-type"><i class="bi bi-fire"></i>Fire</div>
+                            <div class="tag r-s r-s-o"></div>
                         </div>
                         <div class="discription">
                             <p>This is a summary of the report content. It gives a brief overview of the issue.</p>
@@ -64,13 +65,15 @@
                         <div class="image">
                         </div>
                         <div class="action">
-                           <!-- <button class="btn btn-warning" onclick="update()">Mark Dispatched</button> -->
+                           <!-- HUMZIE'S FIX 2: The "Pending" button calls markCompleted -->
                            <button class="btn btn-warning" onclick="markCompleted(this)">Mark Completed</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- SECTION 3: RESOLVED REPORTS (This was causing your error!) -->
         <div id="resolved-r" class="reports-section">
             <div class="section-header">
                 <h2>Resolved</h2>
@@ -80,11 +83,11 @@
                 <div class="report-card card-fire" id="12345">
                     <div class="report-container">
                         <div class="header">
-                                <h2>Report Summary</h2>
-                                <div class="r-date">2024-06-15</div>
-                                <div class="r-id">#12345</div>
-                                <div class="tag r-fire tag-type"><i class="bi bi-fire"></i>Fire</div>
-                                <div class="tag r-s r-s-o"></div>
+                            <h2>Report Summary</h2>
+                            <div class="r-date">2024-06-15</div>
+                            <div class="r-id">#12345</div>
+                            <div class="tag r-fire tag-type"><i class="bi bi-fire"></i>Fire</div>
+                            <div class="tag r-s r-s-o"></div>
                         </div>
                         <div class="discription">
                             <p>This is a summary of the report content. It gives a brief overview of the issue.</p>
@@ -92,7 +95,10 @@
                         <div class="image">
                         </div>
                         <div class="action">
-                            <button class="btn btn-warning" onclick="update()">Mark Dispatched</button>
+                            <!--I removed onclick="update()" because it crashes.
+                                 I added 'disabled' so the button is grayed out.
+                                 This is correct because a resolved item is already done. -->
+                            <button class="btn btn-warning" disabled>Mark Dispatched</button>
                         </div>
                     </div>
                 </div>
@@ -100,5 +106,6 @@
         </div>
     </div>
 </body>
+<!-- Connects to your script.js file -->
 <script src="script.js"></script>
 </html>
