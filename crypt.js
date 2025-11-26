@@ -45,14 +45,21 @@ async function verifyToken(req,res,next){
     }
 }
 
+async function GenerateMID(prefix){
+    const timestamp = Date.now(); // Current timestamp in milliseconds
+    const randomNum = Math.floor(1000 + Math.random() * 9000); // Random 4-digit number
+    return `${prefix}-${timestamp}-${randomNum}`;
+}
 
 //OTP functions
 const transport = nodemailer.createTransport({
-    service: 'gmail',
+    service:'gmail',
     auth:{
-        user:process.env.EMAIL_USER,
-        pass:process.env.EMAIL_PASS
-    }
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    },
+    connectionTimeout: 12000, // Increased connection timeout to 120 seconds
+    socketTimeout: 12000
 })
 
 async function sendOTP(email){
@@ -70,7 +77,7 @@ async function sendOTP(email){
     }).catch((error) => {
         return error;
     });
-        console.log(mailStatus.messageId);        
+        console.log('MAIL ID: ',mailStatus.messageId);        
 
     if (mailStatus.messageId) {
         console.log('Email sent:', mailStatus.response);
@@ -88,4 +95,4 @@ function clearOTP(email){
         console.log(`email OTP cleared ${email}`);
     },1*60*1000)}//TODO:change this to 10 minutes in production
 
-export {generateUserID, hashPassword, sendOTP,signToken,verifyToken};
+export {generateUserID, hashPassword, sendOTP,signToken,verifyToken,GenerateMID};

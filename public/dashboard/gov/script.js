@@ -1,5 +1,8 @@
+/*
+  It handles the "Mark Dispatched" and "Mark Completed" buttons.
+*/
 
-// This function is called by "Mark Dispatched"
+// Function for "Mark Dispatched" button
 async function markDispatched(buttonElement) {
   
   // 1. Find the parent .report-card to get its ID
@@ -38,7 +41,7 @@ async function markDispatched(buttonElement) {
   }
 }
 
-// This function is called by "Mark Completed"
+// Function for "Mark Completed" button
 async function markCompleted(buttonElement) {
   
   // 1. Find the parent .report-card to get its ID

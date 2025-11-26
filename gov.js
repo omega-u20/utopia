@@ -1,9 +1,17 @@
 /*
-  This is our TEMPORARY "stub" file.
-  'async' and 'return' values so index.js can use it.
+  This is the FINAL, REAL gov.js file.
+  It connects to the database using the functions exported from db.js.
 */
 
-// skeleton but are not used yet
+// We import the specific update functions we created in db.js
+import { 
+  UpdateEmergencyStatus, 
+  UpdateComplaintStatus, 
+  GetEmergencies, 
+  GetComplaints 
+} from './db.js';
+
+// These helper functions are available if needed later
 function GetEmergency() {
     
 }
@@ -11,102 +19,40 @@ function GetComplaints() {
     
 }
 
-// This is our temporary "pretend" function
-async function RefreshFeed() {
-  // This log will appear in your VS Code Terminal
-  console.log(`LOGIC: (Temporary) RefreshFeed`);
-  
-  // We MUST return a JSON *string* because index.js uses JSON.parse()
-  return JSON.stringify({
-    success: true,
-    message: "(TEST) Feed refreshed"
-  });
-}
-
-// This is our temporary "pretend" function
-async function MarkDispatched(mid) {
-  // This log will appear in your VS Code Terminal
-  console.log(`LOGIC: (Temporary) MarkDispatched for ${mid}`);
-  
-  // We MUST return a JSON *string* because index.js uses JSON.parse()
-  return JSON.stringify({
-    success: true,
-    message: `(TEST) Report ${mid} marked as dispatched.`
-  });
-}
-
-// This is our temporary "pretend" function
-async function MarkCompleted(mid) {
-  // This log will appear in your VS Code Terminal
-  console.log(`LOGIC: (Temporary) MarkCompleted for ${mid}`);
-
-  // We MUST return a JSON *string*
-  return JSON.stringify({
-    success: true,
-    message: `(TEST) Report ${mid} marked as completed.`
-  });
-}
-
-// This export list matches your friend's file
-export {RefreshFeed,MarkCompleted,MarkDispatched}
-
-
-
-
-/*
-  This is the FINAL.
-  It will NOT work until fixes db.js.
-  server will crash with the 'import' error.
-
-
-// This is the line that will crash until db.js is fixed
-import { Complaint, Emergency } from './db.js';
-
-// These functions are not used yet
-function GetEmergency() {
-    
-}
-function GetComplaints() {
-    
-}
-
-// This is the "real" database function
+// Function to refresh the feed (currently a placeholder)
 async function RefreshFeed() {
   console.log(`LOGIC: RefreshFeed`);
-  // (We would add real database logic here)
+  
   return JSON.stringify({
     success: true,
     message: "Feed refreshed (not implemented yet)"
   });
 }
 
-// This is the "real" database function
+// Function to Mark a Report as DISPATCHED
 async function MarkDispatched(mid) {
   console.log(`LOGIC: MarkDispatched for ${mid}`);
   
   try {
-    // This is the REAL database logic
-    const updatedDoc = await Emergency.findByIdAndUpdate(
-      mid,
-      { status: 'dispatched' }, // Set the new status
-      { new: true }
-    );
-    // (We should also check for Complaints here)
+    // We don't know if 'mid' is a Complaint or an Emergency, so we try to update BOTH.
+    // Ideally, we would know the type, but this ensures it works for either.
+    
+    const emergencyResult = await UpdateEmergencyStatus(mid, 'Dispatched');
+    const complaintResult = await UpdateComplaintStatus(mid, 'Dispatched');
 
-    if (!updatedDoc) {
+    // If neither update worked, the ID doesn't exist
+    if (!emergencyResult && !complaintResult) {
       throw new Error('Document not found');
     }
 
-    // SUCCESS!
-    // We MUST return a JSON *string*
+    // SUCCESS! Return JSON string
     return JSON.stringify({
       success: true,
       message: `Report ${mid} marked as dispatched.`
     });
 
   } catch (error) {
-    // ERROR!
-    // We MUST still return a JSON *string*
+    // ERROR! Return JSON string
     return JSON.stringify({
       success: false,
       message: error.message
@@ -114,25 +60,20 @@ async function MarkDispatched(mid) {
   }
 }
 
-// This is the "real" database function
+// Function to Mark a Report as COMPLETED
 async function MarkCompleted(mid) {
   console.log(`LOGIC: MarkCompleted for ${mid}`);
   
   try {
-    // This is the REAL database logic
-    const updatedDoc = await Emergency.findByIdAndUpdate(
-      mid,
-      { status: 'completed' }, // Set the new status
-      { new: true }
-    );
-    // (We should also check for Complaints here)
-     
-    if (!updatedDoc) {
+    // Try to update both types
+    const emergencyResult = await UpdateEmergencyStatus(mid, 'Completed');
+    const complaintResult = await UpdateComplaintStatus(mid, 'Completed');
+
+    if (!emergencyResult && !complaintResult) {
       throw new Error('Document not found');
     }
 
     // SUCCESS!
-    // We MUST return a JSON *string*
     return JSON.stringify({
       success: true,
       message: `Report ${mid} marked as completed.`
@@ -140,7 +81,6 @@ async function MarkCompleted(mid) {
 
   } catch (error) {
     // ERROR!
-    // We MUST still return a JSON *string*
     return JSON.stringify({
       success: false,
       message: error.message
@@ -148,5 +88,5 @@ async function MarkCompleted(mid) {
   }
 }
 
-// This export list matches your friend's file
-export {RefreshFeed,MarkCompleted,MarkDispatched}*/
+// Export the functions so index.js can use them
+export {RefreshFeed, MarkCompleted, MarkDispatched};

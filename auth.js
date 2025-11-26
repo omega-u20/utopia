@@ -1,33 +1,7 @@
 import {GetCitizen,GetGov,NewCitizen,NewGov} from './db.js';
 import {generateUserID,hashPassword} from './crypt.js';
 import { email_otp } from './crypt.js';
-
-class User {
-    constructor(uid, role) {
-        this.uid = uid;
-        //this.role = role; // 'citizen' or 'gov'
-    }
-} 
-
-class Citizen extends User {
-    constructor(UID,nic, email, phone, address) {
-        super(UID, 'citizen');
-        this.nic = nic;
-        this.email = email;
-        this.phone = phone||'';
-        this.address = address||'';
-    }   
-}
-
-class Gov extends User {
-    constructor(UID,empID, role, area, authLevel) {
-        super(UID, 'gov');
-        this.empID = empID;
-        this.govArea = area;
-        this.authLevel = authLevel||0; // e.g., 0,1
-        this.govRole = role; // e.g., 'firefighter', 'police', 'healthworker', 'admin'
-    }   
-}
+import {Citizen,Gov} from './classes/user.js';
 
 export async function AuthCitizen(nic, password){
     const user=await GetCitizen(nic, await hashPassword(password))
@@ -54,7 +28,7 @@ export async function RegisterCitizen(nic, email, phone, address, password){
         throw new DuplicateUserError("User already exists")
     }else{
         const uid = await generateUserID('cit');
-        const citizen = new Citizen(uid,nic, email, 'Enter your phone number', 'Enter your address')
+        const citizen = new Citizen(uid,nic, email, phone, address);
         try {
             if(await NewCitizen(JSON.stringify(citizen), await hashPassword(password))){
                 console.log('citizen created');
