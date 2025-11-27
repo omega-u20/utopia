@@ -1,6 +1,8 @@
 import {toast} from '../toast.js'
 
-window.sendOtp =function () {
+window.sendOtp =function (btn) {
+    btn.disabled = true;
+    btn.classList.add('btn-dissabled')
     const email = document.getElementById('email').value;
     if (!email) {
         alert('Please enter your email.');
@@ -18,15 +20,20 @@ window.sendOtp =function () {
     })
     .catch(error => {
         console.error('Error:', error);
-    });
+        btn.disabled = false;
+        btn.classList.remove('btn-dissabled')
+    })
 }
 
-window.verifyOtp =function (){
+window.verifyOtp =function (btn){
+    btn.disabled = true;
+    btn.classList.add('btn-dissabled')
     const email = document.getElementById('email').value;
     const otp = document.getElementById('otp').value;
     
     if (!email || !otp) {
         alert('Please enter both email and OTP.');
+        btn.classList.remove('btn-dissabled')
         return;
     }
     fetch('/verify-otp', {
@@ -43,10 +50,14 @@ window.verifyOtp =function (){
         } else {
             toast.error(data.feedback.message);
             document.getElementById('isOtpVerified').value = "false";
+            btn.disabled = false;
+            btn.classList.remove('btn-dissabled')
         }
     })
     .catch(error => {
         console.error('Error:', error);
+        btn.disabled = false;
+        btn.classList.remove('btn-dissabled')
     });
 }
 
@@ -76,6 +87,9 @@ document.getElementById('otp').addEventListener('change', function() {
 
 document.getElementsByTagName('form')[0].addEventListener('submit',async function(event) {
     event.preventDefault();
+    document.getElementById('btn-submit').setAttribute('disabled','true');
+    btn.classList.add('btn-dissabled')
+    let redirectUrl = '/login';
     const isOtpVerified = document.getElementById('isOtpVerified').value;
     if (isOtpVerified !== "true") {
         toast.error('Please verify your email with OTP before signing up.');
@@ -98,20 +112,24 @@ document.getElementsByTagName('form')[0].addEventListener('submit',async functio
                 console.log(data);
                 toast.success('Signup successful! Redirecting to login page...');
                 setTimeout(()=>{
-                    window.location.href = '/login';    
+                    window.location.href = redirectUrl;    
                 },3100)
             } else if (!data.success && data.code==='USER_EXISTS') {
-                redirectUrl = '/login?m=ExistingUser';
+                redirectUrl = redirectUrl+'?m=ExistingUser';
                 toast.warn('User already exists. Redirecting to login page...');
                 setTimeout(()=>{
                     window.location.href = redirectUrl;
                 },3100)
             }else{
                 alert('Signup failed. Please try again.');
+                document.getElementById('btn-submit').setAttribute('disabled','false');
+                btn.classList.remove('btn-dissabled')
             }
         })
         .catch(error => {
             console.error('Error:', error);
+            document.getElementById('btn-submit').setAttribute('disabled','false');
+            btn.classList.remove('btn-dissabled')
         });
     }
 

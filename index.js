@@ -69,7 +69,7 @@ app.post('/login', async (req, res) => {//handle login requests
     
     const user=await auth.AuthCitizen(nic, password)
     if (user) {
-      const token = await signToken(JSON.parse({'uid':user.uid,'nic':user.nic}))
+      const token = await signToken({'uid':user.uid,'nic':user.nic})
       res.json(JSON.parse({ 'success': true, 'user':{
         'uid':user.uid,
         'nic':user.nic,
@@ -86,7 +86,7 @@ app.post('/login', async (req, res) => {//handle login requests
     const{username,password,govRole}=req.body
     const G_user=await auth.AuthGov(username,password,govRole)
     if (G_user) {
-      const token = await signToken(JSON.parse({'uid':G_user.uid,'empID':G_user.empID}))
+      const token = await signToken({'uid':G_user.uid,'empID':G_user.empID})
       res.status(201).json(JSON.parse({ 'success':true, 'user':{
         'uid':G_user.uid,
         'empID':G_user.empID,

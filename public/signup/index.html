@@ -22,12 +22,12 @@
     <div class="input-group">
         <label for="email">Email:</label>
         <input class="input-field" type="email" id="email" name="email" placeholder="Enter Your E-mail Address" required>
-        <button class="btn btn-sub" type="button" onclick="sendOtp()">Get OTP</button>
+        <button class="btn btn-sub" type="button" onclick="sendOtp(this)">Get OTP</button>
     </div>
     <div class="input-group">
         <label for="otp">OTP:</label>
         <input class="input-field" type="text" id="otp" name="otp" placeholder="Check Your E-mails" required>
-        <button class="btn btn-sub" type="button" onclick="verifyOtp()">Verify OTP</button>
+        <button class="btn btn-sub" type="button" onclick="verifyOtp(this)">Verify OTP</button>
     </div>
     <div class="input-group">
         <label for="password">Password:</label>
@@ -49,7 +49,7 @@
                 </select>
         </div>
         <input type="hidden" id="isOtpVerified" name="isOtpVerified" value="false">
-        <input class="btn" type="submit" value="Sign Up">
+        <input class="btn" id="btn-submit" type="submit" value="Sign Up">
     </form>
     </div>
     <script src="../toast.js" type="module"></script>
