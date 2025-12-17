@@ -1,81 +1,92 @@
-/*
-  It handles the "Mark Dispatched" and "Mark Completed" buttons.
-*/
+import {toast,AttachToast} from '../toast.js'
 
-// Function for "Mark Dispatched" button
-async function markDispatched(buttonElement) {
-  
-  // 1. Find the parent .report-card to get its ID
-  const reportCard = buttonElement.closest('.report-card');
-  const messageId = reportCard.id;
-  
-  // 2. Log to the F12 browser console so we can see it work
-  console.log(`Sending MarkDispatched for ID: ${messageId}`);
+AttachToast()
 
-  try {
-    // 3. This is the API Request to the "road" in index.js
-    const response = await fetch('/dashboard/gov/MarkDispatched', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // 4. Send the ID in the body as "mid" (this is what index.js expects)
-      body: JSON.stringify({ mid: messageId }) 
-    });
+document.getElementById('loginForm').addEventListener('submit',async (ev)=>{
+    ev.preventDefault()
 
-    // 5. Wait for the server's JSON response
-    const result = await response.json();
+    const role =document.getElementById('role').value;
 
-    if (result.success) {
-      // It worked! Log the success message from the server
-      console.log('Success:', result.message);
-      // Make the card fade out a little so we know it's done
-      reportCard.style.opacity = '0.5'; 
-    } else {
-      // It failed! Log the server error message
-      console.error('Server Error:', result.message);
+    if (role === 'gov') {
+        const username = document.getElementById('govUsername').value
+        const password = document.getElementById('govPassword').value
+        const govRole = document.getElementById('govRole').value
+        
+        if (!username || !password || !govRole) {
+            toast.error('Please fill out all fields')
+        }
+
+        await fetch('/login',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ role:role,username:username,password:password,govRole:govRole })
+        }).then(res=>res.json()).then((data)=>{
+            console.log(data);
+            if (data.success) {
+                document.cookie="session=" + data.session + "; path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT";
+                toast.success('Login Success! Redirecting!')
+                setTimeout(()=>{
+                    window.location.href='/dashboard/gov/'
+                },3100)
+            }else{
+                if(data.code==='GOV_404'){
+                    toast.error(data.message)
+                    setTimeout(() => {
+                        window.location.href = '/help?q='+data.code;
+                    }, 3100);
+                }
+                if(data.code==='GOV_400'){
+                    toast.error(data.message)
+                    setTimeout(() => {
+                        window.location.href = '/help?q='+data.code;
+                    }, 3100);
+                }
+                if(data.code==='GOV_500'){
+                    toast.error(data.message+' Try Again Later!')
+                }
+            }
+        })
+    } else if(role === 'citz'){
+        const nic = document.getElementById("citizenNIC").value;
+        const password = document.getElementById("citizenPassword").value;
+
+        if (!nic || !password) {
+            toast.error('Please fill out all fields')
+        }
+
+        await fetch('/login',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ role:role,nic:nic,password:password })
+        }).then(res=>res.json()).then((data)=>{
+            console.log(data);
+            if (data.success) {
+                document.cookie="session=" + data.session + "; path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT";
+                toast.success('Login Success! Redirecting!')
+                setTimeout(()=>{
+                    window.location.href=`/dashboard/citz/`
+                },3100)
+            }else{
+                if(data.code==='USER_404'){
+                    toast.error(data.message)
+                    setTimeout(() => {
+                        window.location.href = '/help?q='+data.code;
+                    }, 3100);
+                }
+                if(data.code==='USER_400'){
+                    toast.error(data.message)
+                    setTimeout(() => {
+                        window.location.href = '/help?q='+data.code;
+                    }, 3100);
+                }
+                if(data.code==='USER_500'){
+                    toast.error(data.message+' Try Again Later!')
+                }
+            }
+        })
     }
-  } catch (error) {
-    // This catches network errors or if the server crashes
-    console.error('Fetch Error:', error);
-  }
-}
-
-// Function for "Mark Completed" button
-async function markCompleted(buttonElement) {
-  
-  // 1. Find the parent .report-card to get its ID
-  const reportCard = buttonElement.closest('.report-card');
-  const messageId = reportCard.id;
-  
-  // 2. Log to the F12 browser console
-  console.log(`Sending MarkCompleted for ID: ${messageId}`);
-
-  try {
-    // 3. This is the API Request to the "road" in index.js
-    const response = await fetch('/dashboard/gov/MarkCompleted', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // 4. Send the ID in the body as "mid"
-      body: JSON.stringify({ mid: messageId }) 
-    });
-
-    // 5. Wait for the server's JSON response
-    const result = await response.json();
-
-    if (result.success) {
-      // It worked! Log the success message
-      console.log('Success:', result.message);
-      // Make the card disappear
-      reportCard.style.display = 'none';
-    } else {
-      // It failed! Log the server error message
-      console.error('Server Error:', result.message);
-    }
-  } catch (error) {
-    // This catches network errors or if the server crashes
-    console.error('Fetch Error:', error);
-  }
-}
+})

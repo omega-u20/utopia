@@ -11,7 +11,7 @@ class Citizen extends User {
         this.nic = nic;
         this.email = email;
         this.phone = phone||'+94xxxxxxxxx';
-        this.address = address||'not provided';
+        this.address = address||'null';
     }   
 }
 

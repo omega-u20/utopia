@@ -108,4 +108,43 @@
 </body>
 <!-- Connects to your script.js file -->
 <script src="script.js"></script>
+<script type="module">
+    import {AttachToast,toast} from '../../toast.js'
+    AttachToast()
+
+    document.addEventListener('DOMContentLoaded',(e)=>{
+        fetch('/dashboard',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':`Bearer ${document.cookie.split(';')[0].split('=')[1]}`
+            }
+        }).then((res)=>{
+            console.log(res);
+            return res.json()            
+        }).then((data)=>{
+            console.log(data);
+            
+            if (data.success) {
+                document.getElementById('nameDisplay').innerHTML+=' '+data.feedback.name
+                document.getElementById('emailDisplay').innerHTML+=' '+data.feedback.email
+                document.getElementById('phoneDisplay').innerHTML+=' '+data.feedback.phone
+                document.getElementById('dateDisplay').innerHTML+=' '+data.feedback.name
+
+                toast.success('Success!')
+                setTimeout(() => {
+                    document.getElementById('preload').style.display='none'
+                }, 3100);
+            }else {
+                toast.error(data.message)
+                window.location.href='/login'
+            }            
+        }).catch((e)=>{
+            console.log(e);
+            setTimeout(() => {
+                window.location.href='/login'
+            }, 5000);
+        })
+    })
+</script>
 </html>

@@ -12,6 +12,8 @@ import https from 'https';
 import http from 'http';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import * as dtg from './data/gov.js'
+import * as dtc from './data/cit.js'
 
 
 dotenv.config();
@@ -19,11 +21,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+
 const port = process.env.PORT || 3000; 
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+/* const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename); */
 
 /* //-------------------- HTTPS Setup ------------------//
 // Load TLS/SSL certificates
@@ -62,42 +65,85 @@ app.get('/login', (req, res) => {//display login page
 });
 
 app.post('/login', async (req, res) => {//handle login requests
+  console.log('Request: '+req.body);
   const { role } = req.body;
+  console.log(role);
+  
 
   if (role=='citz') {
     const { nic,password } = req.body;
-    console.log(req.body);
+    try{
+      const user=await auth.AuthCitizen(nic, password)
+      console.log('USER from index: ',user);
     
-    const user=await auth.AuthCitizen(nic, password)
-    if (user) {
-      const token = await signToken({'uid':user.uid,'nic':user.nic})
-      res.json(JSON.parse({ 'success': true, 'user':{
-        'uid':user.uid,
-        'nic':user.nic,
-        'email':user.email,
-        'phone':user.phone,
-        'address':user.address
-      },
-      session:token
-    }));
-    } else {
-      res.json(JSON.parse({ 'success': false, 'message': 'Login error'}));
+      if (user) {
+        const token = await signToken({'uid':user.uid,'nic':user.nic})
+        console.log('signed: '+token);
+        
+        dtc.user[user.uid]={
+              nic:user.nic,
+              email:user.email,
+              phone:user.phone,
+              address:user.address
+            }
+            console.log(dtc.user);
+            
+        res.json(
+          { 
+            success: true,
+            code:'USER_200',
+            session:token
+          }
+        );
+      } else {
+        res.json({ success: false, code:'USER_500', message: 'Login error'});
+      }
+    }catch (e){
+      if (e instanceof auth.AuthError) {
+        res.json(
+            {success: false,
+            code:'USER_404',
+           message: 'User does not exist!'})
+      }else{
+        res.json(
+            {success: false,
+            code:'USER_500',
+           message: 'Unknown Error!'})
+      }
     }
   } else if(role=='gov'){
     const{username,password,govRole}=req.body
-    const G_user=await auth.AuthGov(username,password,govRole)
-    if (G_user) {
-      const token = await signToken({'uid':G_user.uid,'empID':G_user.empID})
-      res.status(201).json(JSON.parse({ 'success':true, 'user':{
-        'uid':G_user.uid,
-        'empID':G_user.empID,
-        'govRole':G_user.govRole,
-        'govArea':G_user.govArea
-      },
-      session:token
-    }));
-    } else {
-      res.status(500).json(JSON.parse({ 'success': false, 'message': 'Login error' }));
+    try {
+      const G_user=await auth.AuthGov(username,password,govRole)
+      if (G_user) {
+        const token = await signToken({'uid':G_user.uid,'empID':G_user.empID,'gov':true})
+        dtg.user[G_user.uid]={
+              empID:G_user.empID,
+              govRole:G_user.govRole,
+              govArea:G_user.govArea
+        }
+        res.status(201).json(
+          {
+            success:true, 
+            code:'GOV_200',
+            session:token
+          }
+        );
+      } else {
+        res.status(500).json(JSON.parse({ success: false,  code:'GOV_500', message: 'Login error' }));
+      }
+    } catch (e) {
+      if (e instanceof auth.AuthError) {
+        res.json(
+            {success: false,
+            code:'GOV_404',
+           message: 'User does not exist!'})
+      } else {
+        res.json(
+            {success: false,
+            code:'GOV_400',
+           message: 'Unknown Error!'})
+      }
     }
   }
 });
@@ -152,43 +198,42 @@ app.post('/signup', (req, res) => {//handle signup requests
     res.status(400).json({ success: false, message: 'OTP not verified', code: 'OTP_ERROR' });
   }
 });
-/* app.get('/default-signup', async(req, res) => {//display default signup page <<--this is a test
-  const feedback = await auth.RegisterCitizen('199012345678','abc@cdv.cdf',null,null,'password123')
-  res.status(201).json({ feedback });
-}); */
 
-app.post('/dashboard:id', (req, res) => {//get user info for dashboard
-  const { id } = req.params;
-  const db = id.split('-')[0];
-  if (db === 'cit') {
-    citz.GetCitizenByUID(id).then(user => {
-      if (user) {
-        res.status(201).json({ success: true, user: JSON.parse(user) });
-      } else {
-        res.status(404).json({ success: false, message: 'User not found' }).redirect('/help:user-not-found');
-      }
-    });
-  } else if (db === 'gov') {
-    gov.GetGovByUID(id).then(user => {
-      if (user) {
-        res.status(201).json({ success: true, user: JSON.parse(user) });
-      } else {
-        res.status(404).json({ success: false, message: 'User not found' }).redirect('/help:user-not-found');
-      }
-    });
-  } else {
-    res.status(400).json({ success: false, message: 'Invalid user type' });
-  }
+app.post('/dashboard',verifyToken, (req, res) => {//get user info for dashboard
+  if (req.body.result) {
+    console.log(req.body.result.uid);
+    
+        try{
+          const us = dtc.user[req.body.result.uid]
+          
+          res.json({ success:true ,  feedback:{
+            nic:us.nic,
+            email:us.email,
+            phone:us.phone,
+            address:us.address
+          }});
+          console.log({ success:true ,  feedback:{
+            nic:us.nic,
+            email:us.email,
+            phone:us.phone,
+            address:us.address
+          }});
+          
+
+        }catch (e){
+          const us = {success:false , message:'Error Fetching Data!!'}
+          res.status(500).json(us)
+        }
+    } else {
+      res.redirect('/login');
+    }
+
 });
 
 /** Citizen */
-app.get('/dashboard/citz', verifyToken, (req, res) => {//display citz dashboard
-  if (req.user) {
-    res.json({ status: 'Dashboard data', uid: req.user });
-  } else {
-    // --- Fixed redirect logic ---
-    res.status(401).redirect('/login');
-  }
+app.get('/dashboard/citz/', (req, res) => {//display citz dashboard  
+  console.log('REQ: '+req.cookies.session);
+
 });
 
 //handle citz dash functions
@@ -227,10 +272,16 @@ app.post('/dashboard/citz/SendComplaint', upload.single('cim'), (req, res) => {
 
 /**Government */
 app.get('/dashboard/gov',verifyToken, (req, res) => {//display gov dashboard
-  if (req.user) {
-    res.json({ status: 'Dashboard data', uid: req.user });
+  if (req.user && req.user.gov) {
+    try{
+      const us = dtg.user[req.user]
+      res.status(200).json(us)
+    }catch (e){
+      const us = {message:'Error Fetching Data!!'}
+      res.status(500).json(us)
+    }
+    res.status(304).json({ success:true ,  feedback:us});
   } else {
-    // --- Fixed redirect logic ---
     res.status(401).redirect('/login');
   }
 });
@@ -268,6 +319,27 @@ app.post('/dashboard/gov/Refresh', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
+//----Admin Section------//
+app.get('/su',(req,res)=>{
+  res.status(200)
+})
+
+app.post('/su',(req,res)=>{
+  const {access,pass}=req.body;
+  if((access===process.env.ADMIN)&&(pass===process.env.ADPASS)){
+    res.redirect('/su/admin')
+  }
+})
+
+app.get('/su/admin',(req,res)=>{
+  res.status(200)
+})
+
+app.post('/su/admin',(req,res)=>{
+  const {empID, password, role, area} = req.body;
+  auth.RegisterGov(empID, password, role, area)
+})
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

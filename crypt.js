@@ -13,7 +13,7 @@ async function generateUserID(role) {
 }
 
 async function hashPassword(pwd) {
-    console.log(crypto.createHash('md5').update(pwd.toString()).digest('hex'));
+    console.log('ENCRYPTED');
     return crypto.createHash('md5').update(pwd.toString()).digest('hex');
     
 }
@@ -29,19 +29,25 @@ async function signToken(data){
 }
 
 async function verifyToken(req,res,next){
-    const bearerHeader=req.headers['authorization']
-    if(typeof bearerHeader!=='undefined'){
+    const bearerHeader/* bearerToken */=req.header('Authorization')
+        
+    if(typeof bearerHeader /* bearerToken */!=='undefined'){
         const bearer=bearerHeader.split(' ')
         const bearerToken=bearer[1]
-        jwt.verify(bearerToken,'secretkey',(err,decoded)=>{
+        
+    console.log(bearerToken);
+        jwt.verify(bearerToken,process.env.JWT_SECRET,(err,decoded)=>{
             if(err){
-                res.status(401).json({success:false,message:'Token is not valid'})
+                req.body.result={success:false,message:'Token is not valid'}
+            }else{
+                req.body.result=decoded
+                console.log(decoded);
+                
+                next()
             }
-            req.user=decoded
-        next()
         })
     } else{
-        res.status(403).json({success:false,message:'Forbidden'})
+        req.body.result={success:false,message:'Forbidden'}
     }
 }
 

@@ -24,6 +24,24 @@
 html,body{
     scroll-behavior: smooth;
 }
+/*preload*/
+#preload{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: whitesmoke;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+#preload img {
+    clip: rect(50vw, 50vh, 50vw, 50vh);
+    scale: .5;
+}
 /* buttons */
 .btn{
     background-color: var(--accent-color-1);

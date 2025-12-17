@@ -10,6 +10,9 @@
     <title>Citizen | Dashboard</title>
 </head>
 <body>
+    <div id="preload">
+        <img src="https://i.pinimg.com/originals/c8/a1/76/c8a1765ffc8243f3a7b176c0ca84c3c1.gif" alt="loading">
+    </div>
     <div id="topbar" class="sections">
         <img src="..\..\res\logo\logo.png" alt="logo" id="logo">
         <div id="middle">
@@ -43,11 +46,11 @@
                 <div class="input-group">
                     <label for="elmTestInput">Emergency Type:</label>
                     <div class="input-field" id="EmergencyHolder">
-                        <input type="radio" name="emergencyType" id="medical" required>
+                        <input type="radio" name="emergencyType" id="medical" placeholder="m" required>
                         <label for="medical"><div class="bi bi-heart-pulse"></div></label>
-                        <input type="radio" name="emergencyType" id="fire">
+                        <input type="radio" name="emergencyType" id="fire" placeholder="f">
                         <label for="fire"><div class="bi bi-fire"></div></label>
-                        <input type="radio" name="emergencyType" id="police">
+                        <input type="radio" name="emergencyType" id="police" placeholder="p">
                         <label for="police"><div class="bi bi-shield-exclamation"></div></label>
                     </div>
                 </div>
@@ -115,7 +118,47 @@
     </div>
 </body>
 <script type="text/javascript" src="./script.js"></script>
+<script type="module">
+    import {AttachToast,toast} from '../../toast.js'
+    AttachToast()
+
+    document.addEventListener('DOMContentLoaded',(e)=>{
+        fetch('/dashboard',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':`Bearer ${document.cookie.split(';')[0].split('=')[1]}`
+            }
+        }).then((res)=>{
+            console.log(res);
+            return res.json()            
+        }).then((data)=>{
+            console.log(data);
+            
+            if (data.success) {
+                document.getElementById('nameDisplay').innerHTML+=' '+data.feedback.name
+                document.getElementById('emailDisplay').innerHTML+=' '+data.feedback.email
+                document.getElementById('phoneDisplay').innerHTML+=' '+data.feedback.phone
+                document.getElementById('dateDisplay').innerHTML+=' '+data.feedback.name
+
+                toast.success('Success!')
+                setTimeout(() => {
+                    document.getElementById('preload').style.display='none'
+                }, 3100);
+            }else {
+                toast.error(data.message)
+                window.location.href='/login'
+            }            
+        }).catch((e)=>{
+            console.log(e);
+            setTimeout(() => {
+                window.location.href='/login'
+            }, 5000);
+        })
+    })
+</script>
 <script type="text/javascript">
+
     const EmergencyReqSection = document.getElementById('EmergencyReqSection')
     const cityCompSection = document.getElementById('cityCompSection')
     const billPaymentSection = document.getElementById('billPaymentSection')

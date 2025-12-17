@@ -33,3 +33,7 @@ export const toast ={
         },3000);
     }
 }
+
+export function AttachToast(){
+    document.getElementsByTagName('body')[0].innerHTML+='<div id="toast" class="bi"><div id="toast-progress"></div></div>'
+}

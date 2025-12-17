@@ -5,8 +5,10 @@ import {Citizen,Gov} from './classes/user.js';
 
 export async function AuthCitizen(nic, password){
     const user=await GetCitizen(nic, await hashPassword(password))
+    console.log('User Grabbed ~ auth');
+    
     if (user){
-        return user;
+        return JSON.parse(user);
     }else{
         throw new AuthError("Authentication failed Citizen");
     }
@@ -46,9 +48,9 @@ export async function RegisterCitizen(nic, email, phone, address, password){
 /* Register a new government user */
 export async function RegisterGov(empID, password, role, area){
 
-    /* if (await GetGov(empID)){
+    if (await GetGov(empID)){
         throw new RegistrationError("User already exists");
-    } */
+    }
     const uid = await generateUserID('gov');
     var gov = new Gov(uid,empID, role, area, 0);
     try {

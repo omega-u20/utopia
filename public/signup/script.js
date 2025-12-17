@@ -1,4 +1,6 @@
-import {toast} from '../toast.js'
+import {toast,AttachToast} from '../toast.js'
+
+AttachToast()
 
 window.sendOtp =function (btn) {
     btn.disabled = true;
@@ -88,7 +90,7 @@ document.getElementById('otp').addEventListener('change', function() {
 document.getElementsByTagName('form')[0].addEventListener('submit',async function(event) {
     event.preventDefault();
     document.getElementById('btn-submit').setAttribute('disabled','true');
-    btn.classList.add('btn-dissabled')
+    document.getElementById('btn-submit').classList.add('btn-dissabled')
     let redirectUrl = '/login';
     const isOtpVerified = document.getElementById('isOtpVerified').value;
     if (isOtpVerified !== "true") {
@@ -123,13 +125,13 @@ document.getElementsByTagName('form')[0].addEventListener('submit',async functio
             }else{
                 alert('Signup failed. Please try again.');
                 document.getElementById('btn-submit').setAttribute('disabled','false');
-                btn.classList.remove('btn-dissabled')
+                document.getElementById('btn-submit').classList.remove('btn-dissabled')
             }
         })
         .catch(error => {
             console.error('Error:', error);
             document.getElementById('btn-submit').setAttribute('disabled','false');
-            btn.classList.remove('btn-dissabled')
+            document.getElementById('btn-submit').classList.remove('btn-dissabled')
         });
     }
 
