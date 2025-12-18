@@ -12,7 +12,8 @@ document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=
             await fetch('/dashboard/citz/ReqEmergency', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization':`Bearer ${document.cookie.split(';')[0].split('=')[1]}`
                     },
                     body: JSON.stringify(requestData)   
                 }).then(response=>{
@@ -87,6 +88,10 @@ document.getElementsByTagName('form').item(1).addEventListener('submit',async (e
     
     await fetch('/dashboard/citz/SendComplaint', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':`Bearer ${document.cookie.split(';')[0].split('=')[1]}`
+        },
         body: formData
     }).then(res => res.json())
     .then(data => {
@@ -148,7 +153,10 @@ document.getElementsByTagName('form').item(2).addEventListener('submit', async (
 
     await fetch('/dashboard/citz/PayUtil', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization':`Bearer ${document.cookie.split(';')[0].split('=')[1]}`
+        },
         body: JSON.stringify(payload)
     })
     .then(res => {
@@ -188,7 +196,10 @@ document.getElementsByTagName('form').item(3).addEventListener('submit', async (
 
     await fetch('/dashboard/citz/PayTax', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization':`Bearer ${document.cookie.split(';')[0].split('=')[1]}`
+        },
         body: JSON.stringify(payload)
     })
     .then(res => {

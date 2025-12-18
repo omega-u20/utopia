@@ -6,9 +6,10 @@ class User {
 } 
 
 class Citizen extends User {
-    constructor(UID,nic, email, phone, address) {
+    constructor(UID,nic, name, email, phone, address) {
         super(UID, 'citizen');
         this.nic = nic;
+        this.name = name;
         this.email = email;
         this.phone = phone||'+94xxxxxxxxx';
         this.address = address||'null';

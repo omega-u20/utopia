@@ -35,18 +35,19 @@ async function verifyToken(req,res,next){
         const bearer=bearerHeader.split(' ')
         const bearerToken=bearer[1]
         
-    console.log(bearerToken);
+        console.log(bearerToken);
         jwt.verify(bearerToken,process.env.JWT_SECRET,(err,decoded)=>{
             if(err){
                 res.json({success:false,message:'Token is not valid'})
                 return
             }else{
                 req.body.result=decoded
+                req.body.uid=decoded.uid
                 console.log(decoded);
                 next()
             }
         })
-    } else{
+    }else{
         res.json({success:false,message:'Forbidden'})
     }
 }

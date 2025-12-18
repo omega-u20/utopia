@@ -20,6 +20,7 @@ const Gov = mongoose.model('Gov', govSchema);
 const citizenSchema = new mongoose.Schema({
     nic: { type: String, required: true, unique: true },
     uid: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     email: { type: String, required: true },
     phone: { type: String, required: false },
     address: { type: String, required: false },
@@ -136,6 +137,7 @@ async function NewCitizen(citi, password){
         const newCitizen = new Citizen({
             nic: citizen.nic,   
             uid: citizen.uid,
+            name:citizen.name,
             email: citizen.email,
             phone: citizen.phone,
             address: citizen.address,   

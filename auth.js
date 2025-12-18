@@ -25,12 +25,12 @@ export async function AuthGov(empID, password, role){
 
 
 /* Register a new citizen */
-export async function RegisterCitizen(nic, email, phone, address, password){
+export async function RegisterCitizen(nic, email, name, phone, address, password){
     if (await GetCitizen(nic)){
         throw new DuplicateUserError("User already exists")
     }else{
         const uid = await generateUserID('cit');
-        const citizen = new Citizen(uid,nic, email, phone, address);
+        const citizen = new Citizen(uid,nic, name, email, phone, address);
         try {
             if(await NewCitizen(JSON.stringify(citizen), await hashPassword(password))){
                 console.log('citizen created');

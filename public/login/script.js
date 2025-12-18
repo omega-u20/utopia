@@ -4,6 +4,9 @@ AttachToast()
 
 document.getElementById('loginForm').addEventListener('submit',async (ev)=>{
     ev.preventDefault()
+    console.log(ev)
+    ev.submitter.disabled = true;
+    ev.submitter.classList.add('btn-dissabled')
 
     const role =document.getElementById('role').value;
 

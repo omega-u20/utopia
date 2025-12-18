@@ -175,9 +175,9 @@ app.post('/verify-otp', async(req, res) => {//handle otp verification
 });
 
 app.post('/signup', (req, res) => {//handle signup requests
-  const { nic, email, password, citzRole, isOtpVerified } = req.body;
+  const { name, nic, email, password, citzRole, isOtpVerified } = req.body;
   if (isOtpVerified) {
-    auth.RegisterCitizen(nic, email, null, null, password).then(feedback => {
+    auth.RegisterCitizen(nic, email, name, null, null, password).then(feedback => {
       if (feedback.success) {
         feedback.message = 'Registration successful';
         feedback.code = 'SUCCESS';
@@ -310,6 +310,11 @@ app.post('/dashboard/gov/Refresh', verifyToken, async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
+//--util---//
+app.get('/map',(req,res)=>{
+  res.status(200)
+})
 
 //----Admin Section------//
 app.get('/su',(req,res)=>{

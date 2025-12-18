@@ -100,13 +100,14 @@ document.getElementsByTagName('form')[0].addEventListener('submit',async functio
         const email = document.getElementById('email').value;
         const nic = document.getElementById('nic').value;
         const citzRole = document.getElementById('citzRole').value;
+        const name = document.getElementById('name').value;
 
         await fetch('/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ nic:nic, email:email, password:password, citzRole:citzRole, isOtpVerified:isOtpVerified })
+            body: JSON.stringify({ name:name, nic:nic, email:email, password:password, citzRole:citzRole, isOtpVerified:isOtpVerified })
         })
         .then(response => response.json()).then(data => {
             if (data.success && data.code==='SUCCESS') {
