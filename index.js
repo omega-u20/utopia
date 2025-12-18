@@ -211,21 +211,13 @@ app.post('/dashboard',verifyToken, (req, res) => {//get user info for dashboard
             email:us.email,
             phone:us.phone,
             address:us.address
-          }});
-          console.log({ success:true ,  feedback:{
-            nic:us.nic,
-            email:us.email,
-            phone:us.phone,
-            address:us.address
-          }});
-          
+          }});          
 
         }catch (e){
-          const us = {success:false , message:'Error Fetching Data!!'}
-          res.status(500).json(us)
+          res.status(500).json({success:false , message:'Error Fetching Data!!'})
         }
     } else {
-      res.redirect('/login');
+          res.status(500).json({success:false , message:'Error Fetching Data!!'})
     }
 
 });
@@ -247,13 +239,13 @@ app.post('/dashboard/citz/PayUtil',verifyToken,(req,res)=>{
   const feedback =citz.PayUtility(uid,type,AccNo,amount)
   res.status(201).json(feedback)
 })
-app.post('/dashboard/citz/ReqEmergency',(req,res)=>{
+app.post('/dashboard/citz/ReqEmergency',verifyToken,(req,res)=>{
   console.log(req.body);  
   const {uid,loc,type}=req.body
   const feedback =citz.ReqEmergency(uid,type,loc)
   res.status(201).json(feedback)
 })
-app.post('/dashboard/citz/SendComplaint', upload.single('cim'), (req, res) => {
+app.post('/dashboard/citz/SendComplaint',verifyToken, upload.single('cim'), (req, res) => {
   if(!req.file){
       return res.status(400).json({error:'No file uploaded'})
   }
@@ -309,9 +301,8 @@ app.post('/dashboard/gov/MarkCompleted', async (req, res) => {
   }
 });
 
-app.post('/dashboard/gov/Refresh', async (req, res) => { 
+app.post('/dashboard/gov/Refresh', verifyToken, async (req, res) => { 
   try {
-    const { mid } = req.body;
     const feedback = await gov.RefreshFeed(); 
     res.status(201).json(JSON.parse(feedback));
   } catch (error) {

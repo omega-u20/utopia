@@ -33,7 +33,7 @@ html,body{
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 800;
     align-items: center;
     justify-content: center;
 }
@@ -41,6 +41,14 @@ html,body{
 #preload img {
     clip: rect(50vw, 50vh, 50vw, 50vh);
     scale: .5;
+}
+/*User Info*/
+#userInfo {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 /* buttons */
 .btn{
@@ -91,7 +99,20 @@ html,body{
     background-color: #99a1ad ;
     color: hsl(216, 11%, 30%) ;
 }
-
+.btn-circle{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: var(--accent-color-1) solid 3px;
+    color: var(--primary-color);
+    background-color: var(--accent-color-1);
+    cursor: pointer;
+    font-size: 25px;
+}
+.btn-circle:hover{
+    background-color: var(--accent-color-2);
+    border-color: var(--primary-color);
+}
 /* input */
 .input-field{
     width: 100%;
@@ -284,11 +305,14 @@ footer.site-footer{
     color: white;
     padding: 15px 25px;
     border-radius: 8px;
+    height: 50px;
+    width:max-content;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     opacity: 0;
     visibility: hidden;
+    font-size: 12pt;
     transition: opacity 0.5s ease, visibility 0.5s ease;
-    z-index: 1000;
+    z-index: 900;
 }
 #toast.show{
     opacity: 1;
@@ -311,6 +335,7 @@ footer.site-footer{
     height: 4px;
     background-color: var(--primary-color);
     width: 100%;
+    z-index: 901;
     border-radius: 8px;/* 
     animation: progressBar 2.5s linear forwards; */
 }

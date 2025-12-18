@@ -9,17 +9,32 @@
     <title>Government Dashboard</title>
 </head>
 <body>
+    <div id="preload">
+        <img src="https://i.pinimg.com/originals/c8/a1/76/c8a1765ffc8243f3a7b176c0ca84c3c1.gif" alt="loading">
+    </div>
     <div id="top">
+        <img src="..\..\res\logo\logo.png" alt="logo" id="logo">
+        <div id="middle">
         <h1>Government Dashboard</h1>
+            <div id="userInfo">
+                <span id="idDisplay">ID :</span>
+                <span id="dateDisplay">Date :</span>
+            </div>
+        </div>
+        <div id="right">
+            <button id="logoutBtn" class="btn-circle bi bi-power"></button>
+            <button id="refreshBtn" class="btn-circle bi bi-arrow-clockwise"></button>
+        </div>
+        
     </div>
     <div id="bottom">
         <!-- SECTION 1: NEW REPORTS -->
-        <div id="new-reports" class="reports-section">
+        <div id="em-req" class="reports-section">
             <div class="section-header">
-                <h2>New Reports</h2>
+                <h2>Emergency Requests</h2>
                 <i class="bi bi-funnel"></i>
             </div>
-            <div class="reports-cont">
+            <div class="reports-cont" id="emp-cont">
                 <div class="report-card card-fire" id="12345">
                     <div class="report-container">
                         <div class="header">
@@ -49,7 +64,7 @@
                 <h2>Pending Reports</h2>
                 <i class="bi bi-funnel"></i>
             </div>
-            <div class="reports-cont">
+            <div class="reports-cont" id="pend-cont">
                 <div class="report-card card-fire" id="67890">
                     <div class="report-container">
                         <div class="header">
@@ -73,13 +88,13 @@
             </div>
         </div>
 
-        <!-- SECTION 3: RESOLVED REPORTS (This was causing your error!) -->
+        <!-- SECTION 3: COMPLAINTS REPORTS -->
         <div id="resolved-r" class="reports-section">
             <div class="section-header">
-                <h2>Resolved</h2>
+                <h2>Complaints</h2>
                 <i class="bi bi-funnel"></i>
             </div>
-            <div class="reports-cont">
+            <div class="reports-cont" id="cmp-cont">
                 <div class="report-card card-fire" id="12345">
                     <div class="report-container">
                         <div class="header">
@@ -98,7 +113,7 @@
                             <!--I removed onclick="update()" because it crashes.
                                  I added 'disabled' so the button is grayed out.
                                  This is correct because a resolved item is already done. -->
-                            <button class="btn btn-warning" disabled>Mark Dispatched</button>
+                            <button class="btn btn-warning" onclick="markDispatched(this)">Mark Dispatched</button>
                         </div>
                     </div>
                 </div>
@@ -107,6 +122,7 @@
     </div>
 </body>
 <!-- Connects to your script.js file -->
+<script src="../../toast.js" type="module"></script>
 <script src="script.js"></script>
 <script type="module">
     import {AttachToast,toast} from '../../toast.js'
@@ -121,15 +137,14 @@
             }
         }).then((res)=>{
             console.log(res);
-            return res.json()            
+            return res.json()         
         }).then((data)=>{
             console.log(data);
+            var date = new Date().toDateString().split(' ')
             
             if (data.success) {
-                document.getElementById('nameDisplay').innerHTML+=' '+data.feedback.name
-                document.getElementById('emailDisplay').innerHTML+=' '+data.feedback.email
-                document.getElementById('phoneDisplay').innerHTML+=' '+data.feedback.phone
-                document.getElementById('dateDisplay').innerHTML+=' '+data.feedback.name
+                document.getElementById('idDisplay').innerHTML+=' '+data.feedback.name
+                document.getElementById('dateDisplay').innerHTML+=' '+date[2]+' - '+date[1]+' - '+date[3]
 
                 toast.success('Success!')
                 setTimeout(() => {

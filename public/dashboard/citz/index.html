@@ -17,16 +17,15 @@
         <img src="..\..\res\logo\logo.png" alt="logo" id="logo">
         <div id="middle">
         <h1>Citizen Dashboard</h1>
-        <div id="userInfo">
-            <span id="nameDisplay">Name :</span>
-            <span id="emailDisplay">Email :</span>
-            <span id="phoneDisplay">Phone :</span>
-            <span id="dateDisplay">Date :</span>
+            <div id="userInfo">
+                <span id="nameDisplay">Name :</span>
+                <span id="emailDisplay">Email :</span>
+                <span id="phoneDisplay">Phone :</span>
+                <span id="dateDisplay">Date :</span>
             </div>
         </div>
         <div id="right">
-            
-        <button id="logoutBtn" >Logout</button>
+            <button id="logoutBtn" class="btn-circle bi bi-power"></button>
         </div>
     </div>
 
@@ -117,11 +116,9 @@
     
     </div>
 </body>
-<script type="text/javascript" src="./script.js"></script>
 <script type="module">
     import {AttachToast,toast} from '../../toast.js'
     AttachToast()
-
     document.addEventListener('DOMContentLoaded',(e)=>{
         fetch('/dashboard',{
             method: 'POST',
@@ -130,16 +127,17 @@
                 'Authorization':`Bearer ${document.cookie.split(';')[0].split('=')[1]}`
             }
         }).then((res)=>{
-            console.log(res);
-            return res.json()            
+            //console.log(res);
+            return res.json();     
         }).then((data)=>{
-            console.log(data);
+            //console.log(data);
+            var date = new Date().toDateString().split(' ')
             
             if (data.success) {
                 document.getElementById('nameDisplay').innerHTML+=' '+data.feedback.name
                 document.getElementById('emailDisplay').innerHTML+=' '+data.feedback.email
                 document.getElementById('phoneDisplay').innerHTML+=' '+data.feedback.phone
-                document.getElementById('dateDisplay').innerHTML+=' '+data.feedback.name
+                document.getElementById('dateDisplay').innerHTML+=' '+date[2]+' - '+date[1]+' - '+date[3]
 
                 toast.success('Success!')
                 setTimeout(() => {
@@ -156,58 +154,56 @@
             }, 5000);
         })
     })
+    var EmergencyReqSection = document.getElementById('EmergencyReqSection')
+    var cityCompSection = document.getElementById('cityCompSection')
+    var billPaymentSection = document.getElementById('billPaymentSection')
+    var taxPaymentSection = document.getElementById('taxPaymentSection')
+    
+    var btn1 = document.getElementById('EmergencyReq')
+    var btn2 = document.getElementById('cityComp')
+    var btn3 = document.getElementById('billPayment')
+    var btn4 = document.getElementById('taxPayment')
+
+    window.f1 = function(elm) {
+        elm.classList.add('active');
+        EmergencyReqSection.style.display = 'block';
+        cityCompSection.style.display = 'none';
+        billPaymentSection.style.display = 'none';
+        taxPaymentSection.style.display = 'none';
+        [btn2,btn3,btn4].forEach(element => {
+            element.classList.remove('active');
+        });
+    };
+    window.f2 = function(elm) {
+        elm.classList.add('active');
+        EmergencyReqSection.style.display = 'none';
+        cityCompSection.style.display = 'block';
+        billPaymentSection.style.display = 'none';
+        taxPaymentSection.style.display = 'none';
+        [btn1,btn3,btn4].forEach(element => {        
+            element.classList.remove('active');
+        });
+    };
+    window.f3 = function(elm) {
+        elm.classList.add('active');
+        EmergencyReqSection.style.display = 'none';
+        cityCompSection.style.display = 'none';
+        billPaymentSection.style.display = 'block';
+        taxPaymentSection.style.display = 'none';
+        [btn1,btn2,btn4].forEach(element => {
+            element.classList.remove('active');
+        });
+    };
+    window.f4 = function(elm) {
+        elm.classList.add('active');
+        EmergencyReqSection.style.display = 'none';
+        cityCompSection.style.display = 'none';
+        billPaymentSection.style.display = 'none';
+        taxPaymentSection.style.display = 'block';
+        [btn1,btn2,btn3].forEach(element => {
+            element.classList.remove('active');
+        });
+    };
 </script>
-<script type="text/javascript">
-
-    const EmergencyReqSection = document.getElementById('EmergencyReqSection')
-    const cityCompSection = document.getElementById('cityCompSection')
-    const billPaymentSection = document.getElementById('billPaymentSection')
-    const taxPaymentSection = document.getElementById('taxPaymentSection')
-
-    const btn1 = document.getElementById('EmergencyReq')
-    const btn2 = document.getElementById('cityComp')
-    const btn3 = document.getElementById('billPayment')
-    const btn4 = document.getElementById('taxPayment')
-
-function f1(elm) {
-    elm.classList.add('active');
-    EmergencyReqSection.style.display = '';
-    cityCompSection.style.display = 'none';
-    billPaymentSection.style.display = 'none';
-    taxPaymentSection.style.display = 'none';
-    [btn2,btn3,btn4].forEach(element => {
-        element.classList.remove('active');
-    });
-};
-function f2(elm) {
-    elm.classList.add('active');
-    EmergencyReqSection.style.display = 'none';
-    cityCompSection.style.display = '';
-    billPaymentSection.style.display = 'none';
-    taxPaymentSection.style.display = 'none';
-    [btn1,btn3,btn4].forEach(element => {
-        element.classList.remove('active');
-    });
-};
-function f3(elm) {
-    elm.classList.add('active');
-    EmergencyReqSection.style.display = 'none';
-    cityCompSection.style.display = 'none';
-    billPaymentSection.style.display = '';
-    taxPaymentSection.style.display = 'none';
-    [btn1,btn2,btn4].forEach(element => {
-        element.classList.remove('active');
-    });
-};
-function f4(elm) {
-    elm.classList.add('active');
-    EmergencyReqSection.style.display = 'none';
-    cityCompSection.style.display = 'none';
-    billPaymentSection.style.display = 'none';
-    taxPaymentSection.style.display = '';
-    [btn1,btn2,btn3].forEach(element => {
-        element.classList.remove('active');
-    });
-};
-</script>
+<script type="text/javascript" src="./script.js"></script>
 </html>

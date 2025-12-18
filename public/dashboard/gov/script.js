@@ -1,6 +1,5 @@
-/*
-  It handles the "Mark Dispatched" and "Mark Completed" buttons.
-*/
+import {AttachToast,toast} from '../../toast.js'
+import { card } from '../../card.js';
 
 // Function for "Mark Dispatched" button
 async function markDispatched(buttonElement) {
@@ -18,6 +17,7 @@ async function markDispatched(buttonElement) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization':`Bearer ${document.cookie.split(';')[0].split('=')[1]}`
       },
       // 4. Send the ID in the body as "mid" (this is what index.js expects)
       body: JSON.stringify({ mid: messageId }) 
@@ -27,6 +27,7 @@ async function markDispatched(buttonElement) {
     const result = await response.json();
 
     if (result.success) {
+      toast.success('Marked Dispatched !')
       // It worked! Log the success message from the server
       console.log('Success:', result.message);
       // Make the card fade out a little so we know it's done
@@ -57,6 +58,7 @@ async function markCompleted(buttonElement) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization':`Bearer ${document.cookie.split(';')[0].split('=')[1]}`
       },
       // 4. Send the ID in the body as "mid"
       body: JSON.stringify({ mid: messageId }) 
@@ -77,5 +79,44 @@ async function markCompleted(buttonElement) {
   } catch (error) {
     // This catches network errors or if the server crashes
     console.error('Fetch Error:', error);
+  }
+}
+
+async function Refresh() {
+  try {
+    const res = await fetch('/dashboard/gov/Refresh',{
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':`Bearer ${document.cookie.split(';')[0].split('=')[1]}`
+      }
+    })
+
+    const result = res.json()
+
+    if (result.success) {
+      toast.success('Feed Refreshed !')
+
+      var emList = {
+            uid:emr.uid,
+            ReqID:emr.mid,
+            ReqType:emr.reqType,
+            ReqStatus:emr.status,
+            ReqLoc:emr.location,
+            ReqTime:emr.timestamp
+      }/* result.emr */;
+      var cmList = result.cmp;
+      emList.forEach(e => {
+
+      });
+
+      document.getElementById('emp-cont').insertBefore(emList,this.firstChild)
+      document.getElementById('cmp-cont').insertBefore(cmList,this.firstChild)
+    } else {
+      
+    }
+  }
+  catch (error) {
+  
   }
 }

@@ -3,7 +3,7 @@ export const toast ={
         const toastEl=document.getElementById('toast');
         const toastBar=document.getElementById('toast-progress');
         toastEl.classList.add('show', 't-warn', 'bi-exclamation-triangle');
-        toastEl.innerText=message;
+        toastEl.innerHTML+='&nbsp;'+message;
         toastBar.style.animation='toast-progress 3s linear forwards';
         setTimeout(function(){
             toastEl.classList.remove('show', 't-warn', 'bi-exclamation-triangle');
@@ -14,7 +14,7 @@ export const toast ={
         const toastEl=document.getElementById('toast');
         const toastBar=document.getElementById('toast-progress');
         toastEl.classList.add('show', 't-error', 'bi-x-circle');
-        toastEl.innerText=message;
+        toastEl.innerHTML+='&nbsp;'+message;
         toastBar.style.animation='toast-progress 3s linear forwards';
         setTimeout(function(){
             toastEl.classList.remove('show', 't-error', 'bi-x-circle');
@@ -25,7 +25,7 @@ export const toast ={
         const toastEl=document.getElementById('toast');
         const toastBar=document.getElementById('toast-progress');
         toastEl.classList.add('show', 't-success', 'bi-check-circle');
-        toastEl.innerText=message;
+        toastEl.innerHTML+='&nbsp;'+message;
         toastBar.style.animation='toast-progress 3s linear forwards';
         setTimeout(function(){
             toastEl.classList.remove('show', 't-success', 'bi-check-circle');

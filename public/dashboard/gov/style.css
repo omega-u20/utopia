@@ -15,6 +15,34 @@ body{
     padding: 10px;
     overflow: hidden;
 }
+#right{
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+    height: 100%;
+    align-items: center;
+}
+#top {
+    display: grid;
+    grid-template-columns: 20vw 40vw 40vw;
+    grid-template-rows: 20vh;
+    width: 100%;
+    align-items: center;
+    justify-items: center;
+}
+img {
+    height: 90%;
+}
+
+#middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 100%;
+}
 .reports-section{
     background-color: white;
     border-radius: 10px;

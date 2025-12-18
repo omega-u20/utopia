@@ -38,16 +38,16 @@ async function verifyToken(req,res,next){
     console.log(bearerToken);
         jwt.verify(bearerToken,process.env.JWT_SECRET,(err,decoded)=>{
             if(err){
-                req.body.result={success:false,message:'Token is not valid'}
+                res.json({success:false,message:'Token is not valid'})
+                return
             }else{
                 req.body.result=decoded
                 console.log(decoded);
-                
                 next()
             }
         })
     } else{
-        req.body.result={success:false,message:'Forbidden'}
+        res.json({success:false,message:'Forbidden'})
     }
 }
 

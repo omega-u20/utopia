@@ -12,6 +12,7 @@ function PayTax(uid,Tin,Amount) {
 
 // Emergency Request Function
 async function ReqEmergency(uid,ReqType,Location) {
+    
     const mid = await GenerateMID('EMR')
     const Emergency = new EmergencyReq(ReqType,Location,mid,uid)
     try {
