@@ -14,6 +14,7 @@ body{
     width: 100%;
     padding: 10px;
     overflow: hidden;
+    justify-items: center;
 }
 #right{
     padding: 10px;
@@ -51,6 +52,7 @@ img {
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 33vw;
     z-index: 1;
 }
 .section-header{
@@ -66,7 +68,7 @@ img {
 }
 .reports-cont{
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
     height: 100%;
     padding: 10px;
     display: flex;

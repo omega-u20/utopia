@@ -4,7 +4,7 @@ import { card } from '../../card.js';
 document.addEventListener('DOMContentLoaded', ()=> {
 
 // Function for "Mark Dispatched" button
-  async function markDispatched(buttonElement) {
+window.markDispatched = async function (buttonElement) {
     
     // 1. Find the parent .report-card to get its ID
     const reportCard = buttonElement.closest('.report-card');
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
   }
 
   // Function for "Mark Completed" button
-  async function markCompleted(buttonElement) {
+window.markCompleted= async function (buttonElement) {
     
     // 1. Find the parent .report-card to get its ID
     const reportCard = buttonElement.closest('.report-card');
@@ -100,6 +100,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
           var emList = data.emr;
           var cmList = data.cmp;
 
+          if (!emList) emList = [];
+          if (!cmList) cmList = []
           emList.forEach(e => {
             if (e.ReqStatus === 'N') {
               const emCard = card.emr[e.ReqType](e);
@@ -108,14 +110,24 @@ document.addEventListener('DOMContentLoaded', ()=> {
             } else {
               const emCard = card.emr[e.ReqType](e);
               const htm = window.document.getElementById('pend-cont').innerHTML
-              window.document.getElementById('pend-cont').innerHTML = emCard + htm
+              
+              if (htm.includes(e.ReqID.split('-')[0]+'-'+e.ReqID.split('-')[2])) {
+                return;
+              } else {
+                window.document.getElementById('pend-cont').innerHTML = emCard + htm
+              }
             }
           });
+
           cmList.forEach(c => {
             if (c.ReqStatus === 'N') {
               const cmCard = card.cmp[c.CmType](c);
               const htm = window.document.getElementById('cmp-cont').innerHTML
-              window.document.getElementById('cmp-cont').innerHTML = cmCard + htm
+              if (htm.includes(c.ReqID.split('-')[0]+'-'+c.ReqID.split('-')[2])) {
+                return;
+              } else {
+                window.document.getElementById('cmp-cont').innerHTML = cmCard + htm
+              }
             } else {
               const emCard = card.emr[e.ReqType](e);
               const htm = window.document.getElementById('pend-cont').innerHTML
