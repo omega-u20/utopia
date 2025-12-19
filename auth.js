@@ -15,9 +15,13 @@ export async function AuthCitizen(nic, password){
 }
 
 export async function AuthGov(empID, password, role){
+    console.log(empID, password, role);
+    
     const user=await GetGov(empID, await hashPassword(password), role)
+    console.log('User Grabbed ~ gov');
+
     if (user){
-        return user
+        return JSON.parse(user)
     }else{
         throw new AuthError("Authentication failed Gov");
     }
@@ -47,22 +51,25 @@ export async function RegisterCitizen(nic, email, name, phone, address, password
 
 /* Register a new government user */
 export async function RegisterGov(empID, password, role, area){
-
+    //console.log(password);
+    
     if (await GetGov(empID)){
-        throw new RegistrationError("User already exists");
-    }
-    const uid = await generateUserID('gov');
-    var gov = new Gov(uid,empID, role, area, 0);
-    try {
-        if(await NewGov(JSON.stringify(gov), await hashPassword(password))){
-            return true;
-        }else{
-            throw new RegistrationError("Registration failed [DB-GOV]");
+        throw new DuplicateUserError("User already exists");
+    }else{
+        const uid = await generateUserID('gov');
+        const gov = new Gov(uid,empID, role, area);
+        try {
+            if(await NewGov(JSON.stringify(gov), await hashPassword(password))){
+                console.log('gov created');
+                return {success:true, uid:uid};
+            }else{
+                throw new RegistrationError("Registration failed [DB-GOV]");
+            }
+        }catch (error) {
+            console.log(error);
+            throw new RegistrationError("Registration failed");
         }
-    }catch (error) {
-        console.log(error);
-        throw new RegistrationError("Registration failed");
-    }
+}
 }
 
 export async function ValidateOtp(email, otp){

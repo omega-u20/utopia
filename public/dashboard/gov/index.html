@@ -22,8 +22,8 @@
             </div>
         </div>
         <div id="right">
-            <button id="logoutBtn" class="btn-circle bi bi-power"></button>
-            <button id="refreshBtn" class="btn-circle bi bi-arrow-clockwise"></button>
+            <button id="logoutBtn" class="btn-circle bi bi-power" title="logout"></button>
+            <button id="refreshBtn" class="btn-circle bi bi-arrow-clockwise" onclick="Refresh()" title="refresh"></button>
         </div>
         
     </div>
@@ -35,7 +35,7 @@
                 <i class="bi bi-funnel"></i>
             </div>
             <div class="reports-cont" id="emp-cont">
-                <div class="report-card card-fire" id="12345">
+                <!-- <div class="report-card card-fire" id="12345">
                     <div class="report-container">
                         <div class="header">
                             <h2>Report Summary</h2>
@@ -50,22 +50,21 @@
                         <div class="image">
                         </div>
                         <div class="action">
-                            <!-- The "New" button calls markDispatched -->
                             <button class="btn btn-warning" onclick="markDispatched(this)">Mark Dispatched</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
         <!-- SECTION 2: PENDING REPORTS -->
         <div id="pending-r" class="reports-section">
             <div class="section-header">
-                <h2>Pending Reports</h2>
+                <h2>Pending Reports</h2>    
                 <i class="bi bi-funnel"></i>
             </div>
             <div class="reports-cont" id="pend-cont">
-                <div class="report-card card-fire" id="67890">
+                <!-- <div class="report-card card-fire" id="67890">
                     <div class="report-container">
                         <div class="header">
                             <h2>Report Summary</h2>
@@ -80,11 +79,10 @@
                         <div class="image">
                         </div>
                         <div class="action">
-                           <!-- HUMZIE'S FIX 2: The "Pending" button calls markCompleted -->
                            <button class="btn btn-warning" onclick="markCompleted(this)">Mark Completed</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -95,7 +93,7 @@
                 <i class="bi bi-funnel"></i>
             </div>
             <div class="reports-cont" id="cmp-cont">
-                <div class="report-card card-fire" id="12345">
+                <!-- <div class="report-card card-fire" id="12345">
                     <div class="report-container">
                         <div class="header">
                             <h2>Report Summary</h2>
@@ -110,20 +108,17 @@
                         <div class="image">
                         </div>
                         <div class="action">
-                            <!--I removed onclick="update()" because it crashes.
-                                 I added 'disabled' so the button is grayed out.
-                                 This is correct because a resolved item is already done. -->
                             <button class="btn btn-warning" onclick="markDispatched(this)">Mark Dispatched</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 </body>
 <!-- Connects to your script.js file -->
 <script src="../../toast.js" type="module"></script>
-<script src="script.js"></script>
+<script src="script.js" type="module"></script>
 <script type="module">
     import {AttachToast,toast} from '../../toast.js'
     AttachToast()
@@ -143,7 +138,7 @@
             var date = new Date().toDateString().split(' ')
             
             if (data.success) {
-                document.getElementById('idDisplay').innerHTML+=' '+data.feedback.name
+                document.getElementById('idDisplay').innerHTML+=' '+data.feedback.empID
                 document.getElementById('dateDisplay').innerHTML+=' '+date[2]+' - '+date[1]+' - '+date[3]
 
                 toast.success('Success!')

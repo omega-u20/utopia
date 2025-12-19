@@ -20,9 +20,9 @@ class Gov extends User {
     constructor(UID,empID, role, area, authLevel) {
         super(UID, 'gov');
         this.empID = empID;
+        this.govRole = role; // e.g., 'firefighter', 'police', 'healthworker', 'admin'
         this.govArea = area;
         this.authLevel = authLevel||0; // e.g., 0,1
-        this.govRole = role; // e.g., 'firefighter', 'police', 'healthworker', 'admin'
     }   
 }
 

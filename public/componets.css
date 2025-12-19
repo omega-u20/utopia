@@ -216,6 +216,15 @@ footer.site-footer{
 .card-fire{
     border-left: 4px solid var(--color-fire);
 }
+.card-poli{
+    border-left: 4px solid var(--color-police);
+}
+.card-medi{
+    border-left: 4px solid var(--color-medical);
+}
+.card-norm{
+    border-left: 4px solid var(--color-medical);
+}
 .report-card:hover{
     box-shadow: 0 3px 5px 0px #00000026;
 }
@@ -336,8 +345,9 @@ footer.site-footer{
     background-color: var(--primary-color);
     width: 100%;
     z-index: 901;
-    border-radius: 8px;/* 
-    animation: progressBar 2.5s linear forwards; */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    /*animation: progressBar 2.5s linear forwards; */
 }
 @keyframes progressBar {
     from {

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../componets.css">
+    <link rel="shortcut icon" href="../../res/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <title>Admin</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            width: 25vw;
+        }
+    </style>
+</head>
+<body>
+    <form action="/su/admin" method="post">
+        <div class="input-group">
+            <label for="empID">Employee ID:</label>
+            <input class="input-field" type="text" id="empID" name="empID" placeholder="Enter your Employee Number" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input class="input-field" type="password" id="password" name="password" placeholder="Enter your Password" required>
+        </div>
+        <div class="input-group">
+                <label for="role">Role:</label>
+                <select class="input-field" id="role" name="role" required>
+                    <option value="null" hidden>Select Your Role</option>
+                    <option value="fire">Fire & Rescue</option>
+                    <option value="police">Police</option>
+                    <option value="health">Medic</option>
+                </select>
+        </div>
+        <div class="input-group">
+                <label for="area">Area:</label>
+                <select class="input-field" id="area" name="area" required>
+                    <option value="null" hidden>Select Your Area</option>
+                    <option value="CB">Colombo</option>
+                    <option value="GP">Gampaha</option>
+                    <option value="KT">Kalutara</option>
+                    <option value="KD">Kandy</option>
+                    <option value="MT">Matale</option>
+                    <option value="NE">Nuwara Eliya</option>
+                    <option value="GL">Galle</option>
+                    <option value="MR">Matara</option>
+                    <option value="HB">Hambantota</option>
+                    <option value="JF">Jaffna</option>
+                    <option value="KL">Kilinochchi</option>
+                    <option value="MN">Mannar</option>
+                    <option value="VV">Vavuniya</option>
+                    <option value="ML">Mullaitivu</option>
+                    <option value="BC">Batticaloa</option>
+                    <option value="AP">Ampara</option>
+                    <option value="TC">Trincomalee</option>
+                    <option value="KN">Kurunegala</option>
+                    <option value="PT">Puttalam</option>
+                    <option value="AN">Anuradhapura</option>
+                    <option value="PL">Polonnaruwa</option>
+                    <option value="BD">Badulla</option>
+                    <option value="MG">Monaragala</option>
+                    <option value="RP">Ratnapura</option>
+                    <option value="KG">Kegalle</option>
+                </select>
+        </div>
+        <input class="btn" id="btn-submit" type="submit" value="Sign Up">
+    </form>
+    <script>
+        document.getElementsByTagName("form")[0].addEventListener("submit",async(ev)=>{
+            ev.preventDefault()
+
+            const empID = document.getElementById('empID').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+            const area = document.getElementById('area').value;
+            
+            //console.log(JSON.stringify({empID:empID, password:password, role:role, area:area}));
+            await fetch('/su/admin',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({empID:empID, password:password, role:role, area:area})                
+            }).then(res=>res.json()).then((data)=>{
+                console.log(data);
+                
+                if (data.success) {
+                    alert('Gov Created. GovID: ' + data.CompID);
+                } else {
+                    alert('error occured')
+                }
+            }).catch(er => {
+                console.log(er);
+                alert('Failed to create gov. Please try again.');
+            });
+        })
+    </script>
+</body>
+</html>

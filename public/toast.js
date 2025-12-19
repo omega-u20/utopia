@@ -1,9 +1,9 @@
 export const toast ={
     warn: function(message){
         const toastEl=document.getElementById('toast');
-        const toastBar=document.getElementById('toast-progress');
         toastEl.classList.add('show', 't-warn', 'bi-exclamation-triangle');
-        toastEl.innerHTML+='&nbsp;'+message;
+        toastEl.innerHTML='&nbsp;'+message+'<div id="toast-progress"></div>';
+        const toastBar=document.getElementById('toast-progress');
         toastBar.style.animation='toast-progress 3s linear forwards';
         setTimeout(function(){
             toastEl.classList.remove('show', 't-warn', 'bi-exclamation-triangle');
@@ -12,9 +12,9 @@ export const toast ={
     },
     error: function(message){
         const toastEl=document.getElementById('toast');
-        const toastBar=document.getElementById('toast-progress');
         toastEl.classList.add('show', 't-error', 'bi-x-circle');
-        toastEl.innerHTML+='&nbsp;'+message;
+        toastEl.innerHTML='&nbsp;'+message+'<div id="toast-progress"></div>';
+        const toastBar=document.getElementById('toast-progress');
         toastBar.style.animation='toast-progress 3s linear forwards';
         setTimeout(function(){
             toastEl.classList.remove('show', 't-error', 'bi-x-circle');
@@ -23,9 +23,9 @@ export const toast ={
     },
     success: function(message){
         const toastEl=document.getElementById('toast');
-        const toastBar=document.getElementById('toast-progress');
         toastEl.classList.add('show', 't-success', 'bi-check-circle');
-        toastEl.innerHTML+='&nbsp;'+message;
+        toastEl.innerHTML='&nbsp;'+message+'<div id="toast-progress"></div>';
+        const toastBar=document.getElementById('toast-progress');
         toastBar.style.animation='toast-progress 3s linear forwards';
         setTimeout(function(){
             toastEl.classList.remove('show', 't-success', 'bi-check-circle');
@@ -35,5 +35,5 @@ export const toast ={
 }
 
 export function AttachToast(){
-    document.getElementsByTagName('body')[0].innerHTML+='<div id="toast" class="bi"><div id="toast-progress"></div></div>'
+    document.getElementsByTagName('body')[0].innerHTML+='<div id="toast" class="bi"></div>'
 }

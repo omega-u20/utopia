@@ -1,8 +1,9 @@
+import {toast} from '../../toast.js'
+
+document.addEventListener('DOMContentLoaded',()=>{
 document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=>{
     event.preventDefault();
-    console.log('a');
     
-
     async function fetchEM() {
         const  requestData= await GetEmData()
         console.log(requestData);
@@ -22,7 +23,7 @@ document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=
                     }
                     return response.json()
                 }).then(data=>{
-                    alert('Emergency Request Submitted. Request ID: ' + data.ReqID);
+                    alert('Emergency Request Submitted. Request ID: ' + data.EmReqID);
                     document.querySelectorAll('input[name="emergencyType"]').forEach(input => input.checked = false);
                     console.log(data);
                 }).catch (error=>{
@@ -30,7 +31,7 @@ document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=
                     alert('Failed to submit emergency request.\nYou may call 119');
                 })
         } else {
-            console.log('requestData is not ready');
+            toast.error('Failed to get emergency data. Please try again.');
         }
     }
 
@@ -38,13 +39,13 @@ document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=
         //console.log('b');
         return new Promise(res=>{
             const selectedType = document.querySelector('input[name="emergencyType"]:checked').id;
-            const UID = '00000000'
+            
            
             navigator.geolocation.getCurrentPosition((pos)=>{  
         //console.log('x');
                 const UserLoc = [pos.coords.latitude,pos.coords.longitude]
                     console.log(UserLoc);
-                res({uid:UID,type:selectedType,loc:UserLoc})
+                res({type:selectedType,loc:UserLoc})
             },(er)=>{  
         //console.log('y');
                 function ReadLoc() {
@@ -56,7 +57,7 @@ document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=
         //console.log('z');
                     if (UserLoc && UserLoc.length>0 && UserLoc[0]!=""){
                         //console.log(UserLoc);
-                        res({uid:UID,type:selectedType,loc:UserLoc})
+                        res({type:selectedType,loc:UserLoc})
                     }else{
                         ReadLoc()
                     }
@@ -64,7 +65,7 @@ document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=
                 ReadLoc()
             })
         },re=>{
-           res({uid:UID,type:selectedType,loc:['000000']})
+           res({type:selectedType,loc:['000000']})
         }) 
     }
 
@@ -78,10 +79,8 @@ document.getElementsByTagName('form').item(1).addEventListener('submit',async (e
     const Ctitle = await document.getElementById('CTitle').value
     const Cdis = await document.getElementById('CDis').value
     const Cimg = document.getElementById('CImage').files[0];
-    const Uid = '0000000000';
 
     const formData = new FormData();
-    formData.append('uid', Uid);
     formData.append('ctitle', Ctitle);
     formData.append('cdis', Cdis);
     formData.append('cim', Cimg, new Date().getTime()+'-00.'+Cimg.name.split('.').pop());
@@ -133,23 +132,24 @@ document.getElementById('logoutBtn').addEventListener('click', function() {
         }
     })});
 
-    /* ========================================
+
+/* ========================================
    BILL PAYMENT - form index 2
    ======================================== */
+
 document.getElementsByTagName('form').item(2).addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const billType = document.querySelector('#billPaymentForm select[name="billType"]').value;
     const accNo = document.querySelector('#billPaymentForm input[name="accounNo"]').value.trim();
     const amount = document.querySelector('#billPaymentForm input[name="amount"]').value.trim();
-    const uid = '00000000';
 
     if (!accNo || !amount || !billType) {
         alert('Please fill all fields: Bill Type, Account No, and Amount.');
         return;
     }
 
-    const payload = { uid, type: billType, AccNo: accNo, amount };
+    const payload = { type: billType, AccNo: accNo, Amount:amount };
 
     await fetch('/dashboard/citz/PayUtil', {
         method: 'POST',
@@ -164,7 +164,7 @@ document.getElementsByTagName('form').item(2).addEventListener('submit', async (
         return res.json();
     })
     .then(data => {
-        if (data.status === 'Success') {
+        if (data.success) {
             alert('Bill Payment Successful!');
             document.getElementById('billPaymentForm').reset();
         } else {
@@ -180,19 +180,19 @@ document.getElementsByTagName('form').item(2).addEventListener('submit', async (
 /* ========================================
    TAX PAYMENT - form index 3
    ======================================== */
-document.getElementsByTagName('form').item(3).addEventListener('submit', async (event) => {
+
+    document.getElementsByTagName('form').item(3).addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const tin = document.querySelector('#taxPaymentForm input[name="tin"]').value.trim();
     const amount = document.querySelector('#taxPaymentForm input[name="amount"]').value.trim();
-    const uid = '00000000';
 
     if (!tin || !amount) {
         alert('Please enter TIN and Amount.');
         return;
     }
 
-    const payload = { uid, tin, amount };
+    const payload = { TIN:tin, Amount:amount };
 
     await fetch('/dashboard/citz/PayTax', {
         method: 'POST',
@@ -207,7 +207,7 @@ document.getElementsByTagName('form').item(3).addEventListener('submit', async (
         return res.json();
     })
     .then(feedback => {
-        if (feedback.status === 'Success') {
+        if (feedback.success) {
             alert('Tax Payment Successful!');
             document.getElementById('taxPaymentForm').reset();
         } else {
@@ -219,3 +219,4 @@ document.getElementsByTagName('form').item(3).addEventListener('submit', async (
         alert('Tax payment failed. Please try again.');
     });
 });
+})

@@ -105,10 +105,10 @@ async function GetGov(empID,password,role){
         console.error('Error connecting to MongoDB:',err);
     });
     try {
-        const gov = await ProjectClient.db("Gov").collection("Cluser0").findOne({ empID: empID, password: password, govRole: role });
+        const gov = await ProjectClient.db("Gov").collection("Cluster0").findOne({ empID: empID, password: password, govRole: role });
         if (gov) {
             console.log('Gov found');
-            return gov;
+            return JSON.stringify(gov);
         } else {
             console.log('Gov not found');
             return false;
@@ -182,7 +182,7 @@ async function NewGov(gov, pswd){
                 authLevel: govData.authLevel,
                 password: pswd
             });
-        await ProjectClient.db("Gov").collection("Cluser0").insertOne(newGov).then((fd)=>{
+        await ProjectClient.db("Gov").collection("Cluster0").insertOne(newGov).then((fd)=>{
             console.log('Gov inserted');
         return true;
         }).catch((err)=>{
@@ -204,6 +204,8 @@ async function NewGov(gov, pswd){
 
 //--------------------Complaint & Emergency DB Functions------------------//
 async function NewComplaint(cmp){
+    const Complaint = JSON.parse(cmp);
+
     await ProjectClient.connect().then(()=>{
         console.log('Complaint DB connected');
     }).catch((er)=>{
@@ -212,13 +214,13 @@ async function NewComplaint(cmp){
 
     try{
         const Complaint = new Comp({
-            uid:cmp.uid,
-            CmID:cmp.mid,
-            CmTitle:cmp.title,
-            CmDis:cmp.discription,
-            CmImg:cmp.image,
-            CmStatus:cmp.status,
-            CmTime:cmp.timestamp
+            uid:Complaint.uid,
+            CmID:Complaint.mid,
+            CmTitle:Complaint.title,
+            CmDis:Complaint.discription,
+            CmImg:Complaint.image,
+            CmStatus:Complaint.status,
+            CmTime:Complaint.timestamp
         })
 
         const ResultCom = await ProjectClient.db("Complaints").collection("Cluster0").insertOne(Complaint)
@@ -243,20 +245,22 @@ async function NewComplaint(cmp){
 }
 
 async function NewEmergency(emr){
+    const Emergancy = JSON.parse(emr);
+
     await ProjectClient.connect().then(()=>{
         console.log('Emergency DB connected');
     }).catch((er)=>{
         console.log('Emergency Connection Error')
     })
 
-    try{
+    try{        
         const Emergency = new EmReq({
-            uid:emr.uid,
-            ReqID:emr.mid,
-            ReqType:emr.reqType,
-            ReqStatus:emr.status,
-            ReqLoc:emr.location,
-            ReqTime:emr.timestamp
+            uid:Emergancy.uid,
+            ReqID:Emergancy.mid,
+            ReqType:Emergancy.reqType,
+            ReqStatus:Emergancy.status,
+            ReqLoc:Emergancy.location,
+            ReqTime:Emergancy.timestamp
         })
         const ResultEmr = await ProjectClient.db("Emergency").collection("Cluster0").insertOne(Emergency)
         if (ResultEmr.acknowledged) {
@@ -287,9 +291,10 @@ async function GetEmergencies() {
     })
 
     try {
-        const EmergencyDB = ProjectClient.db("Emergency").collection("Cluster0").find({ReqStatus:'N'||'D'})
+        const EmergencyDB = await ProjectClient.db("Emergency").collection("Cluster0").find({ReqStatus:'N'||'D'}).toArray();
         if (EmergencyDB.length!=0) {
-            console.log('Emergency loaded')
+            console.log('Emergency loaded: '+EmergencyDB.length)
+            
             return EmergencyDB
         } else  {
             console.log('Emergency DB Empty')
@@ -315,9 +320,9 @@ async function GetComplaints(){
     })
 
     try {
-        const ComplaintsDB = ProjectClient.db("Complaints").collection("Cluster0").find({CmStatus:'N'||'D'})
+        const ComplaintsDB = await ProjectClient.db("Complaints").collection("Cluster0").find({CmStatus:'N'||'D'}).toArray();
         if (ComplaintsDB.length!=0) {
-            console.log('Complaints loaded')
+            console.log('Complaints loaded: '+ComplaintsDB.length)
             return ComplaintsDB
         } else  {
             console.log('Complaints DB Empty')

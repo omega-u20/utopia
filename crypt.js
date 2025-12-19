@@ -29,27 +29,24 @@ async function signToken(data){
 }
 
 async function verifyToken(req,res,next){
-    const bearerHeader/* bearerToken */=req.header('Authorization')
-        
-    if(typeof bearerHeader /* bearerToken */!=='undefined'){
-        const bearer=bearerHeader.split(' ')
-        const bearerToken=bearer[1]
-        
-        console.log(bearerToken);
-        jwt.verify(bearerToken,process.env.JWT_SECRET,(err,decoded)=>{
-            if(err){
-                res.json({success:false,message:'Token is not valid'})
-                return
-            }else{
-                req.body.result=decoded
-                req.body.uid=decoded.uid
-                console.log(decoded);
-                next()
-            }
-        })
+    const bearerHeader = req.headers['authorization'];
+    
+    if (!bearerHeader) {
+        return res.json({ success: false, message: 'Forbidden' });
     }else{
-        res.json({success:false,message:'Forbidden'})
+        const bearer = bearerHeader.split(' ');
+        const bearerToken = bearer[1];
+        jwt.verify(bearerToken, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+            return res.json({ success: false, message: 'Token is not valid' });
+            }
+            req.body.uid = decoded.uid;
+            req.body.result = decoded;
+            /* console.log('token extract: '+bearerToken); */
+            next();
+        });
     }
+
 }
 
 async function GenerateMID(prefix){

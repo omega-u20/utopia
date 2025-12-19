@@ -1,10 +1,9 @@
 import {toast,AttachToast} from '../toast.js'
 
 AttachToast()
-
+document.addEventListener('DOMContentLoaded',()=>{
 document.getElementById('loginForm').addEventListener('submit',async (ev)=>{
     ev.preventDefault()
-    console.log(ev)
     ev.submitter.disabled = true;
     ev.submitter.classList.add('btn-dissabled')
 
@@ -15,6 +14,9 @@ document.getElementById('loginForm').addEventListener('submit',async (ev)=>{
         const password = document.getElementById('govPassword').value
         const govRole = document.getElementById('govRole').value
         
+        console.log({role, username, password, govRole});
+        
+
         if (!username || !password || !govRole) {
             toast.error('Please fill out all fields')
         }
@@ -24,7 +26,7 @@ document.getElementById('loginForm').addEventListener('submit',async (ev)=>{
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ role:role,username:username,password:password,govRole:govRole })
+            body: JSON.stringify({ role:role, username:username, password:password, govRole:govRole })
         }).then(res=>res.json()).then((data)=>{
             console.log(data);
             if (data.success) {
@@ -34,7 +36,7 @@ document.getElementById('loginForm').addEventListener('submit',async (ev)=>{
                     window.location.href='/dashboard/gov/'
                 },3100)
             }else{
-                if(data.code==='GOV_404'){
+                /* if(data.code==='GOV_404'){
                     toast.error(data.message)
                     setTimeout(() => {
                         window.location.href = '/help?q='+data.code;
@@ -48,7 +50,7 @@ document.getElementById('loginForm').addEventListener('submit',async (ev)=>{
                 }
                 if(data.code==='GOV_500'){
                     toast.error(data.message+' Try Again Later!')
-                }
+                } */
             }
         })
     } else if(role === 'citz'){
@@ -92,4 +94,5 @@ document.getElementById('loginForm').addEventListener('submit',async (ev)=>{
             }
         })
     }
+})
 })

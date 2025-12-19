@@ -10,5 +10,8 @@ const storage = multer.diskStorage({
     }
 })
 
-
-export const upload = multer({storage:storage})
+export const upload = multer({
+    dest: 'complaints/',
+    storage:storage,
+    limits:{fileSize:5*1024*1024}
+})

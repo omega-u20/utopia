@@ -6,12 +6,12 @@ import * as gov from './gov.js'
 import * as auth from './auth.js'
 import {sendOTP, signToken, verifyToken} from './crypt.js'
 import { upload } from './FileHandle.js';
-import fs from 'fs';
+/* {import fs from 'fs';
 import path from 'path';
 import https from 'https';
 import http from 'http';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname } from 'path';} */
 import * as dtg from './data/gov.js'
 import * as dtc from './data/cit.js'
 
@@ -21,6 +21,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ limit: '5mb', extended: true }));
+
 
 const port = process.env.PORT || 3000; 
 
@@ -61,7 +64,7 @@ app.get('/', (req, res) => {//homepage
 });
 
 app.get('/login', (req, res) => {//display login page
-  res.json({ status: 'OK' });
+  res.json({ status: 'ok' });
 });
 
 app.post('/login', async (req, res) => {//handle login requests
@@ -113,8 +116,12 @@ app.post('/login', async (req, res) => {//handle login requests
     }
   } else if(role=='gov'){
     const{username,password,govRole}=req.body
+    console.log({username, password, govRole});
+    
     try {
       const G_user=await auth.AuthGov(username,password,govRole)
+      console.log('G_user: '+G_user);
+      
       if (G_user) {
         const token = await signToken({'uid':G_user.uid,'empID':G_user.empID,'gov':true})
         dtg.user[G_user.uid]={
@@ -130,7 +137,7 @@ app.post('/login', async (req, res) => {//handle login requests
           }
         );
       } else {
-        res.status(500).json(JSON.parse({ success: false,  code:'GOV_500', message: 'Login error' }));
+        res.json({ success: false,  code:'GOV_500', message: 'Login error' });
       }
     } catch (e) {
       if (e instanceof auth.AuthError) {
@@ -139,6 +146,8 @@ app.post('/login', async (req, res) => {//handle login requests
             code:'GOV_404',
            message: 'User does not exist!'})
       } else {
+        console.log(e);
+        
         res.json(
             {success: false,
             code:'GOV_400',
@@ -202,13 +211,13 @@ app.post('/signup', (req, res) => {//handle signup requests
 app.post('/dashboard',verifyToken, (req, res) => {//get user info for dashboard
   if (req.body.result) {
     console.log(req.body.result.uid);
-    
-        try{
+    if (req.body.result.uid.startsWith('cit')) {try{
           const us = dtc.user[req.body.result.uid]
           
           res.json({ success:true ,  feedback:{
             nic:us.nic,
             email:us.email,
+            name:us.name,
             phone:us.phone,
             address:us.address
           }});          
@@ -216,6 +225,18 @@ app.post('/dashboard',verifyToken, (req, res) => {//get user info for dashboard
         }catch (e){
           res.status(500).json({success:false , message:'Error Fetching Data!!'})
         }
+    }else if(req.body.result.uid.startsWith('gov')){
+        const us = dtg.user[req.body.result.uid]
+          
+        try{
+          res.json({ success:true ,  feedback:{
+            empID:us.empID
+          }});          
+
+        }catch (e){
+          res.status(500).json({success:false , message:'Error Fetching Data!!'})
+        }
+      }
     } else {
           res.status(500).json({success:false , message:'Error Fetching Data!!'})
     }
@@ -304,7 +325,7 @@ app.post('/dashboard/gov/MarkCompleted', async (req, res) => {
 app.post('/dashboard/gov/Refresh', verifyToken, async (req, res) => { 
   try {
     const feedback = await gov.RefreshFeed(); 
-    res.status(201).json(JSON.parse(feedback));
+    res.status(201).json(feedback);
   } catch (error) {
     console.error(error); 
     res.status(500).json({ success: false, message: 'Server error' });
@@ -334,7 +355,10 @@ app.get('/su/admin',(req,res)=>{
 
 app.post('/su/admin',(req,res)=>{
   const {empID, password, role, area} = req.body;
-  auth.RegisterGov(empID, password, role, area)
+  //console.log(empID, password, role, area);
+  
+  const feedback = auth.RegisterGov(empID, password, role, area)
+  res.status(201).json(feedback)
 })
 
 app.listen(port, () => {

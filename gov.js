@@ -6,6 +6,9 @@ async function RefreshFeed() {
     const Emergency = await GetEmergencies()
     const Complaint = await GetComplaints()
 
+    console.log(Emergency,Complaint);
+    
+
     return {
       success:true,
       emr:Emergency,

@@ -4,10 +4,10 @@ import {Complaint,EmergencyReq} from './classes/message.js';
 
 // Payment Functions
 function PayUtility(uid,BillType,AccNumber,Amount) {
-    return {status:'Success'}
+    return {success:true}
 }
 function PayTax(uid,Tin,Amount) {
-    return {status:'Success'}
+    return {ssuccess:true}
 }
 
 // Emergency Request Function
@@ -15,6 +15,8 @@ async function ReqEmergency(uid,ReqType,Location) {
     
     const mid = await GenerateMID('EMR')
     const Emergency = new EmergencyReq(ReqType,Location,mid,uid)
+    console.log('Object: ' + JSON.stringify(Emergency));
+    
     try {
         if(await db.NewEmergency(JSON.stringify(Emergency))){
             return {EmReqID:mid,status:'Success'}

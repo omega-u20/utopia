@@ -1,6 +1,6 @@
 // Message Base Class
 class Message{
-    constructor (mid,uid,status='N'||'P'||'C'){
+    constructor (mid,uid,status){
         this.mid = mid
         this.uid = uid
         this.status = status||'N' //N-new,P-processing,C-completed
@@ -9,8 +9,8 @@ class Message{
 }
 // Complaint Class
 class Complaint extends Message{
-    constructor(title,discription,image,...args){
-        super(...args)
+    constructor(title,discription,image,mid,uid,status){
+        super(mid,uid,status)
         this.title = title
         this.discription = discription
         this.image = image
@@ -18,8 +18,8 @@ class Complaint extends Message{
 }
 // Emergency Request Class
 class EmergencyReq extends Message{
-    constructor(reqType,location,...args){
-        super(...args)
+    constructor(reqType,location,mid,uid,status){
+        super(mid,uid,status)
         this.reqType = reqType
         this.location = location
     }
