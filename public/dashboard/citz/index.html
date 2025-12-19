@@ -132,7 +132,7 @@
             //console.log(res);
             return res.json();     
         }).then((data)=>{
-            //console.log(data);
+            console.log(data);
             var date = new Date().toDateString().split(' ')
             console.log(data);
             
@@ -150,12 +150,12 @@
                 toast.error(data.message)
                 window.location.href='/login'
             }            
-        }).catch((e)=>{
+        })/* .catch((e)=>{
             console.log(e);
             setTimeout(() => {
                 window.location.href='/login'
             }, 5000);
-        })
+        }) */
     })
     var EmergencyReqSection = document.getElementById('EmergencyReqSection')
     var cityCompSection = document.getElementById('cityCompSection')

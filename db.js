@@ -78,6 +78,8 @@ async function GetCitizen(nic,password){
     });
     try {
         const citizen = await ProjectClient.db("Citizen").collection("Cluser0").findOne({ nic: nic, password: password });
+        console.log('citizen DB: '+citizen);
+        
         if (citizen) {
             console.log('Citizen found: ',JSON.stringify(citizen));
             return JSON.stringify(citizen);
@@ -348,7 +350,7 @@ async function UpdateEmergencyStatus(mid,newStat){
     })
 
     try {
-        const emergency = ProjectClient.db('Emergency').collection('Cluster0').findOneAndUpdate({ReqID:mid},{ReqStatus:newStat})
+        const emergency = await ProjectClient.db('Emergency').collection('Cluster0').findOneAndUpdate({ReqID:mid},{$set:{ReqStatus:newStat}})
         if (emergency) {
             return true
         }else{
@@ -374,7 +376,7 @@ async function UpdateComplaintStatus(mid,newStat) {
     })
 
     try {
-        const complaint = ProjectClient.db('Complaints').collection('Cluster0').findOneAndUpdate({CmID:mid},{CmStatus:newStat})
+        const complaint = await ProjectClient.db('Complaints').collection('Cluster0').findOneAndUpdate({CmID:mid},{$set:{CmStatus:newStat}})
         if (complaint) {
             return true
         }else{

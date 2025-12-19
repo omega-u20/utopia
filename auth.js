@@ -5,7 +5,7 @@ import {Citizen,Gov} from './classes/user.js';
 
 export async function AuthCitizen(nic, password){
     const user=await GetCitizen(nic, await hashPassword(password))
-    console.log('User Grabbed ~ auth');
+    console.log('User Grabbed ~ auth: '+user);
     
     if (user){
         return JSON.parse(user);
@@ -18,7 +18,7 @@ export async function AuthGov(empID, password, role){
     console.log(empID, password, role);
     
     const user=await GetGov(empID, await hashPassword(password), role)
-    console.log('User Grabbed ~ gov');
+    console.log('User Grabbed ~ gov '+user);
 
     if (user){
         return JSON.parse(user)

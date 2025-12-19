@@ -105,16 +105,16 @@ window.markCompleted= async function (buttonElement) {
           emList.forEach(e => {
             if (e.ReqStatus === 'N') {
               const emCard = card.emr[e.ReqType](e);
-              const htm = window.document.getElementById('emp-cont').innerHTML
-              window.document.getElementById('emp-cont').innerHTML = emCard + htm
+              const htm = window.document.getElementById('emp-cont-l').innerHTML
+              window.document.getElementById('emp-cont-l').innerHTML = emCard + htm
             } else {
               const emCard = card.emr[e.ReqType](e);
-              const htm = window.document.getElementById('pend-cont').innerHTML
+              const htm = window.document.getElementById('pend-cont-l').innerHTML
               
               if (htm.includes(e.ReqID.split('-')[0]+'-'+e.ReqID.split('-')[2])) {
                 return;
               } else {
-                window.document.getElementById('pend-cont').innerHTML = emCard + htm
+                window.document.getElementById('pend-cont-l').innerHTML = emCard + htm
               }
             }
           });
@@ -122,16 +122,16 @@ window.markCompleted= async function (buttonElement) {
           cmList.forEach(c => {
             if (c.ReqStatus === 'N') {
               const cmCard = card.cmp[c.CmType](c);
-              const htm = window.document.getElementById('cmp-cont').innerHTML
+              const htm = window.document.getElementById('cmp-cont-l').innerHTML
               if (htm.includes(c.ReqID.split('-')[0]+'-'+c.ReqID.split('-')[2])) {
                 return;
               } else {
-                window.document.getElementById('cmp-cont').innerHTML = cmCard + htm
+                window.document.getElementById('cmp-cont-l').innerHTML = cmCard + htm
               }
             } else {
               const emCard = card.emr[e.ReqType](e);
-              const htm = window.document.getElementById('pend-cont').innerHTML
-              window.document.getElementById('pend-cont').innerHTML = emCard + htm
+              const htm = window.document.getElementById('pend-cont-l').innerHTML
+              window.document.getElementById('pend-cont-l').innerHTML = emCard + htm
             }
           });
         } else {

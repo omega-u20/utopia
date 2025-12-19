@@ -7,7 +7,7 @@ function PayUtility(uid,BillType,AccNumber,Amount) {
     return {success:true}
 }
 function PayTax(uid,Tin,Amount) {
-    return {ssuccess:true}
+    return {success:true}
 }
 
 // Emergency Request Function

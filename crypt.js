@@ -42,7 +42,7 @@ async function verifyToken(req,res,next){
             }
             req.body.uid = decoded.uid;
             req.body.result = decoded;
-            /* console.log('token extract: '+bearerToken); */
+            console.log('token extract: '+bearerToken);
             next();
         });
     }

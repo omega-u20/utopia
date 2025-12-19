@@ -1,7 +1,7 @@
 import {toast} from '../../toast.js'
 
 document.addEventListener('DOMContentLoaded',()=>{
-document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=>{
+window.document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=>{
     event.preventDefault();
     
     async function fetchEM() {
@@ -73,7 +73,7 @@ document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=
     
 });
 
-document.getElementsByTagName('form').item(1).addEventListener('submit',async (event)=>{
+window.document.getElementsByTagName('form').item(1).addEventListener('submit',async (event)=>{
     event.preventDefault();
 
     const Ctitle = await document.getElementById('CTitle').value
@@ -122,11 +122,15 @@ fetch('/citz/getUserInfo').then(response => {
     document.getElementById('dateDisplay').innerText = today.toLocaleDateString("en-US", options);
 });
  */
-document.getElementById('logoutBtn').addEventListener('click', function() {
+window.document.getElementById('logoutBtn').addEventListener('click', function() {
+    window.document.cookie='';
     fetch('/logout', { method: 'POST' })
     .then(response => {
         if (response.ok) {
-            window.location.href = '/login';
+            toast.success(response.message);
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 3000);
         } else {
             alert('Logout failed.');
         }
@@ -137,7 +141,7 @@ document.getElementById('logoutBtn').addEventListener('click', function() {
    BILL PAYMENT - form index 2
    ======================================== */
 
-document.getElementsByTagName('form').item(2).addEventListener('submit', async (event) => {
+window.document.getElementsByTagName('form').item(2).addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const billType = document.querySelector('#billPaymentForm select[name="billType"]').value;
@@ -181,7 +185,7 @@ document.getElementsByTagName('form').item(2).addEventListener('submit', async (
    TAX PAYMENT - form index 3
    ======================================== */
 
-    document.getElementsByTagName('form').item(3).addEventListener('submit', async (event) => {
+window.document.getElementsByTagName('form').item(3).addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const tin = document.querySelector('#taxPaymentForm input[name="tin"]').value.trim();

@@ -21,8 +21,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use(express.json({ limit: '5mb' }));
-app.use(express.urlencoded({ limit: '5mb', extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 
 const port = process.env.PORT || 3000; 
@@ -67,8 +67,12 @@ app.get('/login', (req, res) => {//display login page
   res.json({ status: 'ok' });
 });
 
+app.post('/logout', (req, res) => {//handle logout
+  res.json({ success: true, message: 'Logged out successfully' });
+});
+
 app.post('/login', async (req, res) => {//handle login requests
-  console.log('Request: '+req.body);
+  console.log('Request: '+JSON.stringify(req.body));
   const { role } = req.body;
   console.log(role);
   
@@ -209,6 +213,8 @@ app.post('/signup', (req, res) => {//handle signup requests
 });
 
 app.post('/dashboard',verifyToken, (req, res) => {//get user info for dashboard
+  console.log(req.body.result);
+  
   if (req.body.result) {
     console.log(req.body.result.uid);
     if (req.body.result.uid.startsWith('cit')) {try{
@@ -250,23 +256,23 @@ app.get('/dashboard/citz/', (req, res) => {//display citz dashboard
 });
 
 //handle citz dash functions
-app.post('/dashboard/citz/PayTax',verifyToken,(req,res)=>{
+app.post('/dashboard/citz/PayTax',(req,res)=>{
   const {uid,tin,amount}= req.body
   const feedback = citz.PayTax(uid,tin,amount)
   res.status(201).json(feedback)
 })
-app.post('/dashboard/citz/PayUtil',verifyToken,(req,res)=>{
+app.post('/dashboard/citz/PayUtil',(req,res)=>{
   const {uid,AccNo,type,amount}=req.body
   const feedback =citz.PayUtility(uid,type,AccNo,amount)
   res.status(201).json(feedback)
 })
-app.post('/dashboard/citz/ReqEmergency',verifyToken,(req,res)=>{
+app.post('/dashboard/citz/ReqEmergency',(req,res)=>{
   console.log(req.body);  
   const {uid,loc,type}=req.body
   const feedback =citz.ReqEmergency(uid,type,loc)
   res.status(201).json(feedback)
 })
-app.post('/dashboard/citz/SendComplaint',verifyToken, upload.single('cim'), (req, res) => {
+app.post('/dashboard/citz/SendComplaint', upload.single('cim'), (req, res) => {
   if(!req.file){
       return res.status(400).json({error:'No file uploaded'})
   }

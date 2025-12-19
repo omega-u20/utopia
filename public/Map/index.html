@@ -9,24 +9,46 @@
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+  :root{
+    --primary-color: #f5b947;
+    --accent-color: hsl(220 30% 52% / 1);
+    --accent-color-1: #1f283a;
+    --accent-color-2: hsl(220, 30%, 30%);
+    --accent-color-3: hsl(220, 10%, 50%);
+    --color-danger: #e74c3c;
+    --color-warning: #ffaf1a;
+    --color-go: #008705;
+    --color-fire: #b50000;
+    --color-police: #001fb9;
+    --color-medical: #00a329;
+    --background-color: #0d182a;
+    --text-color: #99a1ad;
+    --font-family: 'Inter', sans-serif;
+}
     body {
-      font-family: Arial, sans-serif;
+    font-family: var(--font-family);
       margin: 0;
       padding: 0;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     #map {
-      height: 400px;
-      width: 100%;
+      height: 80vh;
+      width: 80vw;
+      border-radius: 10px;
     }
     #weather {
       margin-top: 15px;
       padding: 10px;
-      background: #f0f0f0;
-      border-top: 2px solid #333;
+      background: var(--accent-color-2);
+      border-top: 2px solid var(--primary-color);
       display: flex;
+      width: 80vw;
       flex-direction: row;   /* row layout */
-      justify-content: center;
+      justify-content: space-around;
       gap: 20px;             /* spacing between items */
     }
     .weather-item {
@@ -34,10 +56,11 @@
       align-items: center;
       gap: 8px;
       font-size: 1.1em;
+      color: var(--primary-color);
     }
     .weather-item i {
       font-size: 1.4em;
-      color: #007bff;
+      color: var(--primary-color);
     }
   </style>
 </head>
