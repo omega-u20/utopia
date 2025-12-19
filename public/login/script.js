@@ -36,7 +36,7 @@ document.getElementById('loginForm').addEventListener('submit',async (ev)=>{
                     window.location.href='/dashboard/gov/'
                 },3100)
             }else{
-                /* if(data.code==='GOV_404'){
+                if(data.code==='GOV_404'){
                     toast.error(data.message)
                     setTimeout(() => {
                         window.location.href = '/help?q='+data.code;
@@ -50,7 +50,7 @@ document.getElementById('loginForm').addEventListener('submit',async (ev)=>{
                 }
                 if(data.code==='GOV_500'){
                     toast.error(data.message+' Try Again Later!')
-                } */
+                }
             }
         })
     } else if(role === 'citz'){

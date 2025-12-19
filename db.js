@@ -259,7 +259,7 @@ async function NewEmergency(emr){
             ReqID:Emergancy.mid,
             ReqType:Emergancy.reqType,
             ReqStatus:Emergancy.status,
-            ReqLoc:Emergancy.location.toSring(),
+            ReqLoc:Emergancy.location,
             ReqTime:Emergancy.timestamp
         })
         const ResultEmr = await ProjectClient.db("Emergency").collection("Cluster0").insertOne(Emergency)

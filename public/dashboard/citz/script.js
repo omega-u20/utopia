@@ -43,7 +43,7 @@ document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=
            
             navigator.geolocation.getCurrentPosition((pos)=>{  
         //console.log('x');
-                const UserLoc = [pos.coords.latitude,pos.coords.longitude]
+                const UserLoc = [pos.coords.latitude,pos.coords.longitude].toString();
                     console.log(UserLoc);
                 res({type:selectedType,loc:UserLoc})
             },(er)=>{  
@@ -65,7 +65,7 @@ document.getElementsByTagName('form').item(0).addEventListener('submit',(event)=
                 ReadLoc()
             })
         },re=>{
-           res({type:selectedType,loc:['000000']})
+           res({type:selectedType,loc:['000000'].toString()})
         }) 
     }
 
